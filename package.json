@@ -12,12 +12,74 @@
   "activationEvents": [],
   "main": "./dist/extension.js",
   "contributes": {
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "oneclickCP",
+          "title": "OneClick CP",
+          "icon": "media/BK_LOGO.svg"
+        }
+      ]
+    },
+    "views": {
+      "oneclickCP": [
+        {
+          "id": "oneclickCPView",
+          "name": "OneClick CP Panel"
+        }
+      ]
+    },
     "commands": [
       {
         "command": "oneclick-cp.helloWorld",
         "title": "Hello World"
+      },
+      {
+        "command": "oneclick-cp.resetFiles",
+        "title": "OneClick CP: Reset Files"
       }
-    ]
+    ],
+    "keybindings":[
+      {
+        "command": "oneclick-cp.resetFiles",
+        "key": "ctrl+alt+r",
+        "when": "editorTextFocus"
+      }
+    ],
+    "snippets": [
+      { "language": "cpp", "path": "./snippets/cpp/cpp_basics.json" },
+      { "language": "cpp", "path": "./snippets/cpp/cpp_ds.json" },
+      { "language": "cpp", "path": "./snippets/cpp/cpp_algos.json" },
+      { "language": "cpp", "path": "./snippets/cpp/cpp_adv_algos.json" },
+      { "language": "java", "path": "./snippets/java/java.json"},
+      { "language": "python", "path": "./snippets/python/py.json"},
+      { "language": "js", "path": "./snippets/js/js.json"}
+    ],
+    "configuration": {
+      "type": "object",
+      "title": "OneClick CP",
+      "properties": {
+        "oneclick-cp.defaultTemplates": {
+          "type": "object",
+          "description": "Default content for CP starter files.",
+          "default": {
+            "main.cpp": "#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    return 0;\n}\n",
+            "input.txt": "",
+            "output.txt": ""
+          }
+        },
+        "oneclick-cp.templates": {
+          "Fast IO": {
+            "main.cpp": "...",
+            "input.txt": "...",
+            "output.txt": "..."
+          },
+          "Debug Template": {
+            
+          }
+        }
+      }
+    }
   },
   "scripts": {
     "vscode:prepublish": "npm run package",

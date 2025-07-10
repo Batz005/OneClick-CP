@@ -1,0 +1,65 @@
+{
+  "Min Heap (Priority Queue)": {
+    "prefix": "cpminheap",
+    "body": [
+      "// Min heap using priority_queue",
+      "priority_queue<int, vector<int>, greater<int>> pq;"
+    ],
+    "description": "Min heap declaration using STL",
+    "category": "Data Structures"
+  },
+  "Max Heap (Priority Queue)": {
+    "prefix": "cpmaxheap",
+    "body": [
+      "// Max heap (default)",
+      "priority_queue<int> pq;"
+    ],
+    "description": "Max heap declaration using STL",
+    "category": "Data Structures"
+  },
+  "Stack and Queue": {
+    "prefix": "cpstack",
+    "body": [
+      "// Stack STL containers",
+      "stack<int> st;"
+    ],
+    "description": "Basic stack",
+    "category": "Data Structures"
+  },
+    "Queue": {
+    "prefix": "cpqueue",
+    "body": [
+      "// Queue STL containers",
+      "queue<int> q;"
+    ],
+    "description": "Basic queue",
+    "category": "Data Structures"
+  },
+  "Deque (Sliding Window)": {
+    "prefix": "cpdeque",
+    "body": [
+      "// Deque for sliding window or 2-sided queue",
+      "deque<int> dq;"
+    ],
+    "description": "Deque usage",
+    "category": "Data Structures"
+  },
+  "Map": {
+    "prefix": "cpmap",
+    "body": [
+      "// Map declaration",
+      "map<int, int> mp;"
+    ],
+    "description": "STL Map",
+    "category": "Data Structures"
+  },
+    "Set": {
+    "prefix": "cpset",
+    "body": [
+      "// Set declaration",
+      "set<int> s;"
+    ],
+    "description": "STL Set",
+    "category": "Data Structures"
+  }
+}
