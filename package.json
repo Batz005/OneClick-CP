@@ -17,15 +17,15 @@
         {
           "id": "oneclickCP",
           "title": "OneClick CP",
-          "icon": "media/BK_LOGO.svg"
+          "icon": "resources/OneClick_CP_LOGO.svg"
         }
       ]
     },
     "views": {
       "oneclickCP": [
         {
-          "id": "oneclickCPView",
-          "name": "OneClick CP Panel"
+          "id": "oneclick-cp.sidebar",
+          "name": "OneClick-CP Dashboard"
         }
       ]
     },
