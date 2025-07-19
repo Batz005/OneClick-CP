@@ -9,34 +9,50 @@
   "categories": [
     "Other"
   ],
-  "activationEvents": [],
+  "activationEvents": [
+  ],
   "main": "./dist/extension.js",
   "contributes": {
     "viewsContainers": {
       "activitybar": [
         {
           "id": "oneclickCP",
-          "title": "OneClick CP",
-          "icon": "media/BK_LOGO.svg"
+          "title": "OneClick-CP",
+          "icon": "resources/OneClick_CP_LOGO.svg"
         }
       ]
     },
     "views": {
       "oneclickCP": [
         {
-          "id": "oneclickCPView",
-          "name": "OneClick CP Panel"
+          "id": "oneclicksidebar",
+          "name": "Dashboard",
+          "type": "webview",
+          "when": "true"
+
         }
       ]
     },
     "commands": [
       {
-        "command": "oneclick-cp.helloWorld",
-        "title": "Hello World"
-      },
-      {
         "command": "oneclick-cp.resetFiles",
         "title": "OneClick CP: Reset Files"
+      },
+      {
+        "command": "oneclick-cp.saveTemplate",
+        "title": "OneClick CP: Save Custom Template"
+      },
+      {
+        "command": "oneclick-cp.arrangeLayout",
+        "title": "OneClick CP: Arrange Default Layout"
+      },
+      {
+        "command": "oneclick-cp.deleteTemplate",
+        "title": "OneClick CP: Delete Custom Template"
+      },
+      {
+        "command": "oneclick-cp.exportSolution",
+        "title": "OneClick CP: export open Solution"
       }
     ],
     "keybindings":[
@@ -52,32 +68,47 @@
       { "language": "cpp", "path": "./snippets/cpp/cpp_algos.json" },
       { "language": "cpp", "path": "./snippets/cpp/cpp_adv_algos.json" },
       { "language": "java", "path": "./snippets/java/java.json"},
-      { "language": "python", "path": "./snippets/python/py.json"},
-      { "language": "js", "path": "./snippets/js/js.json"}
+      { "language": "python", "path": "./snippets/python/py.json"}
     ],
     "configuration": {
       "type": "object",
       "title": "OneClick CP",
       "properties": {
-        "oneclick-cp.defaultTemplates": {
+        "oneclick-cp.templates": {
           "type": "object",
           "description": "Default content for CP starter files.",
           "default": {
-            "main.cpp": "#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    return 0;\n}\n",
-            "input.txt": "",
-            "output.txt": ""
-          }
-        },
-        "oneclick-cp.templates": {
-          "Fast IO": {
-            "main.cpp": "...",
-            "input.txt": "...",
-            "output.txt": "..."
-          },
-          "Debug Template": {
-            
+            "default": {
+              "main.cpp": "#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    return 0;\n}\n",
+              "input.txt": "",
+              "output.txt": ""
+            },
+            "Fast_IO": {
+              "main.cpp": "...",
+              "input.txt": "...",
+              "output.txt": "..."
+            },
+            "Debug_Template": {
+              "main.cpp": "...",
+              "input.txt": "...",
+              "output.txt": "..."
+            },
+            "CP_Template": {
+              "main.cpp": "#include<bits/stdc++.h>\n// #define ONLINE_JUDGE\nusing namespace std;\n\nint main() {\n\n#ifndef ONLINE_JUDGE\nfreopen(\"input.txt\", \"r\", stdin);\nfreopen(\"output.txt\", \"w\", stdout);\n#endif\n\nint t;\ncin >> t;\nwhile(t--){\n\t\n}\nreturn 0;\n}",
+              "input.txt": "",
+              "output.txt": ""
+            }
           }
         }
+      },      
+      "additionalProperties": {
+        "type": "object",
+        "properties": {
+          "main.cpp": { "type": "string" },
+          "input.txt": { "type": "string" },
+          "output.txt": { "type": "string" }
+        },
+        "additionalProperties": { "type": "string" }
       }
     }
   },

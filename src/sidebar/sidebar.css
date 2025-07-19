@@ -1,0 +1,271 @@
+/* Layout */
+.sidebar-container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  padding: 0;
+  margin: 0;
+  font-family: sans-serif;
+  background: transparent;
+}
+
+/* Header */
+.sidebar-header {
+  flex: 0 0 auto;
+  padding: 0.2rem 0 0.2rem 0;
+  font-size: 0.7rem;
+  font-weight: bold;
+  letter-spacing: 0.03em;
+  text-align: center;
+  line-height: 1.1;
+  border-bottom: 1px solid #eee;
+}
+
+@media (prefers-color-scheme: dark) {
+  .sidebar-header {
+    border-bottom: 1px solid #222;
+  }
+}
+
+/* Main content area */
+.sidebar-main {
+  flex: 1 1 auto;
+  padding: 1.2rem 1rem 0.5rem 1rem;
+  overflow-y: auto;
+}
+
+.template-label {
+  display: block;
+  margin-bottom: 0.4rem;
+  margin-top: 1rem; /* Adds space above the label */
+  font-size: 1rem;
+  font-weight: 500;
+  color: #444;
+}
+
+@media (prefers-color-scheme: dark) {
+  .template-label {
+    color: #ccc;
+  }
+}
+
+/* Template picker and reset row */
+.feature-resetFiles {
+  margin-bottom: 0.5rem;
+}
+
+.template-picker-row {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+/* Place reset button right after picker row */
+.reset-btn {
+  margin-top: 0;
+  margin-left: 0.5rem;
+  padding: 0.4rem 1rem;
+}
+
+/* Custom template button with extra spacing */
+.feature-saveTemplate {
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+  display: flex;
+  justify-content: flex-start;
+}
+
+/* Dialog styles */
+dialog {
+  border: none;
+  border-radius: 10px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.18);
+  padding: 1rem 1.2rem;         /* Reduced padding */
+  background: #fff;
+  color: #222;
+  min-width: 180px;             /* Smaller min width */
+  max-width: 95vw;              /* More flexible max width */
+  width: 240px;                 /* Default width, fits most sidebars */
+  font-size: 1rem;
+  transition: box-shadow 0.2s;
+  box-sizing: border-box;
+}
+
+dialog::backdrop {
+  background: rgba(0,0,0,0.18);
+}
+
+@media (prefers-color-scheme: dark) {
+  dialog {
+    background: #23272e;
+    color: #eee;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.45);
+  }
+}
+
+#saveTemplateDialog .dialog-info {
+  font-size: 0.95rem;
+  color: #888;
+  margin-bottom: 1rem;
+  margin-top: -0.5rem;
+  line-height: 1.4;
+  text-align: left;
+}
+@media (prefers-color-scheme: dark) {
+  .dialog-info {
+    color: #bbb;
+  }
+}
+
+dialog h3 {
+  margin-top: 0;
+  margin-bottom: 1rem;
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+dialog label {
+  font-size: 1rem;
+  margin-right: 1rem;
+}
+
+dialog input[type="text"] {
+  width: 100%;
+  margin-top: 0.5rem;
+  margin-bottom: 1rem;
+  padding: 0.4rem;
+  border-radius: 4px;
+  border: 1px solid #bbb;
+  font-size: 1rem;
+}
+
+dialog button {
+  margin-top: 0.5rem;
+  margin-right: 0.7rem;
+  padding: 0.4rem 1.2rem;
+  border-radius: 4px;
+  border: none;
+  background: #eee;
+  color: #222;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+dialog button:last-child {
+  background: #f5f5f5;
+  color: #888;
+}
+
+dialog button:hover {
+  background: #ddd;
+}
+
+@media (prefers-color-scheme: dark) {
+  dialog input[type="text"] {
+    background: #23272e;
+    color: #eee;
+    border: 1px solid #444;
+  }
+  dialog button {
+    background: #222;
+    color: #fff;
+  }
+  dialog button:last-child {
+    background: #23272e;
+    color: #aaa;
+  }
+  dialog button:hover {
+    background: #333;
+  }
+}
+
+.delete-btn {
+  background: transparent;
+  border: none;
+  font-size: 1.2rem;
+  cursor: pointer;
+  color: #b00;
+  padding: 0 0.3rem;
+  transition: color 0.2s;
+}
+.delete-btn:disabled {
+  color: #ccc;
+  cursor: not-allowed;
+}
+@media (prefers-color-scheme: dark) {
+  .delete-btn {
+    color: #f66;
+  }
+}
+
+/* Signature at the bottom */
+.signature {
+  flex: 0 0 auto;
+  margin-top: 2rem;
+  padding: 0.7rem 0 0.5rem 0;
+  font-size: 0.72rem;
+  color: #ffffff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  opacity: 0.7;
+}
+
+/* Logo styles (theme-adaptive) */
+.logo, .bk-logo {
+  width: 36px;
+  height: auto;
+  margin-bottom: 0.2rem;
+  filter: invert(0); /* Black for light theme */
+  color: red;
+  transition: filter 0.2s;
+}
+
+@media (prefers-color-scheme: dark) {
+  .logo, .bk-logo {
+    filter: invert(1); /* White for dark theme */
+  }
+}
+
+/* Optional: Make buttons and selects look nice */
+button {
+  margin-top: 1rem;
+  padding: 0.5rem 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  border-radius: 4px;
+  border: none;
+  background: #eee;
+  transition: background 0.2s;
+}
+
+button:hover {
+  background: #ddd;
+}
+
+@media (prefers-color-scheme: dark) {
+  button {
+    background: #222;
+    color: #fff;
+  }
+  button:hover {
+    background: #333;
+  }
+}
+
+select {
+  margin-top: 0.5rem;
+  width: 100%;
+  padding: 0.4rem;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+}
+
+.coming-soon {
+  margin-top: 2rem;
+  font-style: italic;
+  color: #888;
+  font-size: 0.95rem;
+}

@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="{{styleUri}}" />
+    <title>OneClick CP</title>
+    </head>
+    <body>
+    <div class="sidebar-header">
+        <img src="{{logoUri}}" class="logo" alt="OneClick CP Logo" />
+        <h2>OneClick CP</h2>
+        <p class="subtitle">Your one-click DSA & CP starter kit</p>
+    </div>
+    <div class="sidebar-container">
+        <div class="feature-resetFiles">
+            <label for="templatePicker" class="template-label">Choose Template:</label>
+            <div class="template-picker-row">
+                <select id="templatePicker">
+                    <option value="default">Default Template</option>
+                    <option value="Fast_IO">Fast IO</option>
+                    <option value="Debug_Template">Debug Template</option>
+                    <option value="CP_Template">CP Template</option>
+                </select>
+                <button id="deleteTemplateBtn" title="Delete selected template" class="delete-btn" onclick="deleteTemplate()" aria-label="Delete Template">🗑️</button>
+            </div>
+            <button class="reset-btn" onclick="resetFiles()">🔄 Reset Files</button>
+        </div>
+
+        <div class="feature-saveTemplate">
+            <button onclick="openSaveTemplateDialog()">Create Custom Template</button>
+        </div>
+        <div class="feature-arrangeView">
+            <button onclick="vscode.postMessage({ command: 'arrangeLayout' })">🧩Arrange View</button>
+        </div>
+        <p class="coming-soon">🔥 More features coming soon...</p>
+    </div>
+
+    <!-- Save Template Dialog -->
+    <dialog id="saveTemplateDialog">
+      <form method="dialog" id="saveTemplateForm">
+        <h4>Create Custom Template</h4>
+        <p class="dialog-info">
+            Only checked files will be saved. Content is taken from open files in your workspace.
+        </p>
+        <div>
+          <label><input type="checkbox" id="includeMainCpp" checked /> main.cpp</label><br>
+          <label><input type="checkbox" id="includeInputTxt" checked /> input.txt</label><br>
+          <label><input type="checkbox" id="includeOutputTxt" checked /> output.txt</label>
+        </div>
+        <div>
+          <label for="templateName">Template Name:</label>
+          <input type="text" id="templateName" required />
+        </div>
+        <div>
+          <button type="button" onclick="saveTemplate()">Save</button>
+          <button type="button" onclick="closeSaveTemplateDialog()">Cancel</button>
+        </div>
+      </form>
+    </dialog>
+
+    <!-- Confirm Delete Dialog -->
+    <dialog id="deleteConfirmDialog">
+    <form method="dialog">
+        <p id="deleteConfirmText"></p>
+        <button value="yes" id="deleteYesBtn">Delete</button>
+        <button value="no">Cancel</button>
+    </form>
+    </dialog>
+
+    <div class="signature">
+        <img src="{{bkLogoUri}}" class="bk-logo" alt="Bharath Kotipalli Logo" />
+        <p>Created by Bharath Kotipalli</p>
+    </div>
+    <script>
+        const vscode = acquireVsCodeApi();
+        let selectedTemplate = 'default';
+
+        document.getElementById('templatePicker').addEventListener('change', (e) => {
+            selectedTemplate = e.target.value;
+            updateDeleteButton();
+        });
+
+        function deleteTemplate() {
+            const picker = document.getElementById('templatePicker');
+            const selectedTemplate = picker.value;
+            if (
+                selectedTemplate === 'default' ||
+                selectedTemplate === 'Fast_IO' ||
+                selectedTemplate === 'Debug_Template' ||
+                selectedTemplate === 'CP_Template'
+            ) {
+                alert("Cannot delete default/built-in templates.");
+                return;
+            }
+            
+            // Show custom dialog
+            const dialog = document.getElementById('deleteConfirmDialog');
+            document.getElementById('deleteConfirmText').textContent =
+                `Delete template "${selectedTemplate}"?`;
+            dialog.showModal();
+
+            dialog.addEventListener('close', function handler() {
+                if (dialog.returnValue === 'yes') {
+                    vscode.postMessage({
+                        command: 'deleteTemplate',
+                        templateName: selectedTemplate
+                    });
+                }
+                dialog.removeEventListener('close', handler);
+            });
+        }
+
+        function resetFiles() {
+            vscode.postMessage({ command: 'resetFiles', template: selectedTemplate });
+        }
+
+        // Dialog logic
+        const dialog = document.getElementById('saveTemplateDialog');
+        function openSaveTemplateDialog() {
+            dialog.showModal();
+        }
+        function closeSaveTemplateDialog() {
+            dialog.close();
+        }
+        // Update delete button enable/disable state
+        document.getElementById('templatePicker').addEventListener('change', updateDeleteButton);
+        function updateDeleteButton() {
+            const picker = document.getElementById('templatePicker');
+            const btn = document.getElementById('deleteTemplateBtn');
+            const val = picker.value;
+            btn.disabled = (val === 'default' || val === 'Fast_IO' || val === 'Debug_Template' || val === 'CP_Template');
+        }
+        updateDeleteButton();
+
+        function saveTemplate() {
+            // Get which files to include
+            const includeMainCpp = document.getElementById('includeMainCpp').checked;
+            const includeInputTxt = document.getElementById('includeInputTxt').checked;
+            const includeOutputTxt = document.getElementById('includeOutputTxt').checked;
+            const templateName = document.getElementById('templateName').value.trim();
+
+            if (!templateName) {
+                alert("Please enter a template name.");
+                return;
+            }
+            // Get content from VS Code for each file (request from extension)
+            vscode.postMessage({
+                command: 'saveTemplate',
+                templateName,
+                includeMainCpp,
+                includeInputTxt,
+                includeOutputTxt
+            });
+            dialog.close();
+        }
+
+        // Listen for messages from extension to update template picker
+        window.addEventListener('message', event => {
+            const msg = event.data;
+            if (msg.command === 'addTemplateToPicker') {
+                addTemplateToPicker(msg.templateName);
+            }
+            if (msg.command === 'removeTemplateFromPicker') {
+                removeTemplateFromPicker(msg.templateName);
+            }
+            if (msg.command === 'initTemplates') {
+                // Remove all except built-ins
+                const picker = document.getElementById('templatePicker');
+                for (let i = picker.options.length - 1; i >= 0; i--) {
+                    if (
+                        picker.options[i].value !== 'default' &&
+                        picker.options[i].value !== 'Fast_IO' &&
+                        picker.options[i].value !== 'Debug_Template' &&
+                        picker.options[i].value !== 'CP_Template'
+                    ) {
+                        picker.remove(i);
+                    }
+                }
+                // Add all custom templates
+                msg.templates.forEach(tpl => {
+                    if (
+                        tpl !== 'default' &&
+                        tpl !== 'Fast_IO' &&
+                        tpl !== 'Debug_Template' &&
+                        tpl !== 'CP_Template'
+                    ) {
+                        addTemplateToPicker(tpl);
+                    }
+                });
+            }
+        });
+
+        function addTemplateToPicker(name) {
+            const picker = document.getElementById('templatePicker');
+            if ([...picker.options].some(opt => opt.value === name)) return;
+            const opt = document.createElement('option');
+            opt.value = name;
+            opt.textContent = name;
+            picker.appendChild(opt);
+        }
+
+        function removeTemplateFromPicker(name) {
+            const picker = document.getElementById('templatePicker');
+            for (let i = 0; i < picker.options.length; i++) {
+                if (picker.options[i].value === name) {
+                    picker.remove(i);
+                    break;
+                }
+            }
+            selectedTemplate = picker.value;
+            updateDeleteButton();
+        }
+    </script>
+    </body>
+</html>
