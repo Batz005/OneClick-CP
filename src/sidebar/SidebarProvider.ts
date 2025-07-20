@@ -58,8 +58,8 @@ export class SidebarProvider implements vscode.WebviewViewProvider {
           vscode.commands.executeCommand('oneclick-cp.exportSolution', message);
         }
         case 'resetAndExportSolution': {
-          vscode.commands.executeCommand('oneclick-cp.exportSolution', message);
-          vscode.commands.executeCommand('oneclick-cp.resetFiles', message.template);
+          await vscode.commands.executeCommand('oneclick-cp.exportSolution', message);
+          await vscode.commands.executeCommand('oneclick-cp.resetFiles', message.template);
         }
       }
     });

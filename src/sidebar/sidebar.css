@@ -1,23 +1,21 @@
-/* Layout */
+/* === Layout === */
 .sidebar-container {
   display: flex;
   flex-direction: column;
   height: 100vh;
-  padding: 0;
-  margin: 0;
   font-family: sans-serif;
   background: transparent;
+  padding: 0;
+  margin: 0;
 }
 
-/* Header */
 .sidebar-header {
   flex: 0 0 auto;
-  padding: 0.2rem 0 0.2rem 0;
-  font-size: 0.7rem;
+  padding: 0.4rem 0 1rem 0;
+  font-size: 0.8rem;
   font-weight: bold;
-  letter-spacing: 0.03em;
   text-align: center;
-  line-height: 1.1;
+  line-height: 1.2;
   border-bottom: 1px solid #eee;
 }
 
@@ -27,17 +25,47 @@
   }
 }
 
-/* Main content area */
 .sidebar-main {
   flex: 1 1 auto;
   padding: 1.2rem 1rem 0.5rem 1rem;
   overflow-y: auto;
 }
 
+/* === Logos === */
+.logo, .bk-logo {
+  width: 36px;
+  height: auto;
+  margin-bottom: 0.2rem;
+  transition: filter 0.2s;
+  filter: invert(0%) sepia(0%) saturate(0%) hue-rotate(0deg) brightness(1);
+}
+
+@media (prefers-color-scheme: dark) {
+  .logo, .bk-logo {
+    filter: invert(100%) brightness(2);
+  }
+}
+
+/* === Signature === */
+.signature {
+  text-align: center;
+  margin-top: 2rem;
+  font-size: 0.72rem;
+  opacity: 0.7;
+  color: #444;
+}
+
+@media (prefers-color-scheme: dark) {
+  .signature {
+    color: #eee;
+  }
+}
+
+/* === Template Picker === */
 .template-label {
   display: block;
   margin-bottom: 0.4rem;
-  margin-top: 1rem; /* Adds space above the label */
+  margin-top: 1rem;
   font-size: 1rem;
   font-weight: 500;
   color: #444;
@@ -49,62 +77,143 @@
   }
 }
 
-/* Template picker and reset row */
-.feature-resetFiles {
-  margin-bottom: 0.5rem;
-}
-
 .template-picker-row {
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  margin-bottom: 0.5rem;
+  flex-wrap: wrap;
+  margin-bottom: 1rem;
 }
 
-/* Place reset button right after picker row */
-.reset-btn {
-  margin-top: 0;
-  margin-left: 0.5rem;
-  padding: 0.4rem 1rem;
+#templatePicker {
+  flex: 4;
+  padding: 0.4rem;
+  font-size: 1rem;
+  border-radius: 6px;
+  border: 1px solid #ccc;
 }
 
-/* Custom template button with extra spacing */
-.feature-saveTemplate {
-  margin-top: 0.5rem;
-  margin-bottom: 0.5rem;
+@media (prefers-color-scheme: dark) {
+  #templatePicker {
+    background: #23272e;
+    color: #eee;
+    border: 1px solid #555;
+  }
+}
+
+.delete-btn {
+  background: transparent;
+  border: none;
+  font-size: 1.2rem;
+  cursor: pointer;
+  color: #b00;
+  flex:1;
+  padding: 0 0.3rem;
+  transition: color 0.2s;
+}
+
+.delete-btn:disabled {
+  color: #ccc;
+  cursor: not-allowed;
+}
+
+@media (prefers-color-scheme: dark) {
+  .delete-btn {
+    color: #f66;
+  }
+}
+
+/* === Button Layout === */
+
+.feature-resetFiles,
+.feature-exportSolution,
+.feature-resetAndExportSolution,
+.feature-saveTemplate,
+.feature-arrangeView {
+  margin-bottom: 0.8rem;
+}
+
+/* Make button row inside .feature-resetAndExportSolution responsive */
+.button-row {
   display: flex;
-  justify-content: flex-start;
+  gap: 0.5rem;
+  flex-direction: horizontal;
+  flex-wrap: wrap;
 }
 
-/* Dialog styles */
+.button-row button {
+  flex: 1 1 0;
+  min-width: 45%;
+}
+
+
+/* === Buttons === */
+button {
+  width: 100%;
+  padding: 0.4rem 0.6rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+  border: none;
+  border-radius: 6px;
+  background: #f2f2f2;
+  color: #111;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-align: center;
+  transition: background 0.2s, transform 0.1s ease;
+}
+
+button:hover {
+  background: #ddd;
+  transform: translateY(-1px);
+}
+
+
+button::before,
+button::after {
+  font-size: 1rem;
+  line-height: 1;
+}
+
+@media (prefers-color-scheme: dark) {
+  button {
+    background: #23272e;
+    color: #f0f0f0;
+  }
+
+  button:hover {
+    background: #333;
+  }
+}
+
+/* === Dialogs === */
 dialog {
   border: none;
-  border-radius: 10px;
+  border-radius: 8px;
   box-shadow: 0 8px 32px rgba(0,0,0,0.18);
-  padding: 1rem 1.2rem;         /* Reduced padding */
+  padding: 1rem 1.2rem;
   background: #fff;
   color: #222;
-  min-width: 180px;             /* Smaller min width */
-  max-width: 95vw;              /* More flexible max width */
-  width: 240px;                 /* Default width, fits most sidebars */
+  width: 260px;
+  max-width: 95vw;
   font-size: 1rem;
-  transition: box-shadow 0.2s;
   box-sizing: border-box;
-}
-
-dialog::backdrop {
-  background: rgba(0,0,0,0.18);
 }
 
 @media (prefers-color-scheme: dark) {
   dialog {
     background: #23272e;
     color: #eee;
-    box-shadow: 0 8px 32px rgba(0,0,0,0.45);
+    box-shadow: 0 8px 32px rgba(0,0,0,0.4);
   }
 }
 
-#saveTemplateDialog .dialog-info {
+dialog::backdrop {
+  background: rgba(0, 0, 0, 0.2);
+}
+
+.dialog-info {
   font-size: 0.95rem;
   color: #888;
   margin-bottom: 1rem;
@@ -112,6 +221,7 @@ dialog::backdrop {
   line-height: 1.4;
   text-align: left;
 }
+
 @media (prefers-color-scheme: dark) {
   .dialog-info {
     color: #bbb;
@@ -132,12 +242,19 @@ dialog label {
 
 dialog input[type="text"] {
   width: 100%;
-  margin-top: 0.5rem;
-  margin-bottom: 1rem;
+  margin: 0.5rem 0 1rem 0;
   padding: 0.4rem;
   border-radius: 4px;
   border: 1px solid #bbb;
   font-size: 1rem;
+}
+
+@media (prefers-color-scheme: dark) {
+  dialog input[type="text"] {
+    background: #1a1a1a;
+    color: #eee;
+    border: 1px solid #555;
+  }
 }
 
 dialog button {
@@ -163,11 +280,6 @@ dialog button:hover {
 }
 
 @media (prefers-color-scheme: dark) {
-  dialog input[type="text"] {
-    background: #23272e;
-    color: #eee;
-    border: 1px solid #444;
-  }
   dialog button {
     background: #222;
     color: #fff;
@@ -181,91 +293,17 @@ dialog button:hover {
   }
 }
 
-.delete-btn {
-  background: transparent;
-  border: none;
-  font-size: 1.2rem;
-  cursor: pointer;
-  color: #b00;
-  padding: 0 0.3rem;
-  transition: color 0.2s;
-}
-.delete-btn:disabled {
-  color: #ccc;
-  cursor: not-allowed;
-}
-@media (prefers-color-scheme: dark) {
-  .delete-btn {
-    color: #f66;
-  }
-}
-
-/* Signature at the bottom */
-.signature {
-  flex: 0 0 auto;
-  margin-top: 2rem;
-  padding: 0.7rem 0 0.5rem 0;
-  font-size: 0.72rem;
-  color: #ffffff;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  opacity: 0.7;
-}
-
-/* Logo styles (theme-adaptive) */
-.logo, .bk-logo {
-  width: 36px;
-  height: auto;
-  margin-bottom: 0.2rem;
-  filter: invert(0); /* Black for light theme */
-  color: red;
-  transition: filter 0.2s;
-}
-
-@media (prefers-color-scheme: dark) {
-  .logo, .bk-logo {
-    filter: invert(1); /* White for dark theme */
-  }
-}
-
-/* Optional: Make buttons and selects look nice */
-button {
-  margin-top: 1rem;
-  padding: 0.5rem 1rem;
-  font-weight: bold;
-  cursor: pointer;
-  border-radius: 4px;
-  border: none;
-  background: #eee;
-  transition: background 0.2s;
-}
-
-button:hover {
-  background: #ddd;
-}
-
-@media (prefers-color-scheme: dark) {
-  button {
-    background: #222;
-    color: #fff;
-  }
-  button:hover {
-    background: #333;
-  }
-}
-
-select {
-  margin-top: 0.5rem;
-  width: 100%;
-  padding: 0.4rem;
-  border-radius: 4px;
-  border: 1px solid #ccc;
-}
-
+/* === Coming Soon Footer === */
 .coming-soon {
   margin-top: 2rem;
   font-style: italic;
   color: #888;
   font-size: 0.95rem;
+  text-align: center;
+}
+
+@media (prefers-color-scheme: dark) {
+  .coming-soon {
+    color: #aaa;
+  }
 }
