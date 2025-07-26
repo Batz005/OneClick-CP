@@ -2,12 +2,17 @@
   "name": "oneclick-cp",
   "displayName": "OneClick CP",
   "description": "One-click DSA and CP Starter Kit",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "engines": {
     "vscode": "^1.101.0"
   },
   "preview": true,
-  "keywords": ["competitive programming", "dsa", "template", "snippets"],
+  "keywords": [
+    "competitive programming",
+    "dsa",
+    "template",
+    "snippets"
+  ],
   "repository": {
     "type": "git",
     "url": "https://github.com/yourusername/OneClick-CP"
@@ -15,8 +20,7 @@
   "categories": [
     "Other"
   ],
-  "activationEvents": [
-  ],
+  "activationEvents": [],
   "main": "./dist/extension.js",
   "contributes": {
     "viewsContainers": {
@@ -35,7 +39,6 @@
           "name": "Dashboard",
           "type": "webview",
           "when": "true"
-
         }
       ]
     },
@@ -61,7 +64,7 @@
         "title": "OneClick CP: export open Solution"
       }
     ],
-    "keybindings":[
+    "keybindings": [
       {
         "command": "oneclick-cp.resetFiles",
         "key": "ctrl+alt+r",
@@ -69,12 +72,30 @@
       }
     ],
     "snippets": [
-      { "language": "cpp", "path": "./snippets/cpp/cpp_basics.json" },
-      { "language": "cpp", "path": "./snippets/cpp/cpp_ds.json" },
-      { "language": "cpp", "path": "./snippets/cpp/cpp_algos.json" },
-      { "language": "cpp", "path": "./snippets/cpp/cpp_adv_algos.json" },
-      { "language": "java", "path": "./snippets/java/java.json"},
-      { "language": "python", "path": "./snippets/python/py.json"}
+      {
+        "language": "cpp",
+        "path": "./snippets/cpp/cpp_basics.json"
+      },
+      {
+        "language": "cpp",
+        "path": "./snippets/cpp/cpp_ds.json"
+      },
+      {
+        "language": "cpp",
+        "path": "./snippets/cpp/cpp_algos.json"
+      },
+      {
+        "language": "cpp",
+        "path": "./snippets/cpp/cpp_adv_algos.json"
+      },
+      {
+        "language": "java",
+        "path": "./snippets/java/java.json"
+      },
+      {
+        "language": "python",
+        "path": "./snippets/python/py.json"
+      }
     ],
     "configuration": {
       "type": "object",
@@ -106,15 +127,23 @@
             }
           }
         }
-      },      
+      },
       "additionalProperties": {
         "type": "object",
         "properties": {
-          "main.cpp": { "type": "string" },
-          "input.txt": { "type": "string" },
-          "output.txt": { "type": "string" }
+          "main.cpp": {
+            "type": "string"
+          },
+          "input.txt": {
+            "type": "string"
+          },
+          "output.txt": {
+            "type": "string"
+          }
         },
-        "additionalProperties": { "type": "string" }
+        "additionalProperties": {
+          "type": "string"
+        }
       }
     }
   },
