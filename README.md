@@ -1,71 +1,113 @@
-# oneclick-cp README
+![My Logo](./resources/OneClick_CP_Logo.ico)
+OneClick CP - Competitive Programming Starter Kit
 
-This is the README for your extension "oneclick-cp". After writing up a brief description, we recommend including the following sections.
+Welcome to OneClick CP, your all-in-one VS Code extension to kickstart and manage your Competitive Programming (CP) sessions with just a click!
 
-## Features
+⸻
 
-Describe specific features of your extension including screenshots of your extension in action. Image paths are relative to this README file.
+📦 Features
 
-For example if there is an image subfolder under your extension project workspace:
+1. 🚀 Reset Files
 
-\!\[feature X\]\(images/feature-x.png\)
+Quickly reset your main.cpp, input.txt, and output.txt based on the currently selected template. Templates include:
+	•	default
+	•	Fast_IO
+	•	Debug_Template
+	•	CP_Template
+	•	🔧 Custom templates
 
-> Tip: Many popular extensions utilize animations. This is an excellent way to show off your extension! We recommend short, focused animations that are easy to follow.
+2. 📤 Export Solution
 
-## Requirements
+Save your current code and input/output files to a Solutions/ folder with a custom name you choose.
 
-If you have any requirements or dependencies, add a section describing those and how to install and configure them.
+3. 🔁 Export + Reset
 
-## Extension Settings
+Combine both reset and export in a single action to move to your next problem.
 
-Include if your extension adds any VS Code settings through the `contributes.configuration` extension point.
+4. 💾 Create Custom Templates
 
-For example:
+Save your currently open main.cpp, input.txt, and/or output.txt as a new reusable template. You control:
+	•	Template name
+	•	Which files to include
 
-This extension contributes the following settings:
+5. 📚 Code Snippets (Editor-Based)
 
-* `myExtension.enable`: Enable/disable this extension.
-* `myExtension.thing`: Set to `blah` to do something.
+Write faster using our curated snippets library. Snippets are automatically available for:
+	•	C++ (cpp_basics, cpp_ds, cpp_algos, cpp_adv_algos)
+	•	Java
+	•	Python
 
-## Known Issues
+Use them directly via VS Code’s built-in IntelliSense (start typing the prefix like cpdijk for Dijkstra).
 
-Calling out known issues can help limit users opening duplicate issues against your extension.
+⚠️ Snippets currently work via editor autocomplete and not inside the sidebar UI.
 
-## Release Notes
+6. 🧠 Coming Soon
+	•	Dynamic snippet search & categorization in sidebar
+	•	Integration with Codeforces, LeetCode, etc.
+	•	Problems dashboard, contest timers, and more!
 
-Users appreciate release notes as you update your extension.
+⸻
 
-### 1.0.0
+🖥️ How to Use
+	1.	Open your CP workspace folder.
+	2.	Click the OneClick CP icon in the Activity Bar.
+	3.	Choose your template from the dropdown.
+	4.	Click Reset Files to load your default CP setup.
+	5.	Start coding!
+	6.	Export your solution once done.
 
-Initial release of ...
+Shortcuts:
+	•	Ctrl + Alt + R → Reset Files
+	•	Snippets auto-trigger in editor using defined prefixes
 
-### 1.0.1
+⸻
 
-Fixed issue #.
+🙌 Support Development
 
-### 1.1.0
+If you love this extension and want to support its development:
+	•	[☕ Buy me a coffee](https://coff.ee/bharathkotipalli) 
+	•	UPI ID: bharath.kotipalli@pingpay
+	•	⭐ [Starring the repository](https://github.com/Batz005/OneClick-CP)
+    •
+    
 
-Added features X, Y, and Z.
+⸻
 
----
+🛠️ Installation
+	1.	Clone or download this repo
+	2.	Run npm install
+	3.	Run npm run compile
+	4.	Launch extension via Run & Debug (F5) or package via vsce
 
-## Following extension guidelines
+⸻
 
-Ensure that you've read through the extensions guidelines and follow the best practices for creating your extension.
+🤝 Contributing
 
-* [Extension Guidelines](https://code.visualstudio.com/api/references/extension-guidelines)
+Pull requests, issue reports, and suggestions are always welcome!
+	1.	Fork the repository
+	2.	Make your changes
+	3.	Submit a PR with a clear explanation
 
-## Working with Markdown
+Suggest a Snippet
 
-You can author your README using Visual Studio Code. Here are some useful editor keyboard shortcuts:
+Feel free to contribute to the snippet JSONs inside snippets/ folder or open an issue with your idea.
 
-* Split the editor (`Cmd+\` on macOS or `Ctrl+\` on Windows and Linux).
-* Toggle preview (`Shift+Cmd+V` on macOS or `Shift+Ctrl+V` on Windows and Linux).
-* Press `Ctrl+Space` (Windows, Linux, macOS) to see a list of Markdown snippets.
+[![Stars](https://img.shields.io/github/stars/Batz005/OneClick-CP?style=social)](https://github.com/Batz005/OneClick-CP)
+[![Issues](https://img.shields.io/github/issues/Batz005/OneClick-CP)](https://github.com/Batz005/OneClick-CP/issues)
+[![License](https://img.shields.io/github/license/Batz005/OneClick-CP)](./LICENSE)
 
-## For more information
+⸻
 
-* [Visual Studio Code's Markdown Support](http://code.visualstudio.com/docs/languages/markdown)
-* [Markdown Syntax Reference](https://help.github.com/articles/markdown-basics/)
+👤 Author
 
-**Enjoy!**
+![My Logo](./resources/BK_Logo.png)
+Developed by Bharath Kotipalli
+
+“Made with ❤️ to make your CP journey smoother.”
+
+
+⸻
+
+📃 License
+
+MIT © Bharath Kotipalli

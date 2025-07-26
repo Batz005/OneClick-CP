@@ -48,10 +48,13 @@ function registerResetCommand(): vscode.Disposable {
   
         for (const folder of workspaceFolders) {
             const folderUri = folder.uri;
+            if (folderUri.path.includes('/Solutions/')) {
+                continue;
+            }
             const mainCpp = vscode.Uri.joinPath(folderUri, 'main.cpp');
             const inputTxt = vscode.Uri.joinPath(folderUri, 'input.txt');
             const outputTxt = vscode.Uri.joinPath(folderUri, 'output.txt');
-  
+            
             try {
                 await vscode.workspace.fs.stat(mainCpp);
                 await vscode.workspace.fs.stat(inputTxt);
@@ -95,7 +98,7 @@ function registerResetCommand(): vscode.Disposable {
             
     });
 }
-
+// TODO(@bharath): Improve this by searching workspace for main.cpp, input.txt, output.txt if not open
 function registerSaveTemplateCommand(sidebarProvider: SidebarProvider): vscode.Disposable {
     return vscode.commands.registerCommand('oneclick-cp.saveTemplate', async (message: any) => {
         if (!message.templateName) {
@@ -158,6 +161,7 @@ function registerDeleteTemplateCommand(sidebarProvider: SidebarProvider): vscode
   });
 }
 
+//  TODO(@bharath): Improve this by searching workspace for main.cpp, input.txt, output.txt if not open
 function registerExportSolutionCommand(): vscode.Disposable {
   return vscode.commands.registerCommand('oneclick-cp.exportSolution', async (message) => {
     const solutionName = await vscode.window.showInputBox({
@@ -173,7 +177,15 @@ function registerExportSolutionCommand(): vscode.Disposable {
         vscode.window.showWarningMessage('Solution export cancelled (no name provided).');
             return;
     }
-    const targetFolder = vscode.Uri.joinPath(workspace[0].uri, solutionName);
+    const rootUri = workspace[0].uri;
+    const solutionsFolder = vscode.Uri.joinPath(rootUri, 'Solutions');
+    try {
+        await vscode.workspace.fs.stat(solutionsFolder);
+    } catch {
+        await vscode.workspace.fs.createDirectory(solutionsFolder);
+    }
+    const targetFolder = vscode.Uri.joinPath(solutionsFolder, `${solutionName}`);
+
 
     const targetMainCpp = vscode.Uri.joinPath(targetFolder, "main.cpp");
     const targetInputTxt = vscode.Uri.joinPath(targetFolder, "input.txt");

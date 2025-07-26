@@ -13,26 +13,71 @@
         <p class="subtitle">Your one-click DSA & CP starter kit</p>
     </div>
     <div class="sidebar-container">
-        <div class="feature-resetFiles">
-            <label for="templatePicker" class="template-label">Choose Template:</label>
-            <div class="template-picker-row">
-                <select id="templatePicker">
-                    <option value="default">Default Template</option>
-                    <option value="Fast_IO">Fast IO</option>
-                    <option value="Debug_Template">Debug Template</option>
-                    <option value="CP_Template">CP Template</option>
-                </select>
-                <button id="deleteTemplateBtn" title="Delete selected template" class="delete-btn" onclick="deleteTemplate()" aria-label="Delete Template">🗑️</button>
+        
+        <label for="templatePicker" class="template-label">Choose Template:</label>
+        <div class="template-picker-row">
+            <select id="templatePicker">
+                <option value="default">Default Template</option>
+                <option value="Fast_IO">Fast IO</option>
+                <option value="Debug_Template">Debug Template</option>
+                <option value="CP_Template">CP Template</option>
+            </select>
+            <button id="deleteTemplateBtn" title="Delete selected template(works only for custom templates)" class="delete-btn" onclick="deleteTemplate()" aria-label="Delete Template">🗑️</button>
+        </div>
+        <div class="button-row">
+            <div class="feature-resetFiles">
+                <button 
+                    title="resets files main.cpp, input.txt and output.txt based on current template selected."
+                    class="reset-btn" onclick="resetFiles()">
+                    🔄 Reset Files
+                </button>
             </div>
-            <button class="reset-btn" onclick="resetFiles()">🔄 Reset Files</button>
+            <div class="feature-exportSolution">
+                <button 
+                    title="This feature, copies the active files in editor(main.cpp, input.txt and output.txt).It exports your solution to Solutions folder with your given name"
+                    onclick="vscode.postMessage({ command: 'exportSolution' })">
+                    📤Export Solution
+                </button>
+            </div>
+        </div>
+        <div class="feature-resetAndExportSolution">
+            <button 
+                title="Exports Current Solution and Resets files based on current template selected."
+                onclick="vscode.postMessage({ command: 'resetAndExportSolution' })">
+                📤Export Solution + 🔄Reset Files
+            </button>
+        </div>
+        <div class="feature-saveTemplate">
+            <button 
+                title="Creates custom template from the main.cpp, input.txt and output.txt files and saves it in templates list for future purposes."
+                onclick="openSaveTemplateDialog()">
+                Create Custom Template
+            </button>
+        </div>
+        
+        <!-- <div class="feature-snippets">
+              <h2>Snippets</h2>
+            <details open>
+                <summary>Basics</summary>
+                <button onclick="insertSnippet('for (int i = 0; i < $1; i++) {\\n\\t$0\\n}')">for loop</button>
+                <button onclick="insertSnippet('while ($1) {\\n\\t$0\\n}')">while loop</button>
+            </details>
+            <details>
+                <summary>Data Structures</summary>
+                <button onclick="insertSnippet('vector<int> v($1);')">vector init</button>
+                <button onclick="insertSnippet('unordered_map<int, int> mp;')">unordered_map</button>
+            </details>
+            <details>
+                <summary>Algorithms</summary>
+                <button onclick="insertSnippet('sort(arr, arr + $1);')">sort</button>
+            </details>
+        </div> -->
+        <div class="feature-arrangeView">
+            <button 
+                title="Arranges Layout: main.cpp in left column. input.txt and output.txt in right column, top and bottom respectively."
+                onclick="vscode.postMessage({ command: 'arrangeLayout' })">🧩Arrange View</button>
         </div>
 
-        <div class="feature-saveTemplate">
-            <button onclick="openSaveTemplateDialog()">Create Custom Template</button>
-        </div>
-        <div class="feature-arrangeView">
-            <button onclick="vscode.postMessage({ command: 'arrangeLayout' })">🧩Arrange View</button>
-        </div>
         <p class="coming-soon">🔥 More features coming soon...</p>
     </div>
 
@@ -188,6 +233,9 @@
                         addTemplateToPicker(tpl);
                     }
                 });
+            }
+            if(msg.command === 'initSnippets'){
+
             }
         });
 
