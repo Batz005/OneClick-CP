@@ -66,11 +66,11 @@ export class SidebarProvider implements vscode.WebviewViewProvider {
   }
 
   getHtmlForWebview(webview: vscode.Webview): string {
-    const htmlPath = vscode.Uri.joinPath(this._extensionUri, 'src', 'sidebar', 'sidebar.html');
+    const htmlPath = vscode.Uri.joinPath(this._extensionUri, 'resources', 'sidebar', 'sidebar.html');
     let html = fs.readFileSync(htmlPath.fsPath, 'utf8');
 
     const styleUri = webview.asWebviewUri(
-      vscode.Uri.joinPath(this._extensionUri, 'src', 'sidebar', 'sidebar.css')
+      vscode.Uri.joinPath(this._extensionUri, 'resources', 'sidebar', 'sidebar.css')
     );
     const logoUri = webview.asWebviewUri(
       vscode.Uri.joinPath(this._extensionUri, 'resources', 'OneClick_CP_LOGO.svg')
