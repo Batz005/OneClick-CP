@@ -6,3 +6,6 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 
 ## v0.1.0
 - Initial release: Reset Files, Export Solution, Custom Templates, Editor Snippets.
+
+## v0.1.1
+- Webpack is not considering html files which breaks the ui. Issue fixed. 
