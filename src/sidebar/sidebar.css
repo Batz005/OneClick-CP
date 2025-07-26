@@ -281,8 +281,8 @@ dialog button:hover {
 
 @media (prefers-color-scheme: dark) {
   dialog button {
-    background: #222;
-    color: #fff;
+    background: hsl(245, 35%, 88%);
+    color: #121212;
   }
   dialog button:last-child {
     background: #23272e;

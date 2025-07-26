@@ -55,7 +55,23 @@
             </button>
         </div>
         
-        
+        <!-- <div class="feature-snippets">
+              <h2>Snippets</h2>
+            <details open>
+                <summary>Basics</summary>
+                <button onclick="insertSnippet('for (int i = 0; i < $1; i++) {\\n\\t$0\\n}')">for loop</button>
+                <button onclick="insertSnippet('while ($1) {\\n\\t$0\\n}')">while loop</button>
+            </details>
+            <details>
+                <summary>Data Structures</summary>
+                <button onclick="insertSnippet('vector<int> v($1);')">vector init</button>
+                <button onclick="insertSnippet('unordered_map<int, int> mp;')">unordered_map</button>
+            </details>
+            <details>
+                <summary>Algorithms</summary>
+                <button onclick="insertSnippet('sort(arr, arr + $1);')">sort</button>
+            </details>
+        </div> -->
         <div class="feature-arrangeView">
             <button 
                 title="Arranges Layout: main.cpp in left column. input.txt and output.txt in right column, top and bottom respectively."
@@ -217,6 +233,9 @@
                         addTemplateToPicker(tpl);
                     }
                 });
+            }
+            if(msg.command === 'initSnippets'){
+
             }
         });
 
