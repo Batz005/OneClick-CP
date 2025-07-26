@@ -1,5 +1,8 @@
-![My Logo](./resources/OneClick_CP_Logo.ico)
-OneClick CP - Competitive Programming Starter Kit
+<p align="center">
+  <img src="./resources/OneClick_CP_Logo.svg" width="100" alt="OneClick CP Logo">
+</p>
+
+<h1 align="center">OneClick CP - Competitive Programming Starter Kit</h1>
 
 Welcome to OneClick CP, your all-in-one VS Code extension to kickstart and manage your Competitive Programming (CP) sessions with just a click!
 
