@@ -9,3 +9,6 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 
 ## v0.1.1
 - Webpack is not considering html files which breaks the ui. Issue fixed. 
+
+## v0.1.2
+- Fixing icons
