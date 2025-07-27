@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="./resources/OneClick_CP_Logo.ico" width="100" alt="OneClick CP Logo">
+  <img src="https://raw.githubusercontent.com/Batz005/OneClick-CP/main/resources/OneClick_CP_LOGO.png" width="200" alt="OneClick CP Logo" />
 </p>
 
 <h1 align="center">OneClick CP - Competitive Programming Starter Kit</h1>
@@ -103,7 +103,7 @@ Feel free to contribute to the snippet JSONs inside snippets/ folder or open an 
 
 👤 Author
 <p align="center">
-  <img src="./resources/BK_Logo.png" width="100" alt="Developer BK Logo">
+  <img src="https://raw.githubusercontent.com/Batz005/OneClick-CP/main/resources/BK_Logo.png" width="200" alt="Developer BK Logo" />
 </p>
 Developed by Bharath Kotipalli
 
