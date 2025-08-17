@@ -13,7 +13,9 @@
         <p class="subtitle">Your one-click DSA & CP starter kit</p>
     </div>
     <div class="sidebar-container">
-        
+        <!-- ===================== -->
+        <!-- Template Actions      -->
+        <!-- ===================== -->
         <label for="templatePicker" class="template-label">Choose Template:</label>
         <div class="template-picker-row">
             <select id="templatePicker">
@@ -22,63 +24,121 @@
                 <option value="Debug_Template">Debug Template</option>
                 <option value="CP_Template">CP Template</option>
             </select>
-            <button id="deleteTemplateBtn" title="Delete selected template(works only for custom templates)" class="delete-btn" onclick="deleteTemplate()" aria-label="Delete Template">🗑️</button>
+            <button
+                id="deleteTemplateBtn"
+                title="Delete selected template(works only for custom templates)"
+                class="delete-btn"
+                onclick="deleteTemplate()"
+                aria-label="Delete Template"
+            >🗑️</button>
         </div>
         <div class="button-row">
             <div class="feature-resetFiles">
-                <button 
+                <button
                     title="resets files main.cpp, input.txt and output.txt based on current template selected."
-                    class="reset-btn" onclick="resetFiles()">
+                    class="reset-btn"
+                    onclick="resetFiles()"
+                >
                     🔄 Reset Files
                 </button>
             </div>
             <div class="feature-exportSolution">
-                <button 
+                <button
                     title="This feature, copies the active files in editor(main.cpp, input.txt and output.txt).It exports your solution to Solutions folder with your given name"
-                    onclick="vscode.postMessage({ command: 'exportSolution' })">
+                    onclick="vscode.postMessage({ command: 'exportSolution' })"
+                >
                     📤Export Solution
                 </button>
             </div>
         </div>
-        <div class="feature-resetAndExportSolution">
-            <button 
+        <div class="feature-resetAndExportSolution" style="margin-top: 0.5em;">
+            <button
                 title="Exports Current Solution and Resets files based on current template selected."
-                onclick="vscode.postMessage({ command: 'resetAndExportSolution' })">
+                onclick="vscode.postMessage({ command: 'resetAndExportSolution' })"
+            >
                 📤Export Solution + 🔄Reset Files
             </button>
         </div>
-        <div class="feature-saveTemplate">
-            <button 
+        <div class="feature-saveTemplate" style="margin-top: 0.5em;">
+            <button
                 title="Creates custom template from the main.cpp, input.txt and output.txt files and saves it in templates list for future purposes."
-                onclick="openSaveTemplateDialog()">
+                onclick="openSaveTemplateDialog()"
+            >
                 Create Custom Template
             </button>
         </div>
-        
-        <!-- <div class="feature-snippets">
-              <h2>Snippets</h2>
-            <details open>
-                <summary>Basics</summary>
-                <button onclick="insertSnippet('for (int i = 0; i < $1; i++) {\\n\\t$0\\n}')">for loop</button>
-                <button onclick="insertSnippet('while ($1) {\\n\\t$0\\n}')">while loop</button>
-            </details>
-            <details>
-                <summary>Data Structures</summary>
-                <button onclick="insertSnippet('vector<int> v($1);')">vector init</button>
-                <button onclick="insertSnippet('unordered_map<int, int> mp;')">unordered_map</button>
-            </details>
-            <details>
-                <summary>Algorithms</summary>
-                <button onclick="insertSnippet('sort(arr, arr + $1);')">sort</button>
-            </details>
-        </div> -->
-        <div class="feature-arrangeView">
-            <button 
-                title="Arranges Layout: main.cpp in left column. input.txt and output.txt in right column, top and bottom respectively."
-                onclick="vscode.postMessage({ command: 'arrangeLayout' })">🧩Arrange View</button>
+
+        <!-- ===================== -->
+        <!-- Snippet Section       -->
+        <!-- ===================== -->
+        <div class="feature-snippets" style="margin-top: 1.5em;">
+            <h2>Snippets</h2>
+
+            <!-- Snippet Preview Toggle -->
+            <div style="margin-bottom: 0.5em;">
+                <label>
+                    <input type="checkbox" id="showPreview" checked />
+                    Snippet Preview
+                </label>
+            </div>
+
+            <!-- Language Selection -->
+            <div style="margin-bottom: 0.5em;">
+                <label for="languageSelect">Choose a language:</label>
+                <select id="languageSelect">
+                    <option value="cpp">C++</option>
+                    <option value="python">Python</option>
+                    <option value="java">Java</option>
+                </select>
+            </div>
+
+            <!-- Accordion for Snippet Categories -->
+            <button class="accordion">Snippets</button>
+            <div class="panel SnippetSelection">
+                <!-- Data Structures -->
+                <button class="accordion">Data Structures</button>
+                <div class="panel">
+                    <button value="array" data-category="ds" data-subcategory="array" data-target="array-snippet-list" onclick="loadSnippetsFromCategory(event)">Array</button>
+                        <div id="array-snippet-list" style="margin-top: 1em;"></div>
+                    <button value="linkedlist" data-category="ds" data-subcategory="linkedlist" data-target="linkedList-snippet-list" onclick="loadSnippetsFromCategory(event)">Linked List</button>
+                        <div id="linkedList-snippet-list" style="margin-top: 1em;"></div>
+                    <button value="tree" data-category="ds" data-subcategory="tree" data-target="tree-snippet-list" onclick="loadSnippetsFromCategory(event)">Tree</button>
+                        <div id="tree-snippet-list" style="margin-top: 1em;"></div>
+                </div>
+
+                <!-- Algorithms -->
+                <button class="accordion">Algorithms</button>
+                <div class="panel">
+                    <button value="sort" data-category="algo" data-subcategory="sort" data-target="sort-snippet-list" onclick="loadSnippetsFromCategory(event)">Sorting</button>
+                        <div id="sort-snippet-list" style="margin-top: 1em;"></div>
+                    <button value="search" data-category="algo" data-subcategory="search" data-target="search-snippet-list" onclick="loadSnippetsFromCategory(event)">Searching</button>
+                        <div id="search-snippet-list" style="margin-top: 1em;"></div>
+                    <button value="dp" data-category="algo" data-subcategory="dp" data-target="dp-snippet-list" onclick="loadSnippetsFromCategory(event)">Dynamic Programming</button>
+                        <div id="dp-snippet-list" style="margin-top: 1em;"></div>
+                </div>
+
+                <!-- Custom -->
+                <button class="accordion">Custom</button>
+                <div class="panel">
+                    <button value="custom" data-category="custom" data-subcategory="all" onclick="loadSnippetsFromCategory(event)">All Custom Snippets</button>
+                        <div id="snippetListContainer" style="margin-top: 1em;"></div>
+                </div>
+            </div>
+
+
         </div>
 
-        <p class="coming-soon">🔥 More features coming soon...</p>
+        <!-- ===================== -->
+        <!-- Arrange View Button   -->
+        <!-- ===================== -->
+        <div class="feature-arrangeView" style="margin-top: 1em;">
+            <button
+                title="Arranges Layout: main.cpp in left column. input.txt and output.txt in right column, top and bottom respectively."
+                onclick="vscode.postMessage({ command: 'arrangeLayout' })"
+            >🧩Arrange View</button>
+        </div>
+
+        <p class="coming-soon" style="margin-top: 1.5em;">🔥 More features coming soon...</p>
     </div>
 
     <!-- Save Template Dialog -->
@@ -121,6 +181,13 @@
         const vscode = acquireVsCodeApi();
         let selectedTemplate = 'default';
 
+        document.querySelectorAll(".accordion").forEach(btn => {
+            btn.addEventListener("click", () => {
+                btn.classList.toggle("active");
+                const panel = btn.nextElementSibling;
+                panel.style.display = panel.style.display === "flex" ? "none" : "flex";
+            });
+        });
         document.getElementById('templatePicker').addEventListener('change', (e) => {
             selectedTemplate = e.target.value;
             updateDeleteButton();
@@ -234,9 +301,13 @@
                     }
                 });
             }
-            if(msg.command === 'initSnippets'){
+            if (msg.command === 'initSnippetList'){
 
             }
+            if (msg.command === 'initSnippetCategory'){
+
+            }
+
         });
 
         function addTemplateToPicker(name) {
@@ -258,6 +329,21 @@
             }
             selectedTemplate = picker.value;
             updateDeleteButton();
+        }
+
+        function loadSnippetsFromCategory(event) {
+            const category = event.target.getAttribute('data-category');
+            const subcategory = event.target.getAttribute('data-subcategory');
+            const language = document.getElementById('languageSelect').value;
+            const targetId = event.target.getAttribute('data-target');
+
+            vscode.postMessage({
+                command: 'loadSnippetsFromCategory',
+                language,
+                category,
+                subcategory,
+                targetId
+            });
         }
     </script>
     </body>

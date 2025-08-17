@@ -1,0 +1,107 @@
+[
+  {
+    "prefix": "cpgamegrundy",
+    "description": "Grundy number computation (basic recursive)",
+    "category": "Game Theory",
+    "body": [
+      "int grundy(int n) {",
+      "    if (n == 0) return 0;",
+      "    unordered_set<int> s;",
+      "    for (int i = 1; i <= n; ++i) {",
+      "        s.insert(grundy(n - i));",
+      "    }",
+      "    int g = 0;",
+      "    while (s.count(g)) g++;",
+      "    return g;",
+      "}"
+    ]
+  },
+  {
+    "prefix": "cpgamenim",
+    "description": "Nim Game (XOR of all piles)",
+    "category": "Game Theory",
+    "body": [
+      "int piles[] = {3, 4, 5};",
+      "int xorSum = 0;",
+      "for (int pile : piles) xorSum ^= pile;",
+      "if (xorSum == 0)",
+      "    cout << \"Second player wins\\n\";",
+      "else",
+      "    cout << \"First player wins\\n\";"
+    ]
+  },
+  {
+    "prefix": "cpgamemex",
+    "description": "Calculate mex (minimum excludant) from a set",
+    "category": "Game Theory",
+    "body": [
+      "int mex(unordered_set<int> &s) {",
+      "    int m = 0;",
+      "    while (s.count(m)) m++;",
+      "    return m;",
+      "}"
+    ]
+  },
+  {
+    "prefix": "cpgamemoveoptions",
+    "description": "Grundy Number with custom move options",
+    "category": "Game Theory",
+    "body": [
+      "vector<int> moves = {1, 3, 4};",
+      "vector<int> grundy(1001);",
+      "grundy[0] = 0;",
+      "for (int i = 1; i <= 1000; ++i) {",
+      "    unordered_set<int> s;",
+      "    for (int move : moves) {",
+      "        if (i - move >= 0)",
+      "            s.insert(grundy[i - move]);",
+      "    }",
+      "    grundy[i] = 0;",
+      "    while (s.count(grundy[i])) grundy[i]++;",
+      "}"
+    ]
+  },
+  {
+    "prefix": "cpgamesprague",
+    "description": "Sprague-Grundy Theorem for multi-game",
+    "category": "Game Theory",
+    "body": [
+      "// xor of grundy numbers of individual games",
+      "int g1 = grundy(n1);",
+      "int g2 = grundy(n2);",
+      "int g3 = grundy(n3);",
+      "int xorSum = g1 ^ g2 ^ g3;",
+      "if (xorSum == 0)",
+      "    cout << \"Second player wins\\n\";",
+      "else",
+      "    cout << \"First player wins\\n\";"
+    ]
+  },
+  {
+    "prefix": "cpgamesgtable",
+    "description": "Grundy Table for multiple positions (bottom-up)",
+    "category": "Game Theory",
+    "body": [
+      "vector<int> grundy(MAXN, 0);",
+      "for (int i = 1; i < MAXN; ++i) {",
+      "    unordered_set<int> s;",
+      "    for (int move : moves) {",
+      "        if (i - move >= 0) s.insert(grundy[i - move]);",
+      "    }",
+      "    int g = 0;",
+      "    while (s.count(g)) ++g;",
+      "    grundy[i] = g;",
+      "}"
+    ]
+  },
+  {
+    "prefix": "cpgamewinningposition",
+    "description": "Check if position is winning using Grundy number",
+    "category": "Game Theory",
+    "body": [
+      "int g = grundy(n);",
+      "if (g == 0) cout << \"Losing position\\n\";",
+      "else cout << \"Winning position\\n\";"
+    ]
+  }
+]

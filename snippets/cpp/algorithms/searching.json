@@ -1,0 +1,148 @@
+[
+  {
+    "prefix": "cpbin",
+    "description": "Classic Binary Search on sorted array",
+    "category": "Searching",
+    "body": [
+      "int low = 0, high = ${1:n} - 1;",
+      "while (low <= high) {",
+      "    int mid = (low + high) / 2;",
+      "    if (${2:arr}[mid] == ${3:target}) {",
+      "        $0 // found at mid",
+      "    } else if (${2:arr}[mid] < ${3:target}) {",
+      "        low = mid + 1;",
+      "    } else {",
+      "        high = mid - 1;",
+      "    }",
+      "}"
+    ]
+  },
+  {
+    "prefix": "cpbinlb",
+    "description": "Lower Bound using Binary Search",
+    "category": "Searching",
+    "body": [
+      "int low = 0, high = ${1:n};",
+      "while (low < high) {",
+      "    int mid = (low + high) / 2;",
+      "    if (${2:arr}[mid] < ${3:target})",
+      "        low = mid + 1;",
+      "    else",
+      "        high = mid;",
+      "}",
+      "$0 // 'low' is the lower bound index"
+    ]
+  },
+  {
+    "prefix": "cpbinub",
+    "description": "Upper Bound using Binary Search",
+    "category": "Searching",
+    "body": [
+      "int low = 0, high = ${1:n};",
+      "while (low < high) {",
+      "    int mid = (low + high) / 2;",
+      "    if (${2:arr}[mid] <= ${3:target})",
+      "        low = mid + 1;",
+      "    else",
+      "        high = mid;",
+      "}",
+      "$0 // 'low' is the upper bound index"
+    ]
+  },
+  {
+    "prefix": "cpbinfirst",
+    "description": "Find first occurrence of a value",
+    "category": "Searching",
+    "body": [
+      "int low = 0, high = ${1:n} - 1, ans = -1;",
+      "while (low <= high) {",
+      "    int mid = (low + high) / 2;",
+      "    if (${2:arr}[mid] == ${3:target}) {",
+      "        ans = mid;",
+      "        high = mid - 1;",
+      "    } else if (${2:arr}[mid] < ${3:target})",
+      "        low = mid + 1;",
+      "    else",
+      "        high = mid - 1;",
+      "}",
+      "$0 // 'ans' contains index of first occurrence"
+    ]
+  },
+  {
+    "prefix": "cpbinlast",
+    "description": "Find last occurrence of a value",
+    "category": "Searching",
+    "body": [
+      "int low = 0, high = ${1:n} - 1, ans = -1;",
+      "while (low <= high) {",
+      "    int mid = (low + high) / 2;",
+      "    if (${2:arr}[mid] == ${3:target}) {",
+      "        ans = mid;",
+      "        low = mid + 1;",
+      "    } else if (${2:arr}[mid] < ${3:target})",
+      "        low = mid + 1;",
+      "    else",
+      "        high = mid - 1;",
+      "}",
+      "$0 // 'ans' contains index of last occurrence"
+    ]
+  },
+  {
+    "prefix": "cprotsrch",
+    "description": "Search in rotated sorted array",
+    "category": "Searching",
+    "body": [
+      "int low = 0, high = ${1:n} - 1;",
+      "while (low <= high) {",
+      "    int mid = (low + high) / 2;",
+      "    if (${2:arr}[mid] == ${3:target}) {",
+      "        $0 // found",
+      "    } else if (${2:arr}[low] <= ${2:arr}[mid]) {",
+      "        if (${2:arr}[low] <= ${3:target} && ${3:target} < ${2:arr}[mid])",
+      "            high = mid - 1;",
+      "        else",
+      "            low = mid + 1;",
+      "    } else {",
+      "        if (${2:arr}[mid] < ${3:target} && ${3:target} <= ${2:arr}[high])",
+      "            low = mid + 1;",
+      "        else",
+      "            high = mid - 1;",
+      "    }",
+      "}"
+    ]
+  },
+  {
+    "prefix": "cpbinsqrt",
+    "description": "Binary search for square root (integer part)",
+    "category": "Searching",
+    "body": [
+      "int low = 1, high = ${1:n}, ans = 0;",
+      "while (low <= high) {",
+      "    int mid = (low + high) / 2;",
+      "    if (mid <= ${1:n} / mid) {",
+      "        ans = mid;",
+      "        low = mid + 1;",
+      "    } else {",
+      "        high = mid - 1;",
+      "    }",
+      "}",
+      "$0 // ans contains integer sqrt(n)"
+    ]
+  },
+  {
+    "prefix": "cpbinkth",
+    "description": "Binary search to find K-th smallest (in custom conditions)",
+    "category": "Searching",
+    "body": [
+      "int low = ${1:minVal}, high = ${2:maxVal};",
+      "while (low < high) {",
+      "    int mid = (low + high) / 2;",
+      "    if (${3:check(mid)})",
+      "        high = mid;",
+      "    else",
+      "        low = mid + 1;",
+      "}",
+      "$0 // low is the kth answer based on check()"
+    ]
+  }
+]

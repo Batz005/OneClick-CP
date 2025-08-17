@@ -1,0 +1,39 @@
+[
+  {
+    "prefix": "cppsuf1d",
+    "description": "1D Suffix Sum Array",
+    "category": "Suffix Sum",
+    "body": [
+      "vector<int> suffix(n);",
+      "suffix[n - 1] = a[n - 1];",
+      "for (int i = n - 2; i >= 0; --i) {",
+      "    suffix[i] = suffix[i + 1] + a[i];",
+      "}"
+    ]
+  },
+  {
+    "prefix": "cppsuf1dq",
+    "description": "1D Range Sum Query using Suffix Sum",
+    "category": "Suffix Sum",
+    "body": [
+      "// sum of range [l, r]",
+      "int sum = suffix[l] - (r + 1 < n ? suffix[r + 1] : 0);"
+    ]
+  },
+  {
+    "prefix": "cppsuf2d",
+    "description": "2D Suffix Sum Matrix",
+    "category": "Suffix Sum",
+    "body": [
+      "vector<vector<int>> suffix(n, vector<int>(m));",
+      "for (int i = n - 1; i >= 0; --i) {",
+      "    for (int j = m - 1; j >= 0; --j) {",
+      "        suffix[i][j] = a[i][j]",
+      "            + (i + 1 < n ? suffix[i + 1][j] : 0)",
+      "            + (j + 1 < m ? suffix[i][j + 1] : 0)",
+      "            - (i + 1 < n && j + 1 < m ? suffix[i + 1][j + 1] : 0);",
+      "    }",
+      "}"
+    ]
+  }
+]

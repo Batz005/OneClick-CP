@@ -1,0 +1,75 @@
+[
+  {
+    "prefix": "cpmstkruskal",
+    "description": "Kruskal's Algorithm using Union-Find",
+    "category": "Minimum Spanning Tree",
+    "body": [
+      "// Kruskal's Algorithm",
+      "vector<tuple<int, int, int>> edges; // {weight, u, v}",
+      "sort(edges.begin(), edges.end());",
+      "vector<int> parent(n), rank(n, 0);",
+      "iota(parent.begin(), parent.end(), 0);",
+      "function<int(int)> find = [&](int u) {",
+      "    return parent[u] == u ? u : parent[u] = find(parent[u]);",
+      "};",
+      "int mst_weight = 0;",
+      "for (auto [w, u, v] : edges) {",
+      "    u = find(u); v = find(v);",
+      "    if (u != v) {",
+      "        if (rank[u] < rank[v]) swap(u, v);",
+      "        parent[v] = u;",
+      "        if (rank[u] == rank[v]) rank[u]++;",
+      "        mst_weight += w;",
+      "        // Optionally store edges",
+      "    }",
+      "}"
+    ]
+  },
+  {
+    "prefix": "cpmstprim",
+    "description": "Prim's Algorithm using Priority Queue",
+    "category": "Minimum Spanning Tree",
+    "body": [
+      "// Prim's Algorithm",
+      "vector<bool> visited(n, false);",
+      "priority_queue<pair<int, int>, vector<pair<int, int>>, greater<pair<int, int>>> pq;",
+      "pq.push({0, 0}); // {weight, node}",
+      "int mst_weight = 0;",
+      "while (!pq.empty()) {",
+      "    auto [w, u] = pq.top(); pq.pop();",
+      "    if (visited[u]) continue;",
+      "    visited[u] = true;",
+      "    mst_weight += w;",
+      "    for (auto [v, cost] : adj[u]) {",
+      "        if (!visited[v]) pq.push({cost, v});",
+      "    }",
+      "}"
+    ]
+  },
+  {
+    "prefix": "cpmststore",
+    "description": "Store MST edges in Kruskal",
+    "category": "Minimum Spanning Tree",
+    "body": [
+      "vector<pair<int, int>> mst_edges;",
+      "for (auto [w, u, v] : edges) {",
+      "    u = find(u); v = find(v);",
+      "    if (u != v) {",
+      "        parent[v] = u;",
+      "        mst_edges.push_back({u, v});",
+      "    }",
+      "}"
+    ]
+  },
+  {
+    "prefix": "cpmstcheckcycle",
+    "description": "Check cycle before adding edge (Kruskal)",
+    "category": "Minimum Spanning Tree",
+    "body": [
+      "if (find(u) != find(v)) {",
+      "    parent[find(u)] = find(v);",
+      "    // safe to add edge to MST",
+      "}"
+    ]
+  }
+]

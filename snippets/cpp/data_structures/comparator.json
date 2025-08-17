@@ -1,0 +1,72 @@
+[
+  {
+    "prefix": "cpcompset",
+    "description": "Set with custom comparator",
+    "category": "Custom Comparator",
+    "body": [
+      "struct Comp {",
+      "    bool operator()(int a, int b) const {",
+      "        return a > b; // descending order",
+      "    }",
+      "};",
+      "",
+      "set<int, Comp> s;"
+    ]
+  },
+  {
+    "prefix": "cpcompmset",
+    "description": "Multiset with custom comparator",
+    "category": "Custom Comparator",
+    "body": [
+      "struct Comp {",
+      "    bool operator()(int a, int b) const {",
+      "        return a < b; // ascending",
+      "    }",
+      "};",
+      "",
+      "multiset<int, Comp> ms;"
+    ]
+  },
+  {
+    "prefix": "cpcompdesc",
+    "description": "Sort vector<int> in descending order",
+    "category": "Custom Comparator",
+    "body": [
+      "sort(vec.begin(), vec.end(), greater<int>());"
+    ]
+  },
+  {
+    "prefix": "cpcompstruct",
+    "description": "Set of structs with custom operator<",
+    "category": "Custom Comparator",
+    "body": [
+      "struct Item {",
+      "    int a, b;",
+      "    bool operator<(const Item& other) const {",
+      "        return a < other.a; // primary by a",
+      "    }",
+      "};",
+      "",
+      "set<Item> st;"
+    ]
+  },
+  {
+    "prefix": "cpcomplambda",
+    "description": "Sort using lambda comparator",
+    "category": "Custom Comparator",
+    "body": [
+      "sort(arr.begin(), arr.end(), [](int a, int b) {",
+      "    return a > b;",
+      "});"
+    ]
+  },
+  {
+    "prefix": "cpcomplambdaset",
+    "description": "Set with lambda comparator",
+    "category": "Custom Comparator",
+    "body": [
+      "auto cmp = [](int a, int b) { return a > b; };",
+      "set<int, decltype(cmp)> s(cmp);"
+    ]
+  }
+]

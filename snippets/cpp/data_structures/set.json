@@ -1,0 +1,106 @@
+[
+  {
+    "prefix": "cpsetinit",
+    "description": "Initialize a set and insert elements",
+    "category": "set",
+    "body": [
+      "set<${1:int}> ${2:s};",
+      "${2}.insert(${3:val});"
+    ]
+  },
+  {
+    "prefix": "cpsetcheck",
+    "description": "Check if value exists in set",
+    "category": "set",
+    "body": [
+      "if (${1:s}.find(${2:val}) != ${1}.end()) {",
+      "    // Exists",
+      "} else {",
+      "    // Not found",
+      "}"
+    ]
+  },
+  {
+    "prefix": "cpsetiterate",
+    "description": "Iterate through a set",
+    "category": "set",
+    "body": [
+      "for (auto& ${1:val} : ${2:s}) {",
+      "    $0",
+      "}"
+    ]
+  },
+  {
+    "prefix": "cpseterase",
+    "description": "Erase value from set",
+    "category": "set",
+    "body": [
+      "${1:s}.erase(${2:val});"
+    ]
+  },
+  {
+    "prefix": "cpusetinit",
+    "description": "Initialize unordered_set and insert",
+    "category": "set",
+    "body": [
+      "unordered_set<${1:int}> ${2:us};",
+      "${2}.insert(${3:val});"
+    ]
+  },
+  {
+    "prefix": "cpusetfreq",
+    "description": "Create unordered_set to remove duplicates",
+    "category": "set",
+    "body": [
+      "unordered_set<${1:int}> ${2:unique};",
+      "for (auto ${3:x} : ${4:arr})",
+      "    ${2}.insert(${3});"
+    ]
+  },
+  {
+    "prefix": "cpmultiset",
+    "description": "Use multiset to store duplicates",
+    "category": "set",
+    "body": [
+      "multiset<${1:int}> ${2:ms};",
+      "${2}.insert(${3:val});"
+    ]
+  },
+  {
+    "prefix": "cpmscount",
+    "description": "Count frequency in multiset",
+    "category": "set",
+    "body": [
+      "int count = ${1:ms}.count(${2:val});"
+    ]
+  },
+  {
+    "prefix": "cpmsdelone",
+    "description": "Delete one occurrence from multiset",
+    "category": "set",
+    "body": [
+      "auto it = ${1:ms}.find(${2:val});",
+      "if (it != ${1}.end()) ${1}.erase(it);"
+    ]
+  },
+  {
+    "prefix": "cpusetcustomhash",
+    "description": "Unordered_set with custom hash for better performance",
+    "category": "set",
+    "body": [
+      "struct custom_hash {",
+      "    static uint64_t splitmix64(uint64_t x) {",
+      "        x += 0x9e3779b97f4a7c15;",
+      "        x = (x ^ (x >> 30)) * 0xbf58476d1ce4e5b9;",
+      "        x = (x ^ (x >> 27)) * 0x94d049bb133111eb;",
+      "        return x ^ (x >> 31);",
+      "    }",
+      "    size_t operator()(uint64_t x) const {",
+      "        static const uint64_t FIXED_RANDOM = chrono::steady_clock::now().time_since_epoch().count();",
+      "        return splitmix64(x + FIXED_RANDOM);",
+      "    }",
+      "};",
+      "unordered_set<long long, custom_hash> us;"
+    ]
+  }
+]

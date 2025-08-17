@@ -1,0 +1,136 @@
+[
+  {
+    "prefix": "cpbiteven",
+    "description": "Check if number is even or odd using bitwise AND",
+    "category": "Bit Manipulation",
+    "body": [
+      "if (${1:num} & 1)",
+      "    cout << \"Odd\" << endl;",
+      "else",
+      "    cout << \"Even\" << endl;"
+    ]
+  },
+  {
+    "prefix": "cpbitcheck",
+    "description": "Check if i-th bit is set",
+    "category": "Bit Manipulation",
+    "body": [
+      "if (${1:num} & (1 << ${2:i}))",
+      "    cout << \"Bit is set\" << endl;",
+      "else",
+      "    cout << \"Bit is not set\" << endl;"
+    ]
+  },
+  {
+    "prefix": "cpbitset",
+    "description": "Set the i-th bit",
+    "category": "Bit Manipulation",
+    "body": [
+      "${1:num} |= (1 << ${2:i});"
+    ]
+  },
+  {
+    "prefix": "cpbitclear",
+    "description": "Clear the i-th bit",
+    "category": "Bit Manipulation",
+    "body": [
+      "${1:num} &= ~(1 << ${2:i});"
+    ]
+  },
+  {
+    "prefix": "cpbittoggle",
+    "description": "Toggle the i-th bit",
+    "category": "Bit Manipulation",
+    "body": [
+      "${1:num} ^= (1 << ${2:i});"
+    ]
+  },
+  {
+    "prefix": "cpbitcount",
+    "description": "Count number of set bits using __builtin_popcount",
+    "category": "Bit Manipulation",
+    "body": [
+      "int cnt = __builtin_popcount(${1:num});"
+    ]
+  },
+  {
+    "prefix": "cpbitcountll",
+    "description": "Count set bits for long long",
+    "category": "Bit Manipulation",
+    "body": [
+      "int cnt = __builtin_popcountll(${1:num});"
+    ]
+  },
+  {
+    "prefix": "cpbitlsb",
+    "description": "Get lowest set bit (LSB)",
+    "category": "Bit Manipulation",
+    "body": [
+      "int lsb = (${1:num}) & (-${1:num});"
+    ]
+  },
+  {
+    "prefix": "cpbitunsetlsb",
+    "description": "Unset lowest set bit",
+    "category": "Bit Manipulation",
+    "body": [
+      "${1:num} &= (${1:num} - 1);"
+    ]
+  },
+  {
+    "prefix": "cpbitispow2",
+    "description": "Check if number is power of two",
+    "category": "Bit Manipulation",
+    "body": [
+      "bool isPowerOfTwo = (${1:num} > 0) && (${1:num} & (${1:num} - 1)) == 0;"
+    ]
+  },
+  {
+    "prefix": "cpbitxor1ton",
+    "description": "XOR of 1 to n",
+    "category": "Bit Manipulation",
+    "body": [
+      "int xor1ToN(int n) {",
+      "    if (n % 4 == 0) return n;",
+      "    if (n % 4 == 1) return 1;",
+      "    if (n % 4 == 2) return n + 1;",
+      "    return 0;",
+      "}"
+    ]
+  },
+  {
+    "prefix": "cpbitgenmask",
+    "description": "Generate all subsets using bitmask",
+    "category": "Bit Manipulation",
+    "body": [
+      "int n = ${1:arr}.size();",
+      "for (int mask = 0; mask < (1 << n); ++mask) {",
+      "    vector<int> subset;",
+      "    for (int i = 0; i < n; ++i) {",
+      "        if (mask & (1 << i))",
+      "            subset.push_back(${1:arr}[i]);",
+      "    }",
+      "    // use subset",
+      "}"
+    ]
+  },
+  {
+    "prefix": "cpbitdpbase",
+    "description": "Base structure for Bitmask DP",
+    "category": "Bit Manipulation",
+    "body": [
+      "int n = ${1};",
+      "int fullMask = (1 << n);",
+      "vector<int> dp(fullMask, INF);",
+      "dp[0] = 0;",
+      "for (int mask = 0; mask < fullMask; ++mask) {",
+      "    for (int i = 0; i < n; ++i) {",
+      "        if (!(mask & (1 << i))) {",
+      "            int newMask = mask | (1 << i);",
+      "            dp[newMask] = min(dp[newMask], dp[mask] + ${2:cost});",
+      "        }",
+      "    }",
+      "}"
+    ]
+  }
+]

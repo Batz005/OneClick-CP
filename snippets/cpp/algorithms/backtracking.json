@@ -1,0 +1,132 @@
+[
+  {
+    "prefix": "cppbtpermute",
+    "description": "Permutations of an array",
+    "category": "Backtracking",
+    "body": [
+      "void permute(vector<int> &nums, int idx) {",
+      "    if (idx == nums.size()) {",
+      "        // process permutation",
+      "        return;",
+      "    }",
+      "    for (int i = idx; i < nums.size(); ++i) {",
+      "        swap(nums[i], nums[idx]);",
+      "        permute(nums, idx + 1);",
+      "        swap(nums[i], nums[idx]);",
+      "    }",
+      "}"
+    ]
+  },
+  {
+    "prefix": "cppbtcombination",
+    "description": "Combinations of k elements",
+    "category": "Backtracking",
+    "body": [
+      "void combine(int n, int k, int start, vector<int>& curr, vector<vector<int>>& res) {",
+      "    if (curr.size() == k) {",
+      "        res.push_back(curr);",
+      "        return;",
+      "    }",
+      "    for (int i = start; i <= n; ++i) {",
+      "        curr.push_back(i);",
+      "        combine(n, k, i + 1, curr, res);",
+      "        curr.pop_back();",
+      "    }",
+      "}"
+    ]
+  },
+  {
+    "prefix": "cppbtsubsets",
+    "description": "All subsets of a set",
+    "category": "Backtracking",
+    "body": [
+      "void subsets(vector<int>& nums, int idx, vector<int>& curr, vector<vector<int>>& res) {",
+      "    if (idx == nums.size()) {",
+      "        res.push_back(curr);",
+      "        return;",
+      "    }",
+      "    curr.push_back(nums[idx]);",
+      "    subsets(nums, idx + 1, curr, res);",
+      "    curr.pop_back();",
+      "    subsets(nums, idx + 1, curr, res);",
+      "}"
+    ]
+  },
+  {
+    "prefix": "cppbtnqueens",
+    "description": "N-Queens Problem",
+    "category": "Backtracking",
+    "body": [
+      "bool isSafe(int row, int col, vector<string>& board, int n) {",
+      "    for (int i = 0; i < row; ++i) {",
+      "        if (board[i][col] == 'Q') return false;",
+      "        if (col - (row - i) >= 0 && board[i][col - (row - i)] == 'Q') return false;",
+      "        if (col + (row - i) < n && board[i][col + (row - i)] == 'Q') return false;",
+      "    }",
+      "    return true;",
+      "}",
+      "",
+      "void solve(int row, vector<string>& board, vector<vector<string>>& res, int n) {",
+      "    if (row == n) {",
+      "        res.push_back(board);",
+      "        return;",
+      "    }",
+      "    for (int col = 0; col < n; ++col) {",
+      "        if (isSafe(row, col, board, n)) {",
+      "            board[row][col] = 'Q';",
+      "            solve(row + 1, board, res, n);",
+      "            board[row][col] = '.';",
+      "        }",
+      "    }",
+      "}"
+    ]
+  },
+  {
+    "prefix": "cppbtsudoku",
+    "description": "Solve Sudoku (Backtracking)",
+    "category": "Backtracking",
+    "body": [
+      "bool isValid(vector<vector<char>>& board, int r, int c, char ch) {",
+      "    for (int i = 0; i < 9; ++i) {",
+      "        if (board[r][i] == ch || board[i][c] == ch) return false;",
+      "        int boxRow = 3 * (r / 3) + i / 3;",
+      "        int boxCol = 3 * (c / 3) + i % 3;",
+      "        if (board[boxRow][boxCol] == ch) return false;",
+      "    }",
+      "    return true;",
+      "}",
+      "",
+      "bool solve(vector<vector<char>>& board) {",
+      "    for (int r = 0; r < 9; ++r) {",
+      "        for (int c = 0; c < 9; ++c) {",
+      "            if (board[r][c] == '.') {",
+      "                for (char ch = '1'; ch <= '9'; ++ch) {",
+      "                    if (isValid(board, r, c, ch)) {",
+      "                        board[r][c] = ch;",
+      "                        if (solve(board)) return true;",
+      "                        board[r][c] = '.';",
+      "                    }",
+      "                }",
+      "                return false;",
+      "            }",
+      "        }",
+      "    }",
+      "    return true;",
+      "}"
+    ]
+  },
+  {
+    "prefix": "cppbtknapsack",
+    "description": "0/1 Knapsack using backtracking",
+    "category": "Backtracking",
+    "body": [
+      "int knapsack(vector<int>& wt, vector<int>& val, int W, int i) {",
+      "    if (i == wt.size()) return 0;",
+      "    if (wt[i] > W)",
+      "        return knapsack(wt, val, W, i + 1);",
+      "    return max(knapsack(wt, val, W, i + 1),",
+      "               val[i] + knapsack(wt, val, W - wt[i], i + 1));",
+      "}"
+    ]
+  }
+]

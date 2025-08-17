@@ -1,0 +1,91 @@
+[
+  {
+    "prefix": "cpufinit",
+    "description": "Union-Find Initialization with parent and rank arrays",
+    "category": "Union Find (Disjoint Set)",
+    "body": [
+      "vector<int> parent($1);",
+      "vector<int> rank($1, 0);",
+      "for (int i = 0; i < $1; ++i) parent[i] = i;"
+    ]
+  },
+  {
+    "prefix": "cpuffind",
+    "description": "Find with path compression",
+    "category": "Union Find (Disjoint Set)",
+    "body": [
+      "function<int(int)> find = [&](int u) {",
+      "    return parent[u] == u ? u : parent[u] = find(parent[u]);",
+      "};"
+    ]
+  },
+  {
+    "prefix": "cpufunion",
+    "description": "Union by rank",
+    "category": "Union Find (Disjoint Set)",
+    "body": [
+      "function<void(int, int)> unite = [&](int u, int v) {",
+      "    u = find(u);",
+      "    v = find(v);",
+      "    if (u == v) return;",
+      "    if (rank[u] < rank[v]) swap(u, v);",
+      "    parent[v] = u;",
+      "    if (rank[u] == rank[v]) rank[u]++;",
+      "};"
+    ]
+  },
+  {
+    "prefix": "cpufsize",
+    "description": "Union-Find with union by size",
+    "category": "Union Find (Disjoint Set)",
+    "body": [
+      "vector<int> parent($1), size($1, 1);",
+      "for (int i = 0; i < $1; ++i) parent[i] = i;",
+      "",
+      "function<int(int)> find = [&](int u) {",
+      "    return parent[u] == u ? u : parent[u] = find(parent[u]);",
+      "};",
+      "",
+      "function<void(int, int)> unite = [&](int u, int v) {",
+      "    u = find(u); v = find(v);",
+      "    if (u == v) return;",
+      "    if (size[u] < size[v]) swap(u, v);",
+      "    parent[v] = u;",
+      "    size[u] += size[v];",
+      "};"
+    ]
+  },
+  {
+    "prefix": "cpufcomponents",
+    "description": "Find number of connected components using Union-Find",
+    "category": "Union Find (Disjoint Set)",
+    "body": [
+      "int components = $1;",
+      "for (auto [u, v] : edges) {",
+      "    u = find(u);",
+      "    v = find(v);",
+      "    if (u != v) {",
+      "        parent[v] = u;",
+      "        components--;",
+      "    }",
+      "}"
+    ]
+  },
+  {
+    "prefix": "cpufofflinequeries",
+    "description": "Union-Find offline queries with dynamic connections",
+    "category": "Union Find (Disjoint Set)",
+    "body": [
+      "// Apply offline dynamic connectivity with rollback UF if needed",
+      "// Typically used with DSU on Tree or Offline LCA",
+      "vector<int> parent($1);",
+      "for (int i = 0; i < $1; ++i) parent[i] = i;",
+      "",
+      "function<int(int)> find = [&](int u) {",
+      "    return parent[u] == u ? u : parent[u] = find(parent[u]);",
+      "};",
+      "",
+      "// Merge on query or reverse if undo supported"
+    ]
+  }
+]

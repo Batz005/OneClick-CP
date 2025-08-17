@@ -1,0 +1,134 @@
+[
+  {
+    "prefix": "cpstrinit",
+    "description": "Initialize a string",
+    "category": "string",
+    "body": [
+      "string ${1:s};"
+    ]
+  },
+  {
+    "prefix": "cpstrcin",
+    "description": "Input a string using cin",
+    "category": "string",
+    "body": [
+      "cin >> ${1:s};"
+    ]
+  },
+  {
+    "prefix": "cpstrgetline",
+    "description": "Input a line with spaces using getline",
+    "category": "string",
+    "body": [
+      "getline(cin, ${1:s});"
+    ]
+  },
+  {
+    "prefix": "cpstrsize",
+    "description": "Get length of a string",
+    "category": "string",
+    "body": [
+      "int ${1:len} = ${2:s}.size();"
+    ]
+  },
+  {
+    "prefix": "cpstrchar",
+    "description": "Access characters in a string",
+    "category": "string",
+    "body": [
+      "for (int ${1:i} = 0; ${1} < ${2:s}.size(); ++${1}) {",
+      "    char ${3:c} = ${2:s}[${1}];",
+      "    $0",
+      "}"
+    ]
+  },
+  {
+    "prefix": "cpstrappend",
+    "description": "Append to a string",
+    "category": "string",
+    "body": [
+      "${1:s} += \"${2:text}\";"
+    ]
+  },
+  {
+    "prefix": "cpsubstr",
+    "description": "Extract substring",
+    "category": "string",
+    "body": [
+      "string ${1:sub} = ${2:s}.substr(${3:start}, ${4:length});"
+    ]
+  },
+  {
+    "prefix": "cpstrfind",
+    "description": "Find substring in string",
+    "category": "string",
+    "body": [
+      "size_t ${1:pos} = ${2:s}.find(\"${3:substr}\");",
+      "if (${1:pos} != string::npos) {",
+      "    $0",
+      "}"
+    ]
+  },
+  {
+    "prefix": "cpstrreverse",
+    "description": "Reverse a string",
+    "category": "string",
+    "body": [
+      "reverse(${1:s}.begin(), ${1:s}.end());"
+    ]
+  },
+  {
+    "prefix": "cpstrsort",
+    "description": "Sort characters in a string",
+    "category": "string",
+    "body": [
+      "sort(${1:s}.begin(), ${1:s}.end());"
+    ]
+  },
+  {
+    "prefix": "cpstrcomp",
+    "description": "Compare two strings",
+    "category": "string",
+    "body": [
+      "if (${1:a} == ${2:b}) {",
+      "    $0",
+      "}"
+    ]
+  },
+  {
+    "prefix": "cpstrisalpha",
+    "description": "Check if character is alphabetic",
+    "category": "string",
+    "body": [
+      "if (isalpha(${1:c})) {",
+      "    $0",
+      "}"
+    ]
+  },
+  {
+    "prefix": "cpstrisdigit",
+    "description": "Check if character is digit",
+    "category": "string",
+    "body": [
+      "if (isdigit(${1:c})) {",
+      "    $0",
+      "}"
+    ]
+  },
+  {
+    "prefix": "cpstrtolower",
+    "description": "Convert entire string to lowercase",
+    "category": "string",
+    "body": [
+      "transform(${1:s}.begin(), ${1:s}.end(), ${1:s}.begin(), ::tolower);"
+    ]
+  },
+  {
+    "prefix": "cpstrtoupper",
+    "description": "Convert entire string to uppercase",
+    "category": "string",
+    "body": [
+      "transform(${1:s}.begin(), ${1:s}.end(), ${1:s}.begin(), ::toupper);"
+    ]
+  }
+]

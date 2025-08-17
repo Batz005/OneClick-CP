@@ -1,0 +1,67 @@
+[
+  {
+    "prefix": "cpgradj",
+    "description": "Adjacency list representation of graph",
+    "category": "Graphs",
+    "body": [
+      "int ${1:n};",
+      "cin >> ${1};",
+      "vector<vector<int>> ${2:adj}(${1});"
+    ]
+  },
+  {
+    "prefix": "cpgradd",
+    "description": "Add edge to undirected graph",
+    "category": "Graphs",
+    "body": [
+      "int ${1:u}, ${2:v};",
+      "cin >> ${1} >> ${2};",
+      "${3:adj}[${1}].push_back(${2});",
+      "${3:adj}[${2}].push_back(${1});"
+    ]
+  },
+  {
+    "prefix": "cpgraddd",
+    "description": "Add edge to directed graph",
+    "category": "Graphs",
+    "body": [
+      "int ${1:u}, ${2:v};",
+      "cin >> ${1} >> ${2};",
+      "${3:adj}[${1}].push_back(${2});"
+    ]
+  },
+  {
+    "prefix": "cpgrdfs",
+    "description": "DFS traversal of graph",
+    "category": "Graphs",
+    "body": [
+      "void dfs(int ${1:u}, vector<vector<int>>& ${2:adj}, vector<bool>& ${3:vis}) {",
+      "    ${3:vis}[${1}] = true;",
+      "    for (int ${4:v} : ${2:adj}[${1}]) {",
+      "        if (!${3:vis}[${4}]) dfs(${4}, ${2:adj}, ${3:vis});",
+      "    }",
+      "}"
+    ]
+  },
+  {
+    "prefix": "cpgrbfs",
+    "description": "BFS traversal of graph",
+    "category": "Graphs",
+    "body": [
+      "void bfs(int ${1:src}, vector<vector<int>>& ${2:adj}, vector<bool>& ${3:vis}) {",
+      "    queue<int> ${4:q};",
+      "    ${3:vis}[${1}] = true;",
+      "    ${4:q}.push(${1});",
+      "    while (!${4:q}.empty()) {",
+      "        int ${5:u} = ${4:q}.front(); ${4:q}.pop();",
+      "        for (int ${6:v} : ${2:adj}[${5:u}]) {",
+      "            if (!${3:vis}[${6}]) {",
+      "                ${3:vis}[${6}] = true;",
+      "                ${4:q}.push(${6});",
+      "            }",
+      "        }",
+      "    }",
+      "}"
+    ]
+  }
+]

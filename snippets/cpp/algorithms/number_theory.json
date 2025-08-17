@@ -1,0 +1,169 @@
+[
+  {
+    "prefix": "cpnumgcd",
+    "description": "Calculate GCD using Euclidean Algorithm",
+    "category": "Number Theory",
+    "body": [
+      "int gcd(int a, int b) {",
+      "    while (b != 0) {",
+      "        int temp = b;",
+      "        b = a % b;",
+      "        a = temp;",
+      "    }",
+      "    return a;",
+      "}"
+    ]
+  },
+    {
+    "prefix": "cpnumlcm",
+    "description": "Calculate LCM using Euclidean GCD (self-contained)",
+    "category": "Number Theory",
+    "body": [
+        "int gcd(int a, int b) {",
+        "    while (b != 0) {",
+        "        int temp = b;",
+        "        b = a % b;",
+        "        a = temp;",
+        "    }",
+        "    return a;",
+        "}",
+        "",
+        "int lcm(int a, int b) {",
+        "    return (a / gcd(a, b)) * b;",
+        "}"
+    ]
+    },
+  {
+    "prefix": "cpnumextgcd",
+    "description": "Extended Euclidean Algorithm",
+    "category": "Number Theory",
+    "body": [
+      "int extgcd(int a, int b, int &x, int &y) {",
+      "    if (b == 0) { x = 1; y = 0; return a; }",
+      "    int x1, y1;",
+      "    int d = extgcd(b, a % b, x1, y1);",
+      "    x = y1;",
+      "    y = x1 - (a / b) * y1;",
+      "    return d;",
+      "}"
+    ]
+  },
+  {
+    "prefix": "cpnummodinv",
+    "description": "Modular inverse using Extended Euclidean",
+    "category": "Number Theory",
+    "body": [
+      "int modinv(int a, int m) {",
+      "    int x, y;",
+      "    int g = extgcd(a, m, x, y);",
+      "    if (g != 1) return -1;",
+      "    return (x % m + m) % m;",
+      "}"
+    ]
+  },
+  {
+    "prefix": "cpnumcrt",
+    "description": "Chinese Remainder Theorem",
+    "category": "Number Theory",
+    "body": [
+      "int crt(vector<int> r, vector<int> m) {",
+      "    int r0 = 0, m0 = 1;",
+      "    for (int i = 0; i < r.size(); ++i) {",
+      "        int r1 = r[i], m1 = m[i];",
+      "        int p, q;",
+      "        int g = extgcd(m0, m1, p, q);",
+      "        if ((r1 - r0) % g) return -1;",
+      "        int lcm = m0 / g * m1;",
+      "        r0 += ((r1 - r0) / g * p % (m1 / g)) * m0;",
+      "        r0 = (r0 % lcm + lcm) % lcm;",
+      "        m0 = lcm;",
+      "    }",
+      "    return r0;",
+      "}"
+    ]
+  },
+  {
+    "prefix": "cpnummodexp",
+    "description": "Modular exponentiation (iterative)",
+    "category": "Number Theory",
+    "body": [
+      "int modpow(int a, int b, int m) {",
+      "    int res = 1;",
+      "    a %= m;",
+      "    while (b > 0) {",
+      "        if (b & 1)",
+      "            res = (1LL * res * a) % m;",
+      "        a = (1LL * a * a) % m;",
+      "        b >>= 1;",
+      "    }",
+      "    return res;",
+      "}"
+    ]
+  },
+  {
+    "prefix": "cpnumspf",
+    "description": "Sieve of Eratosthenes with SPF (smallest prime factor)",
+    "category": "Number Theory",
+    "body": [
+      "const int N = 1e6 + 5;",
+      "int spf[N];",
+      "void sieve() {",
+      "    for (int i = 1; i < N; ++i) spf[i] = i;",
+      "    for (int i = 2; i * i < N; ++i) {",
+      "        if (spf[i] == i) {",
+      "            for (int j = i * i; j < N; j += i)",
+      "                if (spf[j] == j)",
+      "                    spf[j] = i;",
+      "        }",
+      "    }",
+      "}"
+    ]
+  },
+  {
+    "prefix": "cpnumfactorize",
+    "description": "Prime factorization using SPF",
+    "category": "Number Theory",
+    "body": [
+      "vector<int> getFactors(int x) {",
+      "    vector<int> factors;",
+      "    while (x != 1) {",
+      "        factors.push_back(spf[x]);",
+      "        x /= spf[x];",
+      "    }",
+      "    return factors;",
+      "}"
+    ]
+  },
+  {
+    "prefix": "cpnummodinvrange",
+    "description": "Precompute modular inverses from 1 to n",
+    "category": "Number Theory",
+    "body": [
+      "vector<int> modinv(int n, int m) {",
+      "    vector<int> inv(n+1);",
+      "    inv[1] = 1;",
+      "    for (int i = 2; i <= n; ++i)",
+      "        inv[i] = m - (1LL * (m/i) * inv[m % i] % m);",
+      "    return inv;",
+      "}"
+    ]
+  },
+  {
+    "prefix": "cpnumphi",
+    "description": "Euler's Totient Function (phi)",
+    "category": "Number Theory",
+    "body": [
+      "int phi(int n) {",
+      "    int result = n;",
+      "    for (int p = 2; p * p <= n; ++p) {",
+      "        if (n % p == 0) {",
+      "            while (n % p == 0) n /= p;",
+      "            result -= result / p;",
+      "        }",
+      "    }",
+      "    if (n > 1) result -= result / n;",
+      "    return result;",
+      "}"
+    ]
+  }
+]

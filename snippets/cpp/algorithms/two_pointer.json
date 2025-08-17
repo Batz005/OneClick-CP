@@ -1,0 +1,69 @@
+[
+  {
+    "prefix": "cpptptemplate",
+    "description": "Standard Two Pointer Template",
+    "category": "Two Pointer",
+    "body": [
+      "int l = 0, r = 0;",
+      "while (r < n) {",
+      "    // expand r",
+      "    ++r;",
+      "    while (/* shrink condition */) {",
+      "        ++l;",
+      "    }",
+      "    // process [l, r)",
+      "}"
+    ]
+  },
+  {
+    "prefix": "cpptpkuniq",
+    "description": "Longest subarray with at most k unique elements",
+    "category": "Two Pointer",
+    "body": [
+      "unordered_map<int, int> count;",
+      "int l = 0;",
+      "for (int r = 0; r < n; ++r) {",
+      "    count[a[r]]++;",
+      "    while (count.size() > k) {",
+      "        count[a[l]]--;",
+      "        if (count[a[l]] == 0) count.erase(a[l]);",
+      "        ++l;",
+      "    }",
+      "    // process window [l, r]",
+      "}"
+    ]
+  },
+  {
+    "prefix": "cpptppal",
+    "description": "Check if string is palindrome using two pointers",
+    "category": "Two Pointer",
+    "body": [
+      "int l = 0, r = s.size() - 1;",
+      "while (l < r) {",
+      "    if (s[l] != s[r]) {",
+      "        // Not a palindrome",
+      "    }",
+      "    ++l; --r;",
+      "}"
+    ]
+  },
+  {
+    "prefix": "cpptpsum",
+    "description": "Two Pointer on Sorted Array to Find Pair with Target Sum",
+    "category": "Two Pointer",
+    "body": [
+      "int l = 0, r = n - 1;",
+      "while (l < r) {",
+      "    int sum = a[l] + a[r];",
+      "    if (sum == target) {",
+      "        // found",
+      "        break;",
+      "    } else if (sum < target) {",
+      "        ++l;",
+      "    } else {",
+      "        --r;",
+      "    }",
+      "}"
+    ]
+  }
+]

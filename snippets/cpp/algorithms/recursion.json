@@ -1,0 +1,141 @@
+[
+  {
+    "prefix": "cprecbase",
+    "description": "Basic recursive function template",
+    "category": "Recursion",
+    "body": [
+      "void recur(int ${1:param}) {",
+      "    if (${2:base_case}) return;",
+      "    $0",
+      "    recur(${3:next_param});",
+      "}"
+    ]
+  },
+  {
+    "prefix": "cprecfact",
+    "description": "Factorial using recursion",
+    "category": "Recursion",
+    "body": [
+      "int factorial(int n) {",
+      "    if (n <= 1) return 1;",
+      "    return n * factorial(n - 1);",
+      "}"
+    ]
+  },
+  {
+    "prefix": "cprecfib",
+    "description": "Fibonacci using recursion",
+    "category": "Recursion",
+    "body": [
+      "int fib(int n) {",
+      "    if (n <= 1) return n;",
+      "    return fib(n - 1) + fib(n - 2);",
+      "}"
+    ]
+  },
+  {
+    "prefix": "cpreccomb",
+    "description": "Generate combinations",
+    "category": "Recursion",
+    "body": [
+      "void combine(int start, vector<int>& temp, vector<vector<int>>& ans, int n, int k) {",
+      "    if (temp.size() == k) {",
+      "        ans.push_back(temp);",
+      "        return;",
+      "    }",
+      "    for (int i = start; i <= n; ++i) {",
+      "        temp.push_back(i);",
+      "        combine(i + 1, temp, ans, n, k);",
+      "        temp.pop_back();",
+      "    }",
+      "}"
+    ]
+  },
+  {
+    "prefix": "cprecperm",
+    "description": "Generate permutations",
+    "category": "Recursion",
+    "body": [
+      "void permute(vector<int>& nums, int idx, vector<vector<int>>& res) {",
+      "    if (idx == nums.size()) {",
+      "        res.push_back(nums);",
+      "        return;",
+      "    }",
+      "    for (int i = idx; i < nums.size(); ++i) {",
+      "        swap(nums[i], nums[idx]);",
+      "        permute(nums, idx + 1, res);",
+      "        swap(nums[i], nums[idx]);",
+      "    }",
+      "}"
+    ]
+  },
+  {
+    "prefix": "cprecsubsets",
+    "description": "Generate all subsets",
+    "category": "Recursion",
+    "body": [
+      "void subsets(int idx, vector<int>& nums, vector<int>& temp, vector<vector<int>>& ans) {",
+      "    if (idx == nums.size()) {",
+      "        ans.push_back(temp);",
+      "        return;",
+      "    }",
+      "    subsets(idx + 1, nums, temp, ans);",
+      "    temp.push_back(nums[idx]);",
+      "    subsets(idx + 1, nums, temp, ans);",
+      "    temp.pop_back();",
+      "}"
+    ]
+  },
+  {
+    "prefix": "cprecsearch",
+    "description": "Recursive linear search",
+    "category": "Recursion",
+    "body": [
+      "int search(vector<int>& arr, int i, int target) {",
+      "    if (i == arr.size()) return -1;",
+      "    if (arr[i] == target) return i;",
+      "    return search(arr, i + 1, target);",
+      "}"
+    ]
+  },
+  {
+    "prefix": "cprecglobal",
+    "description": "Recursion with global max/min",
+    "category": "Recursion",
+    "body": [
+      "int ans = ${1:-1};",
+      "void recur(int i, vector<int>& arr) {",
+      "    if (i == arr.size()) return;",
+      "    ans = max(ans, arr[i]);",
+      "    recur(i + 1, arr);",
+      "}"
+    ]
+  },
+  {
+    "prefix": "cprecstringrev",
+    "description": "Reverse a string using recursion",
+    "category": "Recursion",
+    "body": [
+      "void reverseString(string& s, int i, int j) {",
+      "    if (i >= j) return;",
+      "    swap(s[i], s[j]);",
+      "    reverseString(s, i + 1, j - 1);",
+      "}"
+    ]
+  },
+  {
+    "prefix": "cprecbinstr",
+    "description": "Generate all binary strings of length n",
+    "category": "Recursion",
+    "body": [
+      "void generate(int n, string s) {",
+      "    if (s.size() == n) {",
+      "        cout << s << endl;",
+      "        return;",
+      "    }",
+      "    generate(n, s + '0');",
+      "    generate(n, s + '1');",
+      "}"
+    ]
+  }
+]

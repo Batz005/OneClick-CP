@@ -1,0 +1,106 @@
+[
+  {
+    "prefix": "cpmapinit",
+    "description": "Initialize map with key-value pairs",
+    "category": "map",
+    "body": [
+      "map<${1:int}, ${2:int}> ${3:m};",
+      "${3}[${4:key}] = ${5:value};"
+    ]
+  },
+  {
+    "prefix": "cpmapfind",
+    "description": "Find element in map and check if it exists",
+    "category": "map",
+    "body": [
+      "auto it = ${1:m}.find(${2:key});",
+      "if (it != ${1}.end()) {",
+      "    // Found: it->first = ${2}, it->second = value",
+      "} else {",
+      "    // Not found",
+      "}"
+    ]
+  },
+  {
+    "prefix": "cpmapcount",
+    "description": "Check if key exists using count",
+    "category": "map",
+    "body": [
+      "if (${1:m}.count(${2:key})) {",
+      "    // Key exists",
+      "} else {",
+      "    // Key does not exist",
+      "}"
+    ]
+  },
+  {
+    "prefix": "cpmapiterate",
+    "description": "Iterate through a map",
+    "category": "map",
+    "body": [
+      "for (auto& [${1:key}, ${2:val}] : ${3:m}) {",
+      "    $0",
+      "}"
+    ]
+  },
+  {
+    "prefix": "cpumapinit",
+    "description": "Initialize unordered_map with key-value pairs",
+    "category": "map",
+    "body": [
+      "unordered_map<${1:int}, ${2:int}> ${3:um};",
+      "${3}[${4:key}] = ${5:value};"
+    ]
+  },
+  {
+    "prefix": "cpumapfreq",
+    "description": "Frequency map using unordered_map",
+    "category": "map",
+    "body": [
+      "unordered_map<${1:int}, ${2:int}> ${3:freq};",
+      "for (${4:auto} ${5:x} : ${6:arr}) {",
+      "    ${3}[${5}]++;",
+      "}"
+    ]
+  },
+  {
+    "prefix": "cpmaperase",
+    "description": "Erase key from map",
+    "category": "map",
+    "body": [
+      "${1:m}.erase(${2:key});"
+    ]
+  },
+  {
+    "prefix": "cpumapcustomhash",
+    "description": "Unordered_map with custom hash for better performance",
+    "category": "map",
+    "body": [
+      "struct custom_hash {",
+      "    static uint64_t splitmix64(uint64_t x) {",
+      "        x += 0x9e3779b97f4a7c15;",
+      "        x = (x ^ (x >> 30)) * 0xbf58476d1ce4e5b9;",
+      "        x = (x ^ (x >> 27)) * 0x94d049bb133111eb;",
+      "        return x ^ (x >> 31);",
+      "    }",
+      "    size_t operator()(uint64_t x) const {",
+      "        static const uint64_t FIXED_RANDOM = chrono::steady_clock::now().time_since_epoch().count();",
+      "        return splitmix64(x + FIXED_RANDOM);",
+      "    }",
+      "};",
+      "unordered_map<long long, int, custom_hash> um;"
+    ]
+  },
+  {
+    "prefix": "cpmmultimap",
+    "description": "Insert and iterate multimap",
+    "category": "map",
+    "body": [
+      "multimap<${1:int}, ${2:int}> ${3:mm};",
+      "${3}.insert({${4:key}, ${5:val}});",
+      "for (auto& [${6:k}, ${7:v}] : ${3}) {",
+      "    $0",
+      "}"
+    ]
+  }
+]

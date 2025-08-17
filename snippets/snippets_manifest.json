@@ -1,0 +1,50 @@
+{
+  "cpp": {
+    "misc":[
+        "basics"
+    ],
+    "data_structures": [
+      "bit",
+      "comparator",
+      "graph",
+      "linear_ds",
+      "linked_list",
+      "map",
+      "pair",
+      "priority_queue",
+      "set",
+      "string",
+      "tree",
+      "vector"
+    ],
+    "algorithms": [
+      "backtracking",
+      "combinatorics",
+      "disjoint_set",
+      "distance",
+      "dynamic_programming",
+      "game_theory",
+      "geometry",
+      "graph",
+      "greedy",
+      "minimum_spanning_tree",
+      "miscellaneous",
+      "number_theory",
+      "prefix_sum",
+      "recursion",
+      "searching",
+      "segment_tree",
+      "sliding_window",
+      "sorting",
+      "suffix_sum",
+      "trie",
+      "two_pointer"
+    ]
+  },
+  "java": [
+    "java"
+  ],
+  "python": [
+    "py"
+  ]
+}

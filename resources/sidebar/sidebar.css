@@ -307,3 +307,25 @@ dialog button:hover {
     color: #aaa;
   }
 }
+
+/*===Snippets===*/
+.accordion {
+  background-color: #444;
+  color: white;
+  cursor: pointer;
+  padding: 10px;
+  border: none;
+  width: 100%;
+  text-align: left;
+  outline: none;
+}
+
+.panel {
+  padding-left: 10px;
+  display: none;
+  flex-direction: column;
+}
+
+.accordion.active + .panel {
+  display: flex;
+}

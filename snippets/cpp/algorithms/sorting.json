@@ -1,0 +1,128 @@
+[
+  {
+    "prefix": "cpsortvec",
+    "description": "Sort a vector in ascending order using std::sort",
+    "category": "Sorting",
+    "body": [
+      "sort(${1:v}.begin(), ${1:v}.end());"
+    ]
+  },
+  {
+    "prefix": "cpsortdesc",
+    "description": "Sort a vector in descending order using greater<>",
+    "category": "Sorting",
+    "body": [
+      "sort(${1:v}.begin(), ${1:v}.end(), greater<>());"
+    ]
+  },
+  {
+    "prefix": "cpsortpairfirst",
+    "description": "Sort vector of pairs by first element (ascending)",
+    "category": "Sorting",
+    "body": [
+      "sort(${1:v}.begin(), ${1:v}.end());"
+    ]
+  },
+  {
+    "prefix": "cpsortpairsecond",
+    "description": "Sort vector of pairs by second element",
+    "category": "Sorting",
+    "body": [
+      "sort(${1:v}.begin(), ${1:v}.end(), [](const pair<int,int>& a, const pair<int,int>& b){",
+      "    return a.second < b.second;",
+      "});"
+    ]
+  },
+  {
+    "prefix": "cpsortvecvec",
+    "description": "Sort vector of vectors by specific index",
+    "category": "Sorting",
+    "body": [
+      "sort(${1:v}.begin(), ${1:v}.end(), [](const vector<int>& a, const vector<int>& b){",
+      "    return a[${2:0}] < b[${2:0}];",
+      "});"
+    ]
+  },
+  {
+    "prefix": "cpsortcustom",
+    "description": "Sort with custom comparator function",
+    "category": "Sorting",
+    "body": [
+      "auto cmp = [](const ${1:Type}& a, const ${1:Type}& b) {",
+      "    return ${2:condition};",
+      "};",
+      "sort(${3:v}.begin(), ${3:v}.end(), cmp);"
+    ]
+  },
+  {
+    "prefix": "cpstablesort",
+    "description": "Stable sort with custom comparator",
+    "category": "Sorting",
+    "body": [
+      "stable_sort(${1:v}.begin(), ${1:v}.end(), [](const auto& a, const auto& b){",
+      "    return ${2:condition};",
+      "});"
+    ]
+  },
+  {
+    "prefix": "cpsortstring",
+    "description": "Sort characters in string",
+    "category": "Sorting",
+    "body": [
+      "sort(${1:s}.begin(), ${1:s}.end());"
+    ]
+  },
+  {
+    "prefix": "cpcountsort",
+    "description": "Counting sort for small integer range",
+    "category": "Sorting",
+    "body": [
+      "vector<int> count(${1:max_val} + 1);",
+      "for (int x : ${2:arr}) count[x]++;",
+      "vector<int> sorted;",
+      "for (int i = 0; i <= ${1:max_val}; ++i)",
+      "    for (int j = 0; j < count[i]; ++j)",
+      "        sorted.push_back(i);"
+    ]
+  },
+  {
+    "prefix": "cpmergesort",
+    "description": "Recursive Merge Sort (vector)",
+    "category": "Sorting",
+    "body": [
+      "void mergeSort(vector<int>& a, int l, int r) {",
+      "    if (l >= r) return;",
+      "    int m = (l + r) / 2;",
+      "    mergeSort(a, l, m);",
+      "    mergeSort(a, m + 1, r);",
+      "    vector<int> t;",
+      "    int i = l, j = m + 1;",
+      "    while (i <= m && j <= r) {",
+      "        if (a[i] < a[j]) t.push_back(a[i++]);",
+      "        else t.push_back(a[j++]);",
+      "    }",
+      "    while (i <= m) t.push_back(a[i++]);",
+      "    while (j <= r) t.push_back(a[j++]);",
+      "    for (int i = l; i <= r; ++i) a[i] = t[i - l];",
+      "}"
+    ]
+  },
+  {
+    "prefix": "cpquicksort",
+    "description": "Recursive Quick Sort (vector)",
+    "category": "Sorting",
+    "body": [
+      "void quickSort(vector<int>& a, int l, int r) {",
+      "    if (l >= r) return;",
+      "    int pivot = a[r];",
+      "    int i = l - 1;",
+      "    for (int j = l; j < r; ++j) {",
+      "        if (a[j] < pivot) swap(a[++i], a[j]);",
+      "    }",
+      "    swap(a[i + 1], a[r]);",
+      "    quickSort(a, l, i);",
+      "    quickSort(a, i + 2, r);",
+      "}"
+    ]
+  }
+]
