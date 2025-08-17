@@ -1,5 +1,5 @@
-[
-  {
+{
+  "setWithCustomComparator": {
     "prefix": "cpcompset",
     "description": "Set with custom comparator",
     "category": "Custom Comparator",
@@ -13,7 +13,7 @@
       "set<int, Comp> s;"
     ]
   },
-  {
+  "multisetWithCustomComparator": {
     "prefix": "cpcompmset",
     "description": "Multiset with custom comparator",
     "category": "Custom Comparator",
@@ -27,7 +27,7 @@
       "multiset<int, Comp> ms;"
     ]
   },
-  {
+  "sortVectorInDescendingOrder": {
     "prefix": "cpcompdesc",
     "description": "Sort vector<int> in descending order",
     "category": "Custom Comparator",
@@ -35,7 +35,7 @@
       "sort(vec.begin(), vec.end(), greater<int>());"
     ]
   },
-  {
+  "setOfStructsWithCustomOperator": {
     "prefix": "cpcompstruct",
     "description": "Set of structs with custom operator<",
     "category": "Custom Comparator",
@@ -50,7 +50,7 @@
       "set<Item> st;"
     ]
   },
-  {
+  "sortUsingLambdaComparator": {
     "prefix": "cpcomplambda",
     "description": "Sort using lambda comparator",
     "category": "Custom Comparator",
@@ -60,7 +60,7 @@
       "});"
     ]
   },
-  {
+  "setWithLambdaComparator": {
     "prefix": "cpcomplambdaset",
     "description": "Set with lambda comparator",
     "category": "Custom Comparator",
@@ -69,4 +69,4 @@
       "set<int, decltype(cmp)> s(cmp);"
     ]
   }
-]
+}

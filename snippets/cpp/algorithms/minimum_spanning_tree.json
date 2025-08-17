@@ -1,5 +1,5 @@
-[
-  {
+{
+  "Kruskal Algorithm using Union-Find": {
     "prefix": "cpmstkruskal",
     "description": "Kruskal's Algorithm using Union-Find",
     "category": "Minimum Spanning Tree",
@@ -25,7 +25,7 @@
       "}"
     ]
   },
-  {
+  "Prim's Algorithm using Priority Queue": {
     "prefix": "cpmstprim",
     "description": "Prim's Algorithm using Priority Queue",
     "category": "Minimum Spanning Tree",
@@ -46,7 +46,7 @@
       "}"
     ]
   },
-  {
+  "Store MST Edges in Kruskal": {
     "prefix": "cpmststore",
     "description": "Store MST edges in Kruskal",
     "category": "Minimum Spanning Tree",
@@ -61,7 +61,7 @@
       "}"
     ]
   },
-  {
+  "Check Cycle Before Adding Edge (Kruskal)": {
     "prefix": "cpmstcheckcycle",
     "description": "Check cycle before adding edge (Kruskal)",
     "category": "Minimum Spanning Tree",
@@ -72,4 +72,4 @@
       "}"
     ]
   }
-]
+}

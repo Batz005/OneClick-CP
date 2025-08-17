@@ -1,5 +1,5 @@
-[
-  {
+{
+  "DP - 1D Bottom-Up": {
     "prefix": "cpdp1d",
     "description": "1D Bottom-Up DP template",
     "category": "Dynamic Programming",
@@ -10,7 +10,7 @@
       "}"
     ]
   },
-  {
+  "DP - 2D Bottom-Up": {
     "prefix": "cpdp2d",
     "description": "2D Bottom-Up DP template",
     "category": "Dynamic Programming",
@@ -23,7 +23,7 @@
       "}"
     ]
   },
-  {
+  "DP - Top-Down Memoization": {
     "prefix": "cpdpmemo",
     "description": "Top-Down Memoization template",
     "category": "Dynamic Programming",
@@ -36,7 +36,7 @@
       "};"
     ]
   },
-  {
+  "DP - Tabulation (Fibonacci)": {
     "prefix": "cpdptabfib",
     "description": "Tabulation for Fibonacci",
     "category": "Dynamic Programming",
@@ -49,7 +49,7 @@
       "}"
     ]
   },
-  {
+  "DP - Coin Change (Count Ways)": {
     "prefix": "cpdpcoinchange",
     "description": "Coin Change (number of ways)",
     "category": "Dynamic Programming",
@@ -63,7 +63,7 @@
       "}"
     ]
   },
-  {
+  "DP - Longest Common Subsequence": {
     "prefix": "cpdplcs",
     "description": "Longest Common Subsequence (LCS)",
     "category": "Dynamic Programming",
@@ -80,7 +80,7 @@
       "}"
     ]
   },
-  {
+  "DP - 0/1 Knapsack (Tabulation)": {
     "prefix": "cpdpknapsack01",
     "description": "0/1 Knapsack - Tabulation",
     "category": "Dynamic Programming",
@@ -96,7 +96,7 @@
       "}"
     ]
   },
-  {
+  "DP - Space Optimized 1D": {
     "prefix": "cpdpoptspace",
     "description": "Space optimized 1D DP",
     "category": "Dynamic Programming",
@@ -110,7 +110,7 @@
       "}"
     ]
   },
-  {
+  "DP - Longest Increasing Subsequence (LIS)": {
     "prefix": "cpdplis",
     "description": "Longest Increasing Subsequence (LIS)",
     "category": "Dynamic Programming",
@@ -125,7 +125,7 @@
       "int ans = *max_element(dp.begin(), dp.end());"
     ]
   },
-  {
+  "DP - Subset Sum": {
     "prefix": "cpdpsubsum",
     "description": "Subset sum problem",
     "category": "Dynamic Programming",
@@ -142,4 +142,4 @@
       "}"
     ]
   }
-]
+}

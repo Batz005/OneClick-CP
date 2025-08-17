@@ -1,5 +1,5 @@
-[
-  {
+{
+  "Union Find - Initialize parent and rank": {
     "prefix": "cpufinit",
     "description": "Union-Find Initialization with parent and rank arrays",
     "category": "Union Find (Disjoint Set)",
@@ -9,7 +9,7 @@
       "for (int i = 0; i < $1; ++i) parent[i] = i;"
     ]
   },
-  {
+  "Union Find - Find with path compression": {
     "prefix": "cpuffind",
     "description": "Find with path compression",
     "category": "Union Find (Disjoint Set)",
@@ -19,7 +19,7 @@
       "};"
     ]
   },
-  {
+  "Union Find - Union by rank": {
     "prefix": "cpufunion",
     "description": "Union by rank",
     "category": "Union Find (Disjoint Set)",
@@ -34,7 +34,7 @@
       "};"
     ]
   },
-  {
+  "Union Find - Union by size": {
     "prefix": "cpufsize",
     "description": "Union-Find with union by size",
     "category": "Union Find (Disjoint Set)",
@@ -55,7 +55,7 @@
       "};"
     ]
   },
-  {
+  "Union Find - Count connected components": {
     "prefix": "cpufcomponents",
     "description": "Find number of connected components using Union-Find",
     "category": "Union Find (Disjoint Set)",
@@ -71,7 +71,7 @@
       "}"
     ]
   },
-  {
+  "Union Find - Offline queries for dynamic connectivity": {
     "prefix": "cpufofflinequeries",
     "description": "Union-Find offline queries with dynamic connections",
     "category": "Union Find (Disjoint Set)",
@@ -88,4 +88,4 @@
       "// Merge on query or reverse if undo supported"
     ]
   }
-]
+}

@@ -1,5 +1,5 @@
-[
-  {
+{
+  "Bitwise - Check Even or Odd": {
     "prefix": "cpbiteven",
     "description": "Check if number is even or odd using bitwise AND",
     "category": "Bit Manipulation",
@@ -10,7 +10,7 @@
       "    cout << \"Even\" << endl;"
     ]
   },
-  {
+  "Bitwise - Check if i-th bit is set": {
     "prefix": "cpbitcheck",
     "description": "Check if i-th bit is set",
     "category": "Bit Manipulation",
@@ -21,7 +21,7 @@
       "    cout << \"Bit is not set\" << endl;"
     ]
   },
-  {
+  "Bitwise - Set i-th bit": {
     "prefix": "cpbitset",
     "description": "Set the i-th bit",
     "category": "Bit Manipulation",
@@ -29,7 +29,7 @@
       "${1:num} |= (1 << ${2:i});"
     ]
   },
-  {
+  "Bitwise - Clear i-th bit": {
     "prefix": "cpbitclear",
     "description": "Clear the i-th bit",
     "category": "Bit Manipulation",
@@ -37,7 +37,7 @@
       "${1:num} &= ~(1 << ${2:i});"
     ]
   },
-  {
+  "Bitwise - Toggle i-th bit": {
     "prefix": "cpbittoggle",
     "description": "Toggle the i-th bit",
     "category": "Bit Manipulation",
@@ -45,7 +45,7 @@
       "${1:num} ^= (1 << ${2:i});"
     ]
   },
-  {
+  "Bitwise - Count set bits": {
     "prefix": "cpbitcount",
     "description": "Count number of set bits using __builtin_popcount",
     "category": "Bit Manipulation",
@@ -53,7 +53,7 @@
       "int cnt = __builtin_popcount(${1:num});"
     ]
   },
-  {
+  "Bitwise - Count set bits (long long)": {
     "prefix": "cpbitcountll",
     "description": "Count set bits for long long",
     "category": "Bit Manipulation",
@@ -61,7 +61,7 @@
       "int cnt = __builtin_popcountll(${1:num});"
     ]
   },
-  {
+  "Bitwise - Get lowest set bit (LSB)": {
     "prefix": "cpbitlsb",
     "description": "Get lowest set bit (LSB)",
     "category": "Bit Manipulation",
@@ -69,7 +69,7 @@
       "int lsb = (${1:num}) & (-${1:num});"
     ]
   },
-  {
+  "Bitwise - Unset LSB": {
     "prefix": "cpbitunsetlsb",
     "description": "Unset lowest set bit",
     "category": "Bit Manipulation",
@@ -77,7 +77,7 @@
       "${1:num} &= (${1:num} - 1);"
     ]
   },
-  {
+  "Bitwise - Check if power of two": {
     "prefix": "cpbitispow2",
     "description": "Check if number is power of two",
     "category": "Bit Manipulation",
@@ -85,7 +85,7 @@
       "bool isPowerOfTwo = (${1:num} > 0) && (${1:num} & (${1:num} - 1)) == 0;"
     ]
   },
-  {
+  "Bitwise - XOR from 1 to n": {
     "prefix": "cpbitxor1ton",
     "description": "XOR of 1 to n",
     "category": "Bit Manipulation",
@@ -98,7 +98,7 @@
       "}"
     ]
   },
-  {
+  "Bitwise - Generate subsets using bitmask": {
     "prefix": "cpbitgenmask",
     "description": "Generate all subsets using bitmask",
     "category": "Bit Manipulation",
@@ -114,7 +114,7 @@
       "}"
     ]
   },
-  {
+  "Bitwise - Base structure for Bitmask DP": {
     "prefix": "cpbitdpbase",
     "description": "Base structure for Bitmask DP",
     "category": "Bit Manipulation",
@@ -133,4 +133,4 @@
       "}"
     ]
   }
-]
+}

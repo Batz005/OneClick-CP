@@ -1,5 +1,5 @@
-[
-  {
+{
+  "1D Prefix Sum Array": {
     "prefix": "cppre1d",
     "description": "1D Prefix Sum Array",
     "category": "Prefix Sum",
@@ -11,7 +11,7 @@
       "}"
     ]
   },
-  {
+  "1D Range Sum Query": {
     "prefix": "cppre1dq",
     "description": "1D Range Sum Query using Prefix Sum",
     "category": "Prefix Sum",
@@ -20,7 +20,7 @@
       "int sum = prefix[r] - (l > 0 ? prefix[l - 1] : 0);"
     ]
   },
-  {
+  "2D Prefix Sum Array": {
     "prefix": "cppre2d",
     "description": "2D Prefix Sum Array",
     "category": "Prefix Sum",
@@ -36,7 +36,7 @@
       "}"
     ]
   },
-  {
+  "2D Range Sum Query": {
     "prefix": "cppre2dq",
     "description": "2D Range Sum Query using Prefix Sum",
     "category": "Prefix Sum",
@@ -48,7 +48,7 @@
       "    + (x1 > 0 && y1 > 0 ? prefix[x1 - 1][y1 - 1] : 0);"
     ]
   },
-  {
+  "Prefix XOR Array": {
     "prefix": "cpprebit",
     "description": "Prefix XOR Array",
     "category": "Prefix Sum",
@@ -60,7 +60,7 @@
       "}"
     ]
   },
-  {
+  "Range XOR Query": {
     "prefix": "cpprebitq",
     "description": "Range XOR Query using Prefix XOR",
     "category": "Prefix Sum",
@@ -69,4 +69,4 @@
       "int xr = prefixXor[r] ^ (l > 0 ? prefixXor[l - 1] : 0);"
     ]
   }
-]
+}

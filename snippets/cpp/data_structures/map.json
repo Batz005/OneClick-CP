@@ -1,5 +1,5 @@
-[
-  {
+{
+  "Initialize map with key-value pairs": {
     "prefix": "cpmapinit",
     "description": "Initialize map with key-value pairs",
     "category": "map",
@@ -8,7 +8,7 @@
       "${3}[${4:key}] = ${5:value};"
     ]
   },
-  {
+  "Find element in map and check if it exists": {
     "prefix": "cpmapfind",
     "description": "Find element in map and check if it exists",
     "category": "map",
@@ -21,7 +21,7 @@
       "}"
     ]
   },
-  {
+  "Check if key exists using count": {
     "prefix": "cpmapcount",
     "description": "Check if key exists using count",
     "category": "map",
@@ -33,7 +33,7 @@
       "}"
     ]
   },
-  {
+  "Iterate through a map": {
     "prefix": "cpmapiterate",
     "description": "Iterate through a map",
     "category": "map",
@@ -43,7 +43,7 @@
       "}"
     ]
   },
-  {
+  "Initialize unordered_map with key-value pairs": {
     "prefix": "cpumapinit",
     "description": "Initialize unordered_map with key-value pairs",
     "category": "map",
@@ -52,7 +52,7 @@
       "${3}[${4:key}] = ${5:value};"
     ]
   },
-  {
+  "Frequency map using unordered_map": {
     "prefix": "cpumapfreq",
     "description": "Frequency map using unordered_map",
     "category": "map",
@@ -63,7 +63,7 @@
       "}"
     ]
   },
-  {
+  "Erase key from map": {
     "prefix": "cpmaperase",
     "description": "Erase key from map",
     "category": "map",
@@ -71,7 +71,7 @@
       "${1:m}.erase(${2:key});"
     ]
   },
-  {
+  "Unordered_map with custom hash for better performance": {
     "prefix": "cpumapcustomhash",
     "description": "Unordered_map with custom hash for better performance",
     "category": "map",
@@ -91,7 +91,7 @@
       "unordered_map<long long, int, custom_hash> um;"
     ]
   },
-  {
+  "Insert and iterate multimap": {
     "prefix": "cpmmultimap",
     "description": "Insert and iterate multimap",
     "category": "map",
@@ -103,4 +103,4 @@
       "}"
     ]
   }
-]
+}

@@ -1,5 +1,5 @@
-[
-  {
+{
+  "Distance - BFS (Unweighted Graph)": {
     "prefix": "cpdistbfs",
     "description": "BFS for shortest path in unweighted graph",
     "category": "Distance Algorithms",
@@ -19,7 +19,7 @@
       "}"
     ]
   },
-    {
+  "Distance - Floyd Warshall (All Pairs)": {
     "prefix": "cpdistfw",
     "description": "Floyd-Warshall for all-pairs shortest paths",
     "category": "Distance Algorithms",
@@ -36,7 +36,7 @@
       "}"
     ]
   },
-  {
+  "Distance - Dijkstra's Algorithm (PQ)": {
     "prefix": "cpdistdijk",
     "description": "Dijkstra's shortest path using priority queue",
     "category": "Distance Algorithms",
@@ -57,7 +57,7 @@
       "}"
     ]
   },
-  {
+  "Distance - Bellman-Ford Algorithm": {
     "prefix": "cpdistbellman",
     "description": "Bellman-Ford for negative weights",
     "category": "Distance Algorithms",
@@ -73,7 +73,7 @@
       "}"
     ]
   },
-  {
+  "Distance - Detect Negative Cycle (Bellman)": {
     "prefix": "cpdistnegcycle",
     "description": "Detect negative cycle using Bellman-Ford",
     "category": "Distance Algorithms",
@@ -89,7 +89,7 @@
       "}"
     ]
   },
-  {
+  "Distance - 0-1 BFS (Deque)": {
     "prefix": "cpdist0_1bfs",
     "description": "0-1 BFS for graphs with weights 0 or 1",
     "category": "Distance Algorithms",
@@ -110,7 +110,7 @@
       "}"
     ]
   },
-  {
+  "Distance - Multi-source BFS": {
     "prefix": "cpdistmulti",
     "description": "Multi-source BFS for shortest distance from multiple nodes",
     "category": "Distance Algorithms",
@@ -132,7 +132,7 @@
       "}"
     ]
   },
-  {
+  "Distance - BFS on 2D Grid": {
     "prefix": "cpdistmatrixbfs",
     "description": "BFS in a 2D grid with 4 directions",
     "category": "Distance Algorithms",
@@ -156,7 +156,7 @@
       "}"
     ]
   },
-    {
+  "Distance - SPFA (Shortest Path Faster Algo)": {
     "prefix": "cpdistspfa",
     "description": "SPFA (Shortest Path Faster Algorithm)",
     "category": "Distance Algorithms",
@@ -180,4 +180,4 @@
       "}"
     ]
   }
-]
+}

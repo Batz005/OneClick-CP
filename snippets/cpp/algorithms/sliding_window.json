@@ -1,5 +1,5 @@
-[
-  {
+{
+  "Fixed-size Sliding Window Sum": {
     "prefix": "cppswfix",
     "description": "Fixed-size Sliding Window Sum",
     "category": "Sliding Window",
@@ -13,7 +13,7 @@
       "}"
     ]
   },
-  {
+  "Minimum Length Subarray with Sum ≥ Target": {
     "prefix": "cppswminlen",
     "description": "Minimum length subarray with sum ≥ target",
     "category": "Sliding Window",
@@ -28,7 +28,7 @@
       "}"
     ]
   },
-  {
+  "Max in Sliding Window using Deque": {
     "prefix": "cppswmaxdq",
     "description": "Max in Sliding Window using Deque",
     "category": "Sliding Window",
@@ -45,7 +45,7 @@
       "}"
     ]
   },
-  {
+  "Min in Sliding Window using Deque": {
     "prefix": "cppswmin",
     "description": "Minimum in Sliding Window using Deque",
     "category": "Sliding Window",
@@ -62,7 +62,7 @@
       "}"
     ]
   },
-  {
+  "Sliding Window Frequency Counter": {
     "prefix": "cppswfreq",
     "description": "Sliding Window Frequency Counter (for maps)",
     "category": "Sliding Window",
@@ -80,4 +80,4 @@
       "}"
     ]
   }
-]
+}

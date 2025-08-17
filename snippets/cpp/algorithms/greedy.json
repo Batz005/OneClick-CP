@@ -1,5 +1,5 @@
-[
-  {
+{
+  "Greedy - Activity Selection (End Time Based)": {
     "prefix": "cppgreactivity",
     "description": "Activity Selection Problem (end time based)",
     "category": "Greedy",
@@ -15,7 +15,7 @@
       "}"
     ]
   },
-  {
+  "Greedy - Fractional Knapsack": {
     "prefix": "cppgrefractionalknapsack",
     "description": "Fractional Knapsack using Greedy",
     "category": "Greedy",
@@ -36,7 +36,7 @@
       "}"
     ]
   },
-  {
+  "Greedy - Job Sequencing Problem": {
     "prefix": "cppgrejobseq",
     "description": "Job Sequencing Problem",
     "category": "Greedy",
@@ -58,7 +58,7 @@
       "}"
     ]
   },
-  {
+  "Greedy - Huffman Encoding (Min Cost Merge)": {
     "prefix": "cppgrehuff",
     "description": "Huffman Encoding (Greedy)",
     "category": "Greedy",
@@ -74,7 +74,7 @@
       "}"
     ]
   },
-  {
+  "Greedy - Merge Overlapping Intervals": {
     "prefix": "cppgreintervalmerge",
     "description": "Merge Overlapping Intervals",
     "category": "Greedy",
@@ -90,7 +90,7 @@
       "}"
     ]
   },
-  {
+  "Greedy - Minimum Coins (Canonical Denominations)": {
     "prefix": "cppgremincoin",
     "description": "Min Coins (Greedy, works for canonical denominations)",
     "category": "Greedy",
@@ -106,7 +106,7 @@
       "}"
     ]
   },
-  {
+  "Greedy - Max Chain Length (Pairs)": {
     "prefix": "cppgremaxchain",
     "description": "Maximum Length Chain of Pairs",
     "category": "Greedy",
@@ -124,4 +124,4 @@
       "}"
     ]
   }
-]
+}

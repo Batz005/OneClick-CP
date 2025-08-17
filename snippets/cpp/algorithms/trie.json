@@ -1,5 +1,5 @@
-[
-  {
+{
+  "Basic TrieNode class definition": {
     "prefix": "cptrieclass",
     "description": "Basic TrieNode class definition",
     "category": "Trie",
@@ -15,7 +15,7 @@
       "};"
     ]
   },
-  {
+  "Insert word into Trie": {
     "prefix": "cptrieinsert",
     "description": "Insert word into Trie",
     "category": "Trie",
@@ -32,7 +32,7 @@
       "}"
     ]
   },
-  {
+  "Search word in Trie": {
     "prefix": "cptriesearch",
     "description": "Search word in Trie",
     "category": "Trie",
@@ -48,7 +48,7 @@
       "}"
     ]
   },
-  {
+  "Check prefix exists in Trie": {
     "prefix": "cptriestarts",
     "description": "Prefix startsWith check in Trie",
     "category": "Trie",
@@ -64,7 +64,7 @@
       "}"
     ]
   },
-  {
+  "Delete word from Trie (recursive)": {
     "prefix": "cptriedelete",
     "description": "Delete word from Trie (recursive)",
     "category": "Trie",
@@ -89,7 +89,7 @@
       "}"
     ]
   },
-  {
+  "TrieNode with prefix count (structure only)": {
     "prefix": "cptriecountprefix",
     "description": "Trie with prefix count (structure only)",
     "category": "Trie",
@@ -105,7 +105,7 @@
       "};"
     ]
   },
-  {
+  "Insert word into Trie with prefix count": {
     "prefix": "cptrieinsertcount",
     "description": "Insert into Trie with prefix count",
     "category": "Trie",
@@ -122,7 +122,7 @@
       "}"
     ]
   },
-  {
+  "Erase word from Trie with prefix count": {
     "prefix": "cptrieerasecount",
     "description": "Erase from Trie with prefix count",
     "category": "Trie",
@@ -137,4 +137,4 @@
       "}"
     ]
   }
-]
+}

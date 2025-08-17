@@ -1,5 +1,5 @@
-[
-  {
+{
+  "Initialize a set and insert elements": {
     "prefix": "cpsetinit",
     "description": "Initialize a set and insert elements",
     "category": "set",
@@ -8,7 +8,7 @@
       "${2}.insert(${3:val});"
     ]
   },
-  {
+  "Check if value exists in set": {
     "prefix": "cpsetcheck",
     "description": "Check if value exists in set",
     "category": "set",
@@ -20,7 +20,7 @@
       "}"
     ]
   },
-  {
+  "Iterate through a set": {
     "prefix": "cpsetiterate",
     "description": "Iterate through a set",
     "category": "set",
@@ -30,7 +30,7 @@
       "}"
     ]
   },
-  {
+  "Erase value from set": {
     "prefix": "cpseterase",
     "description": "Erase value from set",
     "category": "set",
@@ -38,7 +38,7 @@
       "${1:s}.erase(${2:val});"
     ]
   },
-  {
+  "Initialize unordered_set and insert": {
     "prefix": "cpusetinit",
     "description": "Initialize unordered_set and insert",
     "category": "set",
@@ -47,7 +47,7 @@
       "${2}.insert(${3:val});"
     ]
   },
-  {
+  "Create unordered_set to remove duplicates": {
     "prefix": "cpusetfreq",
     "description": "Create unordered_set to remove duplicates",
     "category": "set",
@@ -57,7 +57,7 @@
       "    ${2}.insert(${3});"
     ]
   },
-  {
+  "Use multiset to store duplicates": {
     "prefix": "cpmultiset",
     "description": "Use multiset to store duplicates",
     "category": "set",
@@ -66,7 +66,7 @@
       "${2}.insert(${3:val});"
     ]
   },
-  {
+  "Count frequency in multiset": {
     "prefix": "cpmscount",
     "description": "Count frequency in multiset",
     "category": "set",
@@ -74,7 +74,7 @@
       "int count = ${1:ms}.count(${2:val});"
     ]
   },
-  {
+  "Delete one occurrence from multiset": {
     "prefix": "cpmsdelone",
     "description": "Delete one occurrence from multiset",
     "category": "set",
@@ -83,7 +83,7 @@
       "if (it != ${1}.end()) ${1}.erase(it);"
     ]
   },
-  {
+  "Unordered_set with custom hash for better performance": {
     "prefix": "cpusetcustomhash",
     "description": "Unordered_set with custom hash for better performance",
     "category": "set",
@@ -103,4 +103,4 @@
       "unordered_set<long long, custom_hash> us;"
     ]
   }
-]
+}

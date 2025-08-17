@@ -1,5 +1,5 @@
-[
-  {
+{
+  "DFS traversal of tree": {
     "prefix": "cptrdfs",
     "description": "DFS traversal of tree",
     "category": "Trees",
@@ -11,7 +11,7 @@
       "}"
     ]
   },
-  {
+  "Convert unrooted tree to rooted": {
     "prefix": "cptrrooted",
     "description": "Convert unrooted tree to rooted",
     "category": "Trees",
@@ -27,7 +27,7 @@
       "}"
     ]
   },
-  {
+  "Subtree size calculation": {
     "prefix": "cptrsize",
     "description": "Subtree size calculation",
     "category": "Trees",
@@ -44,4 +44,4 @@
       "};"
     ]
   }
-]
+}

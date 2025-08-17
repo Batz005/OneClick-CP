@@ -1,5 +1,5 @@
-[
-  {
+{
+  "Initialize stack": {
     "prefix": "cpstkinit",
     "description": "Initialize a stack",
     "category": "stack",
@@ -7,7 +7,7 @@
       "stack<${1:int}> ${2:st};"
     ]
   },
-  {
+  "Stack push and pop": {
     "prefix": "cpstkpq",
     "description": "Push and pop from stack",
     "category": "stack",
@@ -16,7 +16,7 @@
       "${1:st}.pop();"
     ]
   },
-  {
+  "Stack top access": {
     "prefix": "cpstktop",
     "description": "Access top element of stack",
     "category": "stack",
@@ -24,7 +24,7 @@
       "${1:val} = ${2:st}.top();"
     ]
   },
-  {
+  "Stack not empty check": {
     "prefix": "cpstknempty",
     "description": "Check if stack is not empty",
     "category": "stack",
@@ -34,7 +34,7 @@
       "}"
     ]
   },
-  {
+  "Initialize queue": {
     "prefix": "cpqueinit",
     "description": "Initialize a queue",
     "category": "queue",
@@ -42,7 +42,7 @@
       "queue<${1:int}> ${2:q};"
     ]
   },
-  {
+  "Queue push and pop": {
     "prefix": "cpquepop",
     "description": "Push and pop in queue",
     "category": "queue",
@@ -51,7 +51,7 @@
       "${1:q}.pop();"
     ]
   },
-  {
+  "Queue front and back access": {
     "prefix": "cpquetop",
     "description": "Access front and back of queue",
     "category": "queue",
@@ -60,7 +60,7 @@
       "${3:backVal} = ${2:q}.back();"
     ]
   },
-  {
+  "Queue not empty check": {
     "prefix": "cpquenempty",
     "description": "Check if queue is not empty",
     "category": "queue",
@@ -70,7 +70,7 @@
       "}"
     ]
   },
-  {
+  "Initialize deque": {
     "prefix": "cpdeqinit",
     "description": "Initialize a deque",
     "category": "deque",
@@ -78,7 +78,7 @@
       "deque<${1:int}> ${2:dq};"
     ]
   },
-  {
+  "Deque push and pop": {
     "prefix": "cpdeqops",
     "description": "Push/pop front and back in deque",
     "category": "deque",
@@ -89,7 +89,7 @@
       "${1:dq}.pop_back();"
     ]
   },
-  {
+  "Deque front and back access": {
     "prefix": "cpdeqaccess",
     "description": "Access front/back in deque",
     "category": "deque",
@@ -98,7 +98,7 @@
       "${3:backVal} = ${2:dq}.back();"
     ]
   },
-  {
+  "Deque not empty check": {
     "prefix": "cpdeqnempty",
     "description": "Check if deque is not empty",
     "category": "deque",
@@ -108,4 +108,4 @@
       "}"
     ]
   }
-]
+}

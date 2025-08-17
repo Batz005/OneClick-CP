@@ -1,5 +1,5 @@
-[
-  {
+{
+  "Two Pointer - Standard Template": {
     "prefix": "cpptptemplate",
     "description": "Standard Two Pointer Template",
     "category": "Two Pointer",
@@ -15,7 +15,7 @@
       "}"
     ]
   },
-  {
+  "Two Pointer - At Most K Unique Elements": {
     "prefix": "cpptpkuniq",
     "description": "Longest subarray with at most k unique elements",
     "category": "Two Pointer",
@@ -33,7 +33,7 @@
       "}"
     ]
   },
-  {
+  "Two Pointer - Check Palindrome in String": {
     "prefix": "cpptppal",
     "description": "Check if string is palindrome using two pointers",
     "category": "Two Pointer",
@@ -47,7 +47,7 @@
       "}"
     ]
   },
-  {
+  "Two Pointer - Target Sum in Sorted Array": {
     "prefix": "cpptpsum",
     "description": "Two Pointer on Sorted Array to Find Pair with Target Sum",
     "category": "Two Pointer",
@@ -66,4 +66,4 @@
       "}"
     ]
   }
-]
+}

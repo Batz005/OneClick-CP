@@ -1,40 +1,40 @@
-[
-    {
+{
+  "Singly Linked List Node Structure": {
     "prefix": "cpllstruct",
     "description": "Singly Linked List Node Structure",
     "category": "Linked List",
     "body": [
-        "struct Node {",
-        "    int data;",
-        "    Node* next;",
-        "    Node(int val) : data(val), next(nullptr) {}",
-        "};"
+      "struct Node {",
+      "    int data;",
+      "    Node* next;",
+      "    Node(int val) : data(val), next(nullptr) {}",
+      "};"
     ]
-    },
-    {
+  },
+  "Insert at beginning of linked list": {
     "prefix": "cpllinsert",
     "description": "Insert at beginning of linked list",
     "category": "Linked List",
     "body": [
-        "Node* insert(Node* head, int val) {",
-        "    Node* newNode = new Node(val);",
-        "    newNode->next = head;",
-        "    return newNode;",
-        "}"
+      "Node* insert(Node* head, int val) {",
+      "    Node* newNode = new Node(val);",
+      "    newNode->next = head;",
+      "    return newNode;",
+      "}"
     ]
-    },
-    {
+  },
+  "Print all nodes in linked list": {
     "prefix": "cpllprint",
     "description": "Print all nodes in linked list",
     "category": "Linked List",
     "body": [
-        "void printList(Node* head) {",
-        "    while (head) {",
-        "        cout << head->data << ' ';",
-        "        head = head->next;",
-        "    }",
-        "    cout << endl;",
-        "}"
+      "void printList(Node* head) {",
+      "    while (head) {",
+      "        cout << head->data << ' ';",
+      "        head = head->next;",
+      "    }",
+      "    cout << endl;",
+      "}"
     ]
-    }
-]
+  }
+}

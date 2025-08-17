@@ -1,5 +1,5 @@
-[
-  {
+{
+  "Binary Search on Sorted Array": {
     "prefix": "cpbin",
     "description": "Classic Binary Search on sorted array",
     "category": "Searching",
@@ -17,7 +17,7 @@
       "}"
     ]
   },
-  {
+  "Lower Bound Binary Search": {
     "prefix": "cpbinlb",
     "description": "Lower Bound using Binary Search",
     "category": "Searching",
@@ -33,7 +33,7 @@
       "$0 // 'low' is the lower bound index"
     ]
   },
-  {
+  "Upper Bound Binary Search": {
     "prefix": "cpbinub",
     "description": "Upper Bound using Binary Search",
     "category": "Searching",
@@ -49,7 +49,7 @@
       "$0 // 'low' is the upper bound index"
     ]
   },
-  {
+  "First Occurrence in Sorted Array": {
     "prefix": "cpbinfirst",
     "description": "Find first occurrence of a value",
     "category": "Searching",
@@ -68,7 +68,7 @@
       "$0 // 'ans' contains index of first occurrence"
     ]
   },
-  {
+  "Last Occurrence in Sorted Array": {
     "prefix": "cpbinlast",
     "description": "Find last occurrence of a value",
     "category": "Searching",
@@ -87,7 +87,7 @@
       "$0 // 'ans' contains index of last occurrence"
     ]
   },
-  {
+  "Binary Search in Rotated Sorted Array": {
     "prefix": "cprotsrch",
     "description": "Search in rotated sorted array",
     "category": "Searching",
@@ -111,7 +111,7 @@
       "}"
     ]
   },
-  {
+  "Binary Search Integer Square Root": {
     "prefix": "cpbinsqrt",
     "description": "Binary search for square root (integer part)",
     "category": "Searching",
@@ -129,7 +129,7 @@
       "$0 // ans contains integer sqrt(n)"
     ]
   },
-  {
+  "Binary Search for Kth Value (Custom Condition)": {
     "prefix": "cpbinkth",
     "description": "Binary search to find K-th smallest (in custom conditions)",
     "category": "Searching",
@@ -145,4 +145,4 @@
       "$0 // low is the kth answer based on check()"
     ]
   }
-]
+}

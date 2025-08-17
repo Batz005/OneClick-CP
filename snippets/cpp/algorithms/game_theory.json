@@ -1,5 +1,5 @@
-[
-  {
+{
+  "Game - Grundy Number (Recursive)": {
     "prefix": "cpgamegrundy",
     "description": "Grundy number computation (basic recursive)",
     "category": "Game Theory",
@@ -16,7 +16,7 @@
       "}"
     ]
   },
-  {
+  "Game - Nim XOR": {
     "prefix": "cpgamenim",
     "description": "Nim Game (XOR of all piles)",
     "category": "Game Theory",
@@ -30,7 +30,7 @@
       "    cout << \"First player wins\\n\";"
     ]
   },
-  {
+  "Game - MEX Calculation": {
     "prefix": "cpgamemex",
     "description": "Calculate mex (minimum excludant) from a set",
     "category": "Game Theory",
@@ -42,7 +42,7 @@
       "}"
     ]
   },
-  {
+  "Game - Grundy With Move Options": {
     "prefix": "cpgamemoveoptions",
     "description": "Grundy Number with custom move options",
     "category": "Game Theory",
@@ -61,7 +61,7 @@
       "}"
     ]
   },
-  {
+  "Game - Sprague-Grundy XOR Multi-Game": {
     "prefix": "cpgamesprague",
     "description": "Sprague-Grundy Theorem for multi-game",
     "category": "Game Theory",
@@ -77,7 +77,7 @@
       "    cout << \"First player wins\\n\";"
     ]
   },
-  {
+  "Game - Grundy Table (Bottom-Up)": {
     "prefix": "cpgamesgtable",
     "description": "Grundy Table for multiple positions (bottom-up)",
     "category": "Game Theory",
@@ -94,7 +94,7 @@
       "}"
     ]
   },
-  {
+  "Game - Check Winning Position": {
     "prefix": "cpgamewinningposition",
     "description": "Check if position is winning using Grundy number",
     "category": "Game Theory",
@@ -104,4 +104,4 @@
       "else cout << \"Winning position\\n\";"
     ]
   }
-]
+}

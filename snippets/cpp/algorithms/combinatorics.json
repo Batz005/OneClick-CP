@@ -1,5 +1,5 @@
-[
-  {
+{
+  "Combinatorics - Next Permutation (STL)": {
     "prefix": "cpcombpermute",
     "description": "Next permutation using STL",
     "category": "Combinatorics",
@@ -10,7 +10,7 @@
       "} while (next_permutation($1.begin(), $1.end()));"
     ]
   },
-  {
+  "Combinatorics - nCr % MOD (using factorials)": {
     "prefix": "cpcombcombmod",
     "description": "nCr % MOD using factorials",
     "category": "Combinatorics",
@@ -43,7 +43,7 @@
       "}"
     ]
   },
-  {
+  "Combinatorics - Modular Inverse (Fermat's Theorem)": {
     "prefix": "cpcombmodinv",
     "description": "Modular inverse using Fermat's Little Theorem",
     "category": "Combinatorics",
@@ -59,7 +59,7 @@
       "}"
     ]
   },
-  {
+  "Combinatorics - Precompute Factorials + Inverses": {
     "prefix": "cpcombfactpre",
     "description": "Precompute factorials and inverse factorials",
     "category": "Combinatorics",
@@ -86,7 +86,7 @@
       "}"
     ]
   },
-  {
+  "Combinatorics - Stars and Bars": {
     "prefix": "cpcombstarsbars",
     "description": "Stars and Bars: ways to split n into k non-negative integers",
     "category": "Combinatorics",
@@ -97,7 +97,7 @@
       "}"
     ]
   },
-  {
+  "Combinatorics - Derangement D(n)": {
     "prefix": "cpcombderangement",
     "description": "Derangement formula D(n)",
     "category": "Combinatorics",
@@ -108,7 +108,7 @@
       "    derange[i] = (i - 1) * (derange[i - 1] + derange[i - 2]) % MOD;"
     ]
   },
-  {
+  "Combinatorics - Permutations with Repetition (n^k)": {
     "prefix": "cpcombpermrep",
     "description": "n^k permutations with repetition",
     "category": "Combinatorics",
@@ -118,7 +118,7 @@
       "}"
     ]
   },
-  {
+  "Combinatorics - Bell Numbers (set partitions)": {
     "prefix": "cpcombbell",
     "description": "Bell numbers (number of ways to partition a set)",
     "category": "Combinatorics",
@@ -133,4 +133,4 @@
       "}"
     ]
   }
-]
+}

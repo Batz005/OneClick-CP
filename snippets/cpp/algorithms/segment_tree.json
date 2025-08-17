@@ -1,5 +1,5 @@
-[
-  {
+{
+  "Build Segment Tree (Recursive)": {
     "prefix": "cpsegbuild",
     "description": "Build Segment Tree (Recursive)",
     "category": "Segment Trees",
@@ -16,7 +16,7 @@
       "}"
     ]
   },
-  {
+  "Range Query on Segment Tree (Recursive)": {
     "prefix": "cpsegquery",
     "description": "Range Query on Segment Tree (Recursive)",
     "category": "Segment Trees",
@@ -30,7 +30,7 @@
       "}"
     ]
   },
-  {
+  "Point Update on Segment Tree (Recursive)": {
     "prefix": "cpsegupdate",
     "description": "Point Update on Segment Tree (Recursive)",
     "category": "Segment Trees",
@@ -47,7 +47,7 @@
       "}"
     ]
   },
-  {
+  "Segment Tree with Lazy Propagation": {
     "prefix": "cpseglazy",
     "description": "Segment Tree with Lazy Propagation (Range Update + Query)",
     "category": "Segment Trees",
@@ -87,7 +87,7 @@
       "}"
     ]
   },
-  {
+  "Iterative Segment Tree (Build + Query + Update)": {
     "prefix": "cpsegiter",
     "description": "Iterative Segment Tree (Build + Query + Update)",
     "category": "Segment Trees",
@@ -115,7 +115,7 @@
       "}"
     ]
   },
-  {
+  "Generic Merge Segment Tree": {
     "prefix": "cpsegmerge",
     "description": "Generic Merge Segment Tree (custom merge function)",
     "category": "Segment Trees",
@@ -135,4 +135,4 @@
       "}"
     ]
   }
-]
+}

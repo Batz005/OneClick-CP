@@ -1,5 +1,5 @@
-[
-  {
+{
+  "Basic Recursion Template": {
     "prefix": "cprecbase",
     "description": "Basic recursive function template",
     "category": "Recursion",
@@ -11,7 +11,7 @@
       "}"
     ]
   },
-  {
+  "Recursive Factorial": {
     "prefix": "cprecfact",
     "description": "Factorial using recursion",
     "category": "Recursion",
@@ -22,7 +22,7 @@
       "}"
     ]
   },
-  {
+  "Recursive Fibonacci": {
     "prefix": "cprecfib",
     "description": "Fibonacci using recursion",
     "category": "Recursion",
@@ -33,7 +33,7 @@
       "}"
     ]
   },
-  {
+  "Generate Combinations": {
     "prefix": "cpreccomb",
     "description": "Generate combinations",
     "category": "Recursion",
@@ -51,7 +51,7 @@
       "}"
     ]
   },
-  {
+  "Generate Permutations": {
     "prefix": "cprecperm",
     "description": "Generate permutations",
     "category": "Recursion",
@@ -69,7 +69,7 @@
       "}"
     ]
   },
-  {
+  "Generate Subsets": {
     "prefix": "cprecsubsets",
     "description": "Generate all subsets",
     "category": "Recursion",
@@ -86,7 +86,7 @@
       "}"
     ]
   },
-  {
+  "Recursive Linear Search": {
     "prefix": "cprecsearch",
     "description": "Recursive linear search",
     "category": "Recursion",
@@ -98,7 +98,7 @@
       "}"
     ]
   },
-  {
+  "Recursion with Global Value": {
     "prefix": "cprecglobal",
     "description": "Recursion with global max/min",
     "category": "Recursion",
@@ -111,7 +111,7 @@
       "}"
     ]
   },
-  {
+  "Reverse String Recursively": {
     "prefix": "cprecstringrev",
     "description": "Reverse a string using recursion",
     "category": "Recursion",
@@ -123,7 +123,7 @@
       "}"
     ]
   },
-  {
+  "Generate Binary Strings": {
     "prefix": "cprecbinstr",
     "description": "Generate all binary strings of length n",
     "category": "Recursion",
@@ -138,4 +138,4 @@
       "}"
     ]
   }
-]
+}

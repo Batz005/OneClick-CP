@@ -1,5 +1,5 @@
-[
-  {
+{
+  "1D Suffix Sum Array": {
     "prefix": "cppsuf1d",
     "description": "1D Suffix Sum Array",
     "category": "Suffix Sum",
@@ -11,7 +11,7 @@
       "}"
     ]
   },
-  {
+  "1D Suffix Sum Query": {
     "prefix": "cppsuf1dq",
     "description": "1D Range Sum Query using Suffix Sum",
     "category": "Suffix Sum",
@@ -20,7 +20,7 @@
       "int sum = suffix[l] - (r + 1 < n ? suffix[r + 1] : 0);"
     ]
   },
-  {
+  "2D Suffix Sum Matrix": {
     "prefix": "cppsuf2d",
     "description": "2D Suffix Sum Matrix",
     "category": "Suffix Sum",
@@ -36,4 +36,4 @@
       "}"
     ]
   }
-]
+}

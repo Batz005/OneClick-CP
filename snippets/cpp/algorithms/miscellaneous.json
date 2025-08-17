@@ -1,5 +1,5 @@
-[
-  {
+{
+  "Modular Multiplication (64-bit safe)": {
     "prefix": "cpmismodmul",
     "description": "Modular Multiplication without overflow (64-bit safe)",
     "category": "Miscellaneous",
@@ -16,7 +16,7 @@
       "}"
     ]
   },
-  {
+  "Random Number in Range": {
     "prefix": "cpmisrandrange",
     "description": "Generate random number in range [l, r]",
     "category": "Miscellaneous",
@@ -27,7 +27,7 @@
       "}"
     ]
   },
-  {
+  "Ceil Division": {
     "prefix": "cpmisceildiv",
     "description": "Ceil division of two integers",
     "category": "Miscellaneous",
@@ -37,7 +37,7 @@
       "}"
     ]
   },
-  {
+  "Fast Modular Exponentiation": {
     "prefix": "cpmisfastpow",
     "description": "Fast modular exponentiation",
     "category": "Miscellaneous",
@@ -54,7 +54,7 @@
       "}"
     ]
   },
-  {
+  "Count Set Bits": {
     "prefix": "cpmisbitcount",
     "description": "Count number of set bits in integer",
     "category": "Miscellaneous",
@@ -64,7 +64,7 @@
       "}"
     ]
   },
-  {
+  "Floor of Log2": {
     "prefix": "cpmislog2floor",
     "description": "Compute floor(log2(x))",
     "category": "Miscellaneous",
@@ -74,7 +74,7 @@
       "}"
     ]
   },
-  {
+  "Generate Unique ID Using __COUNTER__": {
     "prefix": "cpmisuniqid",
     "description": "Generate unique ID/hash using __COUNTER__",
     "category": "Miscellaneous",
@@ -84,7 +84,7 @@
       "#define CONCAT_INNER(a, b) a##b"
     ]
   },
-  {
+  "Benchmark Code Execution Time": {
     "prefix": "cpmistimefn",
     "description": "Timer utility for benchmarking functions",
     "category": "Miscellaneous",
@@ -96,7 +96,7 @@
       "cout << \"Time: \" << chrono::duration_cast<chrono::milliseconds>(end - start).count() << \" ms\\n\";"
     ]
   },
-  {
+  "Least Significant Bit": {
     "prefix": "cpmislsb",
     "description": "Get least significant bit",
     "category": "Miscellaneous",
@@ -106,7 +106,7 @@
       "}"
     ]
   },
-  {
+  "Leading and Trailing Zeros": {
     "prefix": "cpmisclzctz",
     "description": "Count leading/trailing zeros",
     "category": "Miscellaneous",
@@ -115,7 +115,7 @@
       "int trailingZeros = __builtin_ctz(x);"
     ]
   },
-  {
+  "Reverse Bits of 32-bit Integer": {
     "prefix": "cpmisreversebits",
     "description": "Reverse bits of a 32-bit integer",
     "category": "Miscellaneous",
@@ -131,7 +131,7 @@
       "}"
     ]
   },
-  {
+  "Next Permutation (Lexicographically)": {
     "prefix": "cpmisnextperm",
     "description": "Next permutation (lexicographically)",
     "category": "Miscellaneous",
@@ -142,4 +142,4 @@
       "} while (next_permutation(v.begin(), v.end()));"
     ]
   }
-]
+}

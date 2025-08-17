@@ -1,5 +1,5 @@
-[
-  {
+{
+  "Backtracking - Permutations of an array": {
     "prefix": "cppbtpermute",
     "description": "Permutations of an array",
     "category": "Backtracking",
@@ -17,7 +17,7 @@
       "}"
     ]
   },
-  {
+  "Backtracking - Combinations of k elements": {
     "prefix": "cppbtcombination",
     "description": "Combinations of k elements",
     "category": "Backtracking",
@@ -35,7 +35,7 @@
       "}"
     ]
   },
-  {
+  "Backtracking - All subsets of a set": {
     "prefix": "cppbtsubsets",
     "description": "All subsets of a set",
     "category": "Backtracking",
@@ -52,7 +52,7 @@
       "}"
     ]
   },
-  {
+  "Backtracking - N-Queens problem": {
     "prefix": "cppbtnqueens",
     "description": "N-Queens Problem",
     "category": "Backtracking",
@@ -81,7 +81,7 @@
       "}"
     ]
   },
-  {
+  "Backtracking - Solve Sudoku": {
     "prefix": "cppbtsudoku",
     "description": "Solve Sudoku (Backtracking)",
     "category": "Backtracking",
@@ -115,7 +115,7 @@
       "}"
     ]
   },
-  {
+  "Backtracking - 0/1 Knapsack": {
     "prefix": "cppbtknapsack",
     "description": "0/1 Knapsack using backtracking",
     "category": "Backtracking",
@@ -129,4 +129,4 @@
       "}"
     ]
   }
-]
+}

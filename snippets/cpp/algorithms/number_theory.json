@@ -1,5 +1,5 @@
-[
-  {
+{
+  "GCD (Euclidean Algorithm)": {
     "prefix": "cpnumgcd",
     "description": "Calculate GCD using Euclidean Algorithm",
     "category": "Number Theory",
@@ -14,26 +14,26 @@
       "}"
     ]
   },
-    {
+  "LCM (via Euclidean GCD)": {
     "prefix": "cpnumlcm",
     "description": "Calculate LCM using Euclidean GCD (self-contained)",
     "category": "Number Theory",
     "body": [
-        "int gcd(int a, int b) {",
-        "    while (b != 0) {",
-        "        int temp = b;",
-        "        b = a % b;",
-        "        a = temp;",
-        "    }",
-        "    return a;",
-        "}",
-        "",
-        "int lcm(int a, int b) {",
-        "    return (a / gcd(a, b)) * b;",
-        "}"
+      "int gcd(int a, int b) {",
+      "    while (b != 0) {",
+      "        int temp = b;",
+      "        b = a % b;",
+      "        a = temp;",
+      "    }",
+      "    return a;",
+      "}",
+      "",
+      "int lcm(int a, int b) {",
+      "    return (a / gcd(a, b)) * b;",
+      "}"
     ]
-    },
-  {
+  },
+  "Extended Euclidean Algorithm": {
     "prefix": "cpnumextgcd",
     "description": "Extended Euclidean Algorithm",
     "category": "Number Theory",
@@ -48,7 +48,7 @@
       "}"
     ]
   },
-  {
+  "Modular Inverse (Extended Euclidean)": {
     "prefix": "cpnummodinv",
     "description": "Modular inverse using Extended Euclidean",
     "category": "Number Theory",
@@ -61,7 +61,7 @@
       "}"
     ]
   },
-  {
+  "Chinese Remainder Theorem (CRT)": {
     "prefix": "cpnumcrt",
     "description": "Chinese Remainder Theorem",
     "category": "Number Theory",
@@ -82,7 +82,7 @@
       "}"
     ]
   },
-  {
+  "Modular Exponentiation (iterative)": {
     "prefix": "cpnummodexp",
     "description": "Modular exponentiation (iterative)",
     "category": "Number Theory",
@@ -100,7 +100,7 @@
       "}"
     ]
   },
-  {
+  "Sieve with Smallest Prime Factor (SPF)": {
     "prefix": "cpnumspf",
     "description": "Sieve of Eratosthenes with SPF (smallest prime factor)",
     "category": "Number Theory",
@@ -119,7 +119,7 @@
       "}"
     ]
   },
-  {
+  "Prime Factorization using SPF": {
     "prefix": "cpnumfactorize",
     "description": "Prime factorization using SPF",
     "category": "Number Theory",
@@ -134,7 +134,7 @@
       "}"
     ]
   },
-  {
+  "Precompute Modular Inverses (1 to n)": {
     "prefix": "cpnummodinvrange",
     "description": "Precompute modular inverses from 1 to n",
     "category": "Number Theory",
@@ -148,7 +148,7 @@
       "}"
     ]
   },
-  {
+  "Euler's Totient Function (phi)": {
     "prefix": "cpnumphi",
     "description": "Euler's Totient Function (phi)",
     "category": "Number Theory",
@@ -166,4 +166,4 @@
       "}"
     ]
   }
-]
+}

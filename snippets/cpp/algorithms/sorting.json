@@ -1,5 +1,5 @@
-[
-  {
+{
+  "Sort Vector Ascending": {
     "prefix": "cpsortvec",
     "description": "Sort a vector in ascending order using std::sort",
     "category": "Sorting",
@@ -7,7 +7,7 @@
       "sort(${1:v}.begin(), ${1:v}.end());"
     ]
   },
-  {
+  "Sort Vector Descending": {
     "prefix": "cpsortdesc",
     "description": "Sort a vector in descending order using greater<>",
     "category": "Sorting",
@@ -15,7 +15,7 @@
       "sort(${1:v}.begin(), ${1:v}.end(), greater<>());"
     ]
   },
-  {
+  "Sort Pairs by First Element": {
     "prefix": "cpsortpairfirst",
     "description": "Sort vector of pairs by first element (ascending)",
     "category": "Sorting",
@@ -23,7 +23,7 @@
       "sort(${1:v}.begin(), ${1:v}.end());"
     ]
   },
-  {
+  "Sort Pairs by Second Element": {
     "prefix": "cpsortpairsecond",
     "description": "Sort vector of pairs by second element",
     "category": "Sorting",
@@ -33,7 +33,7 @@
       "});"
     ]
   },
-  {
+  "Sort Vector of Vectors by Index": {
     "prefix": "cpsortvecvec",
     "description": "Sort vector of vectors by specific index",
     "category": "Sorting",
@@ -43,7 +43,7 @@
       "});"
     ]
   },
-  {
+  "Custom Comparator Sort": {
     "prefix": "cpsortcustom",
     "description": "Sort with custom comparator function",
     "category": "Sorting",
@@ -54,7 +54,7 @@
       "sort(${3:v}.begin(), ${3:v}.end(), cmp);"
     ]
   },
-  {
+  "Stable Sort with Comparator": {
     "prefix": "cpstablesort",
     "description": "Stable sort with custom comparator",
     "category": "Sorting",
@@ -64,7 +64,7 @@
       "});"
     ]
   },
-  {
+  "Sort String Characters": {
     "prefix": "cpsortstring",
     "description": "Sort characters in string",
     "category": "Sorting",
@@ -72,7 +72,7 @@
       "sort(${1:s}.begin(), ${1:s}.end());"
     ]
   },
-  {
+  "Counting Sort for Integers": {
     "prefix": "cpcountsort",
     "description": "Counting sort for small integer range",
     "category": "Sorting",
@@ -85,7 +85,7 @@
       "        sorted.push_back(i);"
     ]
   },
-  {
+  "Merge Sort (Recursive)": {
     "prefix": "cpmergesort",
     "description": "Recursive Merge Sort (vector)",
     "category": "Sorting",
@@ -107,7 +107,7 @@
       "}"
     ]
   },
-  {
+  "Quick Sort (Recursive)": {
     "prefix": "cpquicksort",
     "description": "Recursive Quick Sort (vector)",
     "category": "Sorting",
@@ -125,4 +125,4 @@
       "}"
     ]
   }
-]
+}
