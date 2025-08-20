@@ -309,23 +309,57 @@ dialog button:hover {
 }
 
 /*===Snippets===*/
+/* Better Accordion Buttons */
 .accordion {
-  background-color: #444;
-  color: white;
-  cursor: pointer;
-  padding: 10px;
-  border: none;
-  width: 100%;
-  text-align: left;
-  outline: none;
+    background-color: #2d2d30;
+    color: #ffffff;
+    cursor: pointer;
+    padding: 0.6em 1em;
+    width: 100%;
+    text-align: left;
+    border: none;
+    outline: none;
+    transition: background-color 0.2s ease;
+    font-weight: 600;
+    border-bottom: 1px solid #444;
+}
+.accordion:hover,
+.accordion.active {
+    background-color: #3c3c3f;
 }
 
+/* Panels inside accordion */
 .panel {
-  padding-left: 10px;
-  display: none;
-  flex-direction: column;
+    display: none;
+    flex-direction: column;
+    padding: 0.5em 1em;
+    background-color: #1e1e1e;
+    max-height: 300px;
+    overflow-y: auto;
+    border-left: 2px solid #007acc;
 }
 
-.accordion.active + .panel {
-  display: flex;
+/* Snippet Items */
+.snippetItem {
+    padding: 0.4em 0.8em;
+    margin: 0.3em 0;
+    background-color: #252526;
+    color: #d4d4d4;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.95em;
+    transition: background-color 0.2s ease;
+}
+.snippetItem:hover {
+    background-color: #007acc;
+    color: white;
+}
+
+/* Scrollbars (optional but helpful) */
+.panel::-webkit-scrollbar {
+    width: 8px;
+}
+.panel::-webkit-scrollbar-thumb {
+    background-color: #555;
+    border-radius: 4px;
 }

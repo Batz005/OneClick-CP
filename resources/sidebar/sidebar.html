@@ -84,8 +84,8 @@
 
             <!-- Language Selection -->
             <div style="margin-bottom: 0.5em;">
-                <label for="languageSelect">Choose a language:</label>
-                <select id="languageSelect">
+                <label for="languagePicker">Choose a language:</label>
+                <select id="languagePicker" onclick="onSnippetLanguageSelected()">
                     <option value="cpp">C++</option>
                     <option value="python">Python</option>
                     <option value="java">Java</option>
@@ -94,35 +94,34 @@
 
             <!-- Accordion for Snippet Categories -->
             <button class="accordion">Snippets</button>
-            <div class="panel SnippetSelection">
+            <div class="panel snippetSelection">
                 <!-- Data Structures -->
-                <button class="accordion">Data Structures</button>
-                <div class="panel">
-                    <button value="array" data-category="ds" data-subcategory="array" data-target="array-snippet-list" onclick="loadSnippetsFromCategory(event)">Array</button>
-                        <div id="array-snippet-list" style="margin-top: 1em;"></div>
-                    <button value="linkedlist" data-category="ds" data-subcategory="linkedlist" data-target="linkedList-snippet-list" onclick="loadSnippetsFromCategory(event)">Linked List</button>
-                        <div id="linkedList-snippet-list" style="margin-top: 1em;"></div>
-                    <button value="tree" data-category="ds" data-subcategory="tree" data-target="tree-snippet-list" onclick="loadSnippetsFromCategory(event)">Tree</button>
-                        <div id="tree-snippet-list" style="margin-top: 1em;"></div>
+                <div class="data_structures">
+                    <button class="accordion" value="data_structures">Data Structures</button>
+                    <div class="dsPanel panel"></div>
                 </div>
 
                 <!-- Algorithms -->
-                <button class="accordion">Algorithms</button>
-                <div class="panel">
-                    <button value="sort" data-category="algo" data-subcategory="sort" data-target="sort-snippet-list" onclick="loadSnippetsFromCategory(event)">Sorting</button>
-                        <div id="sort-snippet-list" style="margin-top: 1em;"></div>
-                    <button value="search" data-category="algo" data-subcategory="search" data-target="search-snippet-list" onclick="loadSnippetsFromCategory(event)">Searching</button>
-                        <div id="search-snippet-list" style="margin-top: 1em;"></div>
-                    <button value="dp" data-category="algo" data-subcategory="dp" data-target="dp-snippet-list" onclick="loadSnippetsFromCategory(event)">Dynamic Programming</button>
-                        <div id="dp-snippet-list" style="margin-top: 1em;"></div>
+                <div class="algorithms">
+                    <button class="accordion" value="algorithms">Algorithms</button>
+                    <div class="algoPanel panel"></div>
+                </div>
+
+                <!-- Miscellaneous -->
+                <div class="misc">
+                    <button class="accordion" value="misc">Miscellaneous</button>
+                    <div class="miscPanel panel"></div>
                 </div>
 
                 <!-- Custom -->
-                <button class="accordion">Custom</button>
-                <div class="panel">
-                    <button value="custom" data-category="custom" data-subcategory="all" onclick="loadSnippetsFromCategory(event)">All Custom Snippets</button>
-                        <div id="snippetListContainer" style="margin-top: 1em;"></div>
+                <div class="custom">
+                    <button class="accordion" value="custom">Custom</button>
+                    <div class="customPanel panel">
+                        <button value="custom" data-category="custom" data-subcategory="all" onclick="loadSnippetsFromCategory(event)">All Custom Snippets</button>
+                            <div id="snippetListContainer" style="margin-top: 1em;"></div>
+                    </div>
                 </div>
+
             </div>
 
 
@@ -181,12 +180,14 @@
         const vscode = acquireVsCodeApi();
         let selectedTemplate = 'default';
 
-        document.querySelectorAll(".accordion").forEach(btn => {
-            btn.addEventListener("click", () => {
-                btn.classList.toggle("active");
-                const panel = btn.nextElementSibling;
-                panel.style.display = panel.style.display === "flex" ? "none" : "flex";
-            });
+        document.addEventListener("click", function (e) {
+            if (e.target && e.target.classList.contains("accordion")) {
+                e.target.classList.toggle("active");
+                const panel = e.target.nextElementSibling;
+                if (panel && panel.classList.contains("panel")) {
+                    panel.style.display = panel.style.display === "flex" ? "none" : "flex";
+                }
+            }
         });
         document.getElementById('templatePicker').addEventListener('change', (e) => {
             selectedTemplate = e.target.value;
@@ -237,6 +238,7 @@
         }
         // Update delete button enable/disable state
         document.getElementById('templatePicker').addEventListener('change', updateDeleteButton);
+        
         function updateDeleteButton() {
             const picker = document.getElementById('templatePicker');
             const btn = document.getElementById('deleteTemplateBtn');
@@ -266,6 +268,74 @@
             });
             dialog.close();
         }
+
+        
+
+        function addTemplateToPicker(name) {
+            const picker = document.getElementById('templatePicker');
+            if ([...picker.options].some(opt => opt.value === name)) return;
+            const opt = document.createElement('option');
+            opt.value = name;
+            opt.textContent = name;
+            picker.appendChild(opt);
+        }
+
+        function removeTemplateFromPicker(name) {
+            const picker = document.getElementById('templatePicker');
+            for (let i = 0; i < picker.options.length; i++) {
+                if (picker.options[i].value === name) {
+                    picker.remove(i);
+                    break;
+                }
+            }
+            selectedTemplate = picker.value;
+            updateDeleteButton();
+        }
+
+        function onSnippetLanguageSelected(event) {
+            const selectedLanguage = document.getElementById('languagePicker').value;
+            vscode.postMessage({
+                command: 'getSnippetCategories',
+                selectedLanguage
+            })
+
+        }
+
+        function createCategoryButtons(categoryList, parentElement, type) {
+            parentElement.innerHTML = ''; // clear existing
+            categoryList.forEach(cat => {
+                const div = document.createElement('div');
+
+                div.className = `${type}-${cat}`;
+                
+                const btn = document.createElement('button');
+                btn.textContent = cat;
+                btn.dataset.category = type;
+                btn.dataset.subcategory = cat;
+                btn.className = 'accordion';
+                btn.onclick = loadSnippetsFromCategory;
+                
+                const listdiv = document.createElement('div');
+                listdiv.className = `panel ${cat}List`;
+                div.appendChild(btn);
+                div.appendChild(listdiv);
+                parentElement.appendChild(div);
+            });
+        }
+
+        function loadSnippetsFromCategory(event) {
+            const category = event.target.getAttribute('data-category');
+            const subCategory = event.target.getAttribute('data-subcategory');
+            const language = document.getElementById('languagePicker').value;
+
+            vscode.postMessage({
+                command: 'loadSnippetsFromCategory',
+                language,
+                category,
+                subCategory
+            });
+        }
+
 
         // Listen for messages from extension to update template picker
         window.addEventListener('message', event => {
@@ -301,50 +371,44 @@
                     }
                 });
             }
-            if (msg.command === 'initSnippetList'){
+            if (msg.command === 'loadSnippetCategories') {
+                console.log('loadCategories');
+                const { categories, language } = msg;
+                console.log(categories);
+                const dsPanel = document.querySelector('.snippetSelection .dsPanel');
+                const algoPanel = document.querySelector('.snippetSelection .algoPanel');
+                const miscPanel = document.querySelector('.snippetSelection .miscPanel');
+                const customPanel = document.querySelector('.snippetSelection .customPanel');
 
+                createCategoryButtons(categories.dataStructures, dsPanel, 'data_structures');
+                createCategoryButtons(categories.algorithms, algoPanel, 'algorithms');
+                createCategoryButtons(categories.misc, miscPanel, 'misc');
+                createCategoryButtons(categories.custom, customPanel, 'custom');
             }
-            if (msg.command === 'initSnippetCategory'){
+            if (msg.command === 'snippetsForCategory') {
+                console.log('snippetsForCategory', msg);
+                
+                const containers = document.querySelectorAll(`.${msg.category}-${msg.subCategory} .${msg.subCategory}List`);
+                if (!containers || containers.length === 0) return;
+                containers[0].innerHTML = "";
+                Object.values(msg.snippets).forEach(snippet => {
+                    const btn = document.createElement('button');
+                    btn.className = 'snippetItem';
+                    btn.textContent = snippet.prefix;
+                    btn.title = snippet.description;
 
+                    btn.addEventListener('click', () => {
+                        vscode.postMessage({
+                            command: 'insertSnippet',
+                            snippet: snippet.body.join('\n')
+                        });
+                    });
+
+                    containers[0].appendChild(btn);
+                });
             }
 
         });
-
-        function addTemplateToPicker(name) {
-            const picker = document.getElementById('templatePicker');
-            if ([...picker.options].some(opt => opt.value === name)) return;
-            const opt = document.createElement('option');
-            opt.value = name;
-            opt.textContent = name;
-            picker.appendChild(opt);
-        }
-
-        function removeTemplateFromPicker(name) {
-            const picker = document.getElementById('templatePicker');
-            for (let i = 0; i < picker.options.length; i++) {
-                if (picker.options[i].value === name) {
-                    picker.remove(i);
-                    break;
-                }
-            }
-            selectedTemplate = picker.value;
-            updateDeleteButton();
-        }
-
-        function loadSnippetsFromCategory(event) {
-            const category = event.target.getAttribute('data-category');
-            const subcategory = event.target.getAttribute('data-subcategory');
-            const language = document.getElementById('languageSelect').value;
-            const targetId = event.target.getAttribute('data-target');
-
-            vscode.postMessage({
-                command: 'loadSnippetsFromCategory',
-                language,
-                category,
-                subcategory,
-                targetId
-            });
-        }
     </script>
     </body>
 </html>
