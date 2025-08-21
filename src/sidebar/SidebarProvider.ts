@@ -5,6 +5,7 @@ import * as path from 'path';
 export class SidebarProvider implements vscode.WebviewViewProvider {
   private _view?: vscode.WebviewView;
   private _snippetsPath: string;
+  private previewDecorations: Map<string, vscode.TextEditorDecorationType> = new Map();
   private sendSnippetCategoriesToWebView(language: string){
       const langDir = path.join(this._snippetsPath, language);
       console.log(langDir);
@@ -128,7 +129,62 @@ export class SidebarProvider implements vscode.WebviewViewProvider {
             const snippet = new vscode.SnippetString(message.snippet);
             editor.insertSnippet(snippet); // 🔥 inserts at cursor
           }
-        } 
+          break;
+        }
+        case 'previewSnippet': {
+          const editor = vscode.window.activeTextEditor;
+          if (!editor) return;
+
+          const position = editor.selection.active;
+          const oldDecoration = this.previewDecorations.get(message.previewId);
+          oldDecoration?.dispose();
+
+          const snippetLines = message.snippet;
+          if (snippetLines.length === 0) return;
+
+          const decorationType = vscode.window.createTextEditorDecorationType({
+            after: {
+              contentText: '', // no text here
+            },
+            isWholeLine: true,
+          });
+
+          const decorationRanges: vscode.DecorationOptions[] = snippetLines.map((line: string, idx: number) => {
+            const lineNumber = position.line + idx;
+            return {
+              range: new vscode.Range(lineNumber, 0, lineNumber, 0),
+              renderOptions: idx === 0
+                ? {
+                    after: {
+                      contentText: line,
+                      color: '#888',
+                      fontStyle: 'italic',
+                      margin: '0 0 0 1em'
+                    }
+                  }
+                : {
+                    before: {
+                      contentText: line,
+                      color: '#888',
+                      fontStyle: 'italic',
+                      margin: '0 0 0 1em'
+                    }
+                  }
+            };
+          });
+
+          editor.setDecorations(decorationType, decorationRanges);
+          this.previewDecorations.set(message.previewId, decorationType);
+          break;
+        }
+        case 'clearPreview': {
+          const editor = vscode.window.activeTextEditor;
+          if (!editor || !this.previewDecorations.has(message.previewId)) return;
+          const decoration = this.previewDecorations.get(message.previewId);
+          decoration?.dispose();
+          this.previewDecorations.delete(message.previewId);
+          break;
+        }
       }
     });
   }

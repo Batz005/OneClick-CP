@@ -13,78 +13,67 @@
         <p class="subtitle">Your one-click DSA & CP starter kit</p>
     </div>
     <div class="sidebar-container">
+
         <!-- ===================== -->
-        <!-- Template Actions      -->
+        <!-- Template Section      -->
         <!-- ===================== -->
-        <label for="templatePicker" class="template-label">Choose Template:</label>
-        <div class="template-picker-row">
-            <select id="templatePicker">
-                <option value="default">Default Template</option>
-                <option value="Fast_IO">Fast IO</option>
-                <option value="Debug_Template">Debug Template</option>
-                <option value="CP_Template">CP Template</option>
-            </select>
-            <button
-                id="deleteTemplateBtn"
-                title="Delete selected template(works only for custom templates)"
-                class="delete-btn"
-                onclick="deleteTemplate()"
-                aria-label="Delete Template"
-            >🗑️</button>
-        </div>
-        <div class="button-row">
-            <div class="feature-resetFiles">
+        <section class="section-template">
+            <h2>Templates</h2>
+            <label for="templatePicker" class="template-label">Choose Template:</label>
+            <div class="template-picker-row">
+                <select id="templatePicker">
+                    <option value="default">Default Template</option>
+                    <option value="Fast_IO">Fast IO</option>
+                    <option value="Debug_Template">Debug Template</option>
+                    <option value="CP_Template">CP Template</option>
+                </select>
                 <button
-                    title="resets files main.cpp, input.txt and output.txt based on current template selected."
-                    class="reset-btn"
-                    onclick="resetFiles()"
-                >
+                    id="deleteTemplateBtn"
+                    class="delete-btn"
+                    onclick="deleteTemplate()"
+                    aria-label="Delete Template"
+                    title="Delete selected template (only for custom templates)"
+                >🗑️</button>
+            </div>
+
+            <div class="button-row">
+                <button class="reset-btn" onclick="resetFiles()" title="Reset files using selected template">
                     🔄 Reset Files
                 </button>
-            </div>
-            <div class="feature-exportSolution">
-                <button
-                    title="This feature, copies the active files in editor(main.cpp, input.txt and output.txt).It exports your solution to Solutions folder with your given name"
-                    onclick="vscode.postMessage({ command: 'exportSolution' })"
-                >
-                    📤Export Solution
+                <button onclick="vscode.postMessage({ command: 'exportSolution' })" title="Export solution to folder">
+                    📤 Export Solution
                 </button>
             </div>
-        </div>
-        <div class="feature-resetAndExportSolution" style="margin-top: 0.5em;">
-            <button
-                title="Exports Current Solution and Resets files based on current template selected."
-                onclick="vscode.postMessage({ command: 'resetAndExportSolution' })"
-            >
-                📤Export Solution + 🔄Reset Files
-            </button>
-        </div>
-        <div class="feature-saveTemplate" style="margin-top: 0.5em;">
-            <button
-                title="Creates custom template from the main.cpp, input.txt and output.txt files and saves it in templates list for future purposes."
-                onclick="openSaveTemplateDialog()"
-            >
-                Create Custom Template
-            </button>
-        </div>
+
+            <div class="button-row">
+                <button onclick="vscode.postMessage({ command: 'resetAndExportSolution' })" title="Export and reset">
+                    📤 Export + 🔄 Reset
+                </button>
+            </div>
+
+            <div class="button-row">
+                <button onclick="openSaveTemplateDialog()" title="Save current files as a new template">
+                    ➕ Create Custom Template
+                </button>
+            </div>
+        </section>
 
         <!-- ===================== -->
         <!-- Snippet Section       -->
         <!-- ===================== -->
-        <div class="feature-snippets" style="margin-top: 1.5em;">
+        <section class="section-snippets">
             <h2>Snippets</h2>
 
-            <!-- Snippet Preview Toggle -->
-            <div style="margin-bottom: 0.5em;">
+            <div class="snippet-options">
                 <label>
                     <input type="checkbox" id="showPreview" checked />
                     Snippet Preview
                 </label>
-            </div>
-
-            <!-- Language Selection -->
-            <div style="margin-bottom: 0.5em;">
-                <label for="languagePicker">Choose a language:</label>
+                <small style="color: var(--vscode-descriptionForeground); font-style: italic;">
+                    Snippet hover shows editor & tooltip preview (editor preview may be inaccurate).
+                </small>
+                <pre id="snippetTooltip" class="snippet-tooltip"></pre>
+                <label for="languagePicker">Language:</label>
                 <select id="languagePicker" onclick="onSnippetLanguageSelected()">
                     <option value="cpp">C++</option>
                     <option value="python">Python</option>
@@ -92,52 +81,53 @@
                 </select>
             </div>
 
-            <!-- Accordion for Snippet Categories -->
-            <button class="accordion">Snippets</button>
-            <div class="panel snippetSelection">
-                <!-- Data Structures -->
-                <div class="data_structures">
-                    <button class="accordion" value="data_structures">Data Structures</button>
-                    <div class="dsPanel panel"></div>
-                </div>
+            <div class="snippet-accordion">
+                <button class="accordion">Snippets</button>
+                <div class="panel snippetSelection">
 
-                <!-- Algorithms -->
-                <div class="algorithms">
-                    <button class="accordion" value="algorithms">Algorithms</button>
-                    <div class="algoPanel panel"></div>
-                </div>
-
-                <!-- Miscellaneous -->
-                <div class="misc">
-                    <button class="accordion" value="misc">Miscellaneous</button>
-                    <div class="miscPanel panel"></div>
-                </div>
-
-                <!-- Custom -->
-                <div class="custom">
-                    <button class="accordion" value="custom">Custom</button>
-                    <div class="customPanel panel">
-                        <button value="custom" data-category="custom" data-subcategory="all" onclick="loadSnippetsFromCategory(event)">All Custom Snippets</button>
-                            <div id="snippetListContainer" style="margin-top: 1em;"></div>
+                    <!-- Data Structures -->
+                    <div class="data_structures">
+                        <button class="accordion" value="data_structures">Data Structures</button>
+                        <div class="dsPanel panel"></div>
                     </div>
+
+                    <!-- Algorithms -->
+                    <div class="algorithms">
+                        <button class="accordion" value="algorithms">Algorithms</button>
+                        <div class="algoPanel panel"></div>
+                    </div>
+
+                    <!-- Miscellaneous -->
+                    <div class="misc">
+                        <button class="accordion" value="misc">Miscellaneous</button>
+                        <div class="miscPanel panel"></div>
+                    </div>
+
+                    <!-- Custom -->
+                    <div class="custom">
+                        <button class="accordion" value="custom">Custom</button>
+                        <div class="customPanel panel">
+                            <button value="custom" data-category="custom" data-subcategory="all" onclick="loadSnippetsFromCategory(event)">All Custom Snippets</button>
+                            <div id="snippetListContainer" style="margin-top: 1em;"></div>
+                        </div>
+                    </div>
+
                 </div>
-
             </div>
-
-
-        </div>
+        </section>
 
         <!-- ===================== -->
-        <!-- Arrange View Button   -->
+        <!-- Arrange Layout Button -->
         <!-- ===================== -->
-        <div class="feature-arrangeView" style="margin-top: 1em;">
+        <section class="section-view">
             <button
-                title="Arranges Layout: main.cpp in left column. input.txt and output.txt in right column, top and bottom respectively."
+                class="arrange-btn"
+                title="Arrange files in columns"
                 onclick="vscode.postMessage({ command: 'arrangeLayout' })"
-            >🧩Arrange View</button>
-        </div>
+            >🧩 Arrange View</button>
+        </section>
 
-        <p class="coming-soon" style="margin-top: 1.5em;">🔥 More features coming soon...</p>
+        <p class="coming-soon">🔥 More features coming soon...</p>
     </div>
 
     <!-- Save Template Dialog -->
@@ -340,73 +330,100 @@
         // Listen for messages from extension to update template picker
         window.addEventListener('message', event => {
             const msg = event.data;
-            if (msg.command === 'addTemplateToPicker') {
-                addTemplateToPicker(msg.templateName);
-            }
-            if (msg.command === 'removeTemplateFromPicker') {
-                removeTemplateFromPicker(msg.templateName);
-            }
-            if (msg.command === 'initTemplates') {
-                // Remove all except built-ins
-                const picker = document.getElementById('templatePicker');
-                for (let i = picker.options.length - 1; i >= 0; i--) {
-                    if (
-                        picker.options[i].value !== 'default' &&
-                        picker.options[i].value !== 'Fast_IO' &&
-                        picker.options[i].value !== 'Debug_Template' &&
-                        picker.options[i].value !== 'CP_Template'
-                    ) {
-                        picker.remove(i);
-                    }
+            switch(msg.command){
+                case 'addTemplateToPicker': {
+                    addTemplateToPicker(msg.templateName);
+                    break;
                 }
-                // Add all custom templates
-                msg.templates.forEach(tpl => {
-                    if (
-                        tpl !== 'default' &&
-                        tpl !== 'Fast_IO' &&
-                        tpl !== 'Debug_Template' &&
-                        tpl !== 'CP_Template'
-                    ) {
-                        addTemplateToPicker(tpl);
+                case 'removeTemplateFromPicker': {
+                    removeTemplateFromPicker(msg.templateName);
+                    break;
+                }
+                case 'initTemplates': {
+                    // Remove all except built-ins
+                    const picker = document.getElementById('templatePicker');
+                    for (let i = picker.options.length - 1; i >= 0; i--) {
+                        if (
+                            picker.options[i].value !== 'default' &&
+                            picker.options[i].value !== 'Fast_IO' &&
+                            picker.options[i].value !== 'Debug_Template' &&
+                            picker.options[i].value !== 'CP_Template'
+                        ) {
+                            picker.remove(i);
+                        }
                     }
-                });
-            }
-            if (msg.command === 'loadSnippetCategories') {
-                console.log('loadCategories');
-                const { categories, language } = msg;
-                console.log(categories);
-                const dsPanel = document.querySelector('.snippetSelection .dsPanel');
-                const algoPanel = document.querySelector('.snippetSelection .algoPanel');
-                const miscPanel = document.querySelector('.snippetSelection .miscPanel');
-                const customPanel = document.querySelector('.snippetSelection .customPanel');
-
-                createCategoryButtons(categories.dataStructures, dsPanel, 'data_structures');
-                createCategoryButtons(categories.algorithms, algoPanel, 'algorithms');
-                createCategoryButtons(categories.misc, miscPanel, 'misc');
-                createCategoryButtons(categories.custom, customPanel, 'custom');
-            }
-            if (msg.command === 'snippetsForCategory') {
-                console.log('snippetsForCategory', msg);
-                
-                const containers = document.querySelectorAll(`.${msg.category}-${msg.subCategory} .${msg.subCategory}List`);
-                if (!containers || containers.length === 0) return;
-                containers[0].innerHTML = "";
-                Object.values(msg.snippets).forEach(snippet => {
-                    const btn = document.createElement('button');
-                    btn.className = 'snippetItem';
-                    btn.textContent = snippet.prefix;
-                    btn.title = snippet.description;
-
-                    btn.addEventListener('click', () => {
-                        vscode.postMessage({
-                            command: 'insertSnippet',
-                            snippet: snippet.body.join('\n')
-                        });
+                    // Add all custom templates
+                    msg.templates.forEach(tpl => {
+                        if (
+                            tpl !== 'default' &&
+                            tpl !== 'Fast_IO' &&
+                            tpl !== 'Debug_Template' &&
+                            tpl !== 'CP_Template'
+                        ) {
+                            addTemplateToPicker(tpl);
+                        }
                     });
+                    break;
+                }
+                case 'loadSnippetCategories': {
+                    console.log('loadCategories');
+                    const { categories, language } = msg;
+                    console.log(categories);
+                    const dsPanel = document.querySelector('.snippetSelection .dsPanel');
+                    const algoPanel = document.querySelector('.snippetSelection .algoPanel');
+                    const miscPanel = document.querySelector('.snippetSelection .miscPanel');
+                    const customPanel = document.querySelector('.snippetSelection .customPanel');
 
-                    containers[0].appendChild(btn);
-                });
+                    createCategoryButtons(categories.dataStructures, dsPanel, 'data_structures');
+                    createCategoryButtons(categories.algorithms, algoPanel, 'algorithms');
+                    createCategoryButtons(categories.misc, miscPanel, 'misc');
+                    createCategoryButtons(categories.custom, customPanel, 'custom');
+                    break;
+                }
+                case 'snippetsForCategory': {
+                    console.log('snippetsForCategory', msg);
+                    
+                    const containers = document.querySelectorAll(`.${msg.category}-${msg.subCategory} .${msg.subCategory}List`);
+                    if (!containers || containers.length === 0) return;
+                    containers[0].innerHTML = "";
+                    Object.values(msg.snippets).forEach(snippet => {
+                        const btn = document.createElement('button');
+                        btn.className = 'snippetItem';
+                        btn.textContent = snippet.prefix;
+                        btn.title = snippet.description;
+
+                        btn.addEventListener('mouseenter', (e) => {
+                            const tooltip = document.getElementById('snippetTooltip');
+                            tooltip.textContent = snippet.body.join('\n');
+                            tooltip.style.display = 'block';
+                            tooltip.style.top = (e.clientY + 10) + 'px';
+                            tooltip.style.left = '12px';
+                            vscode.postMessage({
+                                command: "previewSnippet",
+                                snippet: snippet.body
+                            })
+                        });
+                        btn.addEventListener('mouseleave', () => {
+                            const tooltip = document.getElementById('snippetTooltip');
+                            tooltip.style.display = 'none';
+                            vscode.postMessage({
+                                command: "clearPreview"
+                            })
+                        });
+
+                        btn.addEventListener('click', () => {
+                            vscode.postMessage({
+                                command: 'insertSnippet',
+                                snippet: snippet.body.join('\n')
+                            });
+                        });
+
+                        containers[0].appendChild(btn);
+                    });
+                    break;
+                }
             }
+            
 
         });
     </script>

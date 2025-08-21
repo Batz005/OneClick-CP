@@ -134,39 +134,75 @@
 }
 
 /* Make button row inside .feature-resetAndExportSolution responsive */
+/* === Template Action Buttons Row === */
 .button-row {
   display: flex;
-  gap: 0.5rem;
-  flex-direction: horizontal;
+  gap: 0.7rem;
+  flex-direction: row;
   flex-wrap: wrap;
+  margin-bottom: 0.5rem;
 }
 
 .button-row button {
-  flex: 1 1 0;
-  min-width: 45%;
+  font-size: 0.97rem;
+  white-space: nowrap;
+  background-color: #fff;
+  color: #222;
+  border-radius: 7px;
+  box-shadow: 0 1.5px 9px -6px rgba(0,0,0,0.10), 0 0.5px 1px -1px rgba(0,0,0,0.08);
+  border: 1.5px solid #e3e8f0;
+  border-left: 4px solid var(--accent-color);
+  padding: 0.45rem 1.1rem 0.45rem 0.9rem;
+  margin-bottom: 0.1rem;
+  transition: background 0.18s, box-shadow 0.18s, border-color 0.18s;
+  position: relative;
+}
+
+.button-row button:hover {
+  background-color: #f5fafd;
+  color: #005a9e;
+  border-color: var(--accent-color);
+  box-shadow: 0 3px 18px -6px rgba(0,122,204,0.08);
+}
+
+@media (prefers-color-scheme: dark) {
+  .button-row button {
+    background-color: #23272e;
+    color: #f0f0f0;
+    border: 1.5px solid #38404a;
+    border-left: 4px solid var(--accent-color);
+    box-shadow: 0 2.5px 12px -7px rgba(0,0,0,0.18);
+  }
+  .button-row button:hover {
+    background-color: #1a222a;
+    color: #4ac3ff;
+    border-color: var(--accent-color);
+    box-shadow: 0 4px 18px -7px rgba(0,122,204,0.12);
+  }
 }
 
 
 /* === Buttons === */
 button {
   width: 100%;
-  padding: 0.4rem 0.6rem;
+  padding: 0.5rem 0.75rem;
   font-size: 0.95rem;
   font-weight: 600;
-  border: none;
   border-radius: 6px;
-  background: #f2f2f2;
+  background: #e6f0ff;
   color: #111;
+  border: 1px solid #b3d1ff;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
   text-align: center;
-  transition: background 0.2s, transform 0.1s ease;
+  transition: background 0.2s, transform 0.1s ease, box-shadow 0.2s;
 }
 
 button:hover {
-  background: #ddd;
+  background: #d6eaff;
   transform: translateY(-1px);
+  box-shadow: 0 2px 6px rgba(0, 122, 204, 0.2);
 }
 
 
@@ -178,12 +214,15 @@ button::after {
 
 @media (prefers-color-scheme: dark) {
   button {
-    background: #23272e;
+    background: #1e2a38;
     color: #f0f0f0;
+    border: 1px solid #33475b;
   }
 
   button:hover {
-    background: #333;
+    background: #263445;
+    color: #ffffff;
+    box-shadow: 0 2px 8px rgba(0, 122, 204, 0.25);
   }
 }
 
@@ -308,58 +347,165 @@ dialog button:hover {
   }
 }
 
-/*===Snippets===*/
-/* Better Accordion Buttons */
-.accordion {
-    background-color: #2d2d30;
-    color: #ffffff;
-    cursor: pointer;
-    padding: 0.6em 1em;
-    width: 100%;
-    text-align: left;
-    border: none;
-    outline: none;
-    transition: background-color 0.2s ease;
-    font-weight: 600;
-    border-bottom: 1px solid #444;
-}
-.accordion:hover,
-.accordion.active {
-    background-color: #3c3c3f;
+/* === Accent Color Variable === */
+:root {
+  --accent-color: #007acc;
+  --accent-hover: rgba(0, 122, 204, 0.1);
 }
 
-/* Panels inside accordion */
-.panel {
-    display: none;
-    flex-direction: column;
-    padding: 0.5em 1em;
-    background-color: #1e1e1e;
-    max-height: 300px;
-    overflow-y: auto;
-    border-left: 2px solid #007acc;
+/*=== Snippets Accordion and Panels ===*/
+.accordion {
+  background-color: transparent;
+  color: inherit;
+  font-weight: 600;
+  padding: 0.6em 1em;
+  text-align: left;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  transition: background-color 0.2s, border-left 0.2s;
+  cursor: pointer;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.1);
 }
+
+.accordion:hover,
+.accordion.active {
+  background-color: var(--accent-hover);
+  border-left: 4px solid var(--accent-color);
+  color: inherit;
+}
+
+.section-template,
+.section-snippets {
+  padding: 0.8rem 1rem 1rem 1rem;
+}
+
+.panel {
+  display: none;
+  flex-direction: column;
+  padding: 0.6em;
+  background: transparent;
+  max-height: 300px;
+  overflow-y: auto;
+  border-left: 3px solid transparent;
+  gap: 0.4em;
+}
+
 
 /* Snippet Items */
 .snippetItem {
-    padding: 0.4em 0.8em;
-    margin: 0.3em 0;
-    background-color: #252526;
-    color: #d4d4d4;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 0.95em;
-    transition: background-color 0.2s ease;
-}
-.snippetItem:hover {
-    background-color: #007acc;
-    color: white;
+  background-color: rgba(100, 100, 100, 0.08);
+  color: inherit;
+  padding: 0.4em 0.8em;
+  border-radius: 4px;
+  transition: background-color 0.2s;
+  cursor: pointer;
 }
 
-/* Scrollbars (optional but helpful) */
-.panel::-webkit-scrollbar {
-    width: 8px;
+.snippetItem:hover {
+  background-color: var(--accent-color);
+  color: white;
 }
+
+.snippet-tooltip {
+  position: fixed;
+  background-color: var(--vscode-editorHoverWidget-background);
+  color: var(--vscode-editorHoverWidget-foreground);
+  border: 1px solid var(--vscode-editorHoverWidget-border);
+  padding: 0.5em;
+  z-index: 1000;
+  font-family: var(--vscode-editor-font-family, monospace);
+  font-size: 0.85em;
+  white-space: pre-wrap;
+  word-break: break-word;
+  box-shadow: 0 0 10px rgba(0,0,0,0.2);
+  max-width: 500px;
+  max-height: 300px;
+  overflow: auto;
+  display: none;
+  border-radius: 4px;
+}
+
+/* Scrollbar Styles */
+.panel::-webkit-scrollbar {
+  width: 8px;
+}
+
 .panel::-webkit-scrollbar-thumb {
-    background-color: #555;
-    border-radius: 4px;
+  background-color: var(--vscode-scrollbarSlider-background, #bbb);
+  border-radius: 4px;
+}
+
+/* === Snippet Options Section === */
+.snippet-options {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.3em;
+  margin-bottom: 1.2em;
+}
+
+.snippet-options label {
+  display: flex;
+  align-items: center;
+  gap: 0.4em;
+  font-weight: 500;
+  font-size: 1rem;
+  margin-bottom: 0.1em;
+  margin-top: 0.1em;
+}
+
+.snippet-options input[type="checkbox"] {
+  accent-color: var(--accent-color);
+  width: 1.1em;
+  height: 1.1em;
+  margin-right: 0.3em;
+  vertical-align: middle;
+}
+
+.snippet-options label[for="languagePicker"] {
+  margin-top: 0.3em;
+  margin-bottom: 0.1em;
+  font-weight: 500;
+  font-size: 0.98rem;
+}
+
+#languagePicker {
+  margin-top: 0.2em;
+  margin-bottom: 0.1em;
+  width: 100%;
+  max-width: 170px;
+  padding: 0.32em 0.8em 0.32em 0.7em;
+  border-radius: 6px;
+  border: 1.5px solid #bbb;
+  font-size: 1rem;
+  background: #f7fafd;
+  color: #222;
+  transition: border 0.18s, box-shadow 0.18s;
+  box-shadow: 0 0.5px 2px -1px #e3e8f0;
+}
+
+#languagePicker:focus {
+  outline: none;
+  border-color: var(--accent-color);
+  box-shadow: 0 0 0 2px var(--accent-hover);
+}
+
+@media (prefers-color-scheme: dark) {
+  .accordion {
+    border: 1px solid #444;
+    box-shadow: 0 1px 4px rgba(255,255,255,0.05);
+  }
+  .snippet-options label {
+    color: #ddd;
+  }
+  #languagePicker {
+    background: #23272e;
+    color: #eee;
+    border: 1.5px solid #38404a;
+    box-shadow: 0 0.5px 2px -1px #222;
+  }
+  #languagePicker:focus {
+    border-color: var(--accent-color);
+    box-shadow: 0 0 0 2px #003c5a;
+  }
 }
