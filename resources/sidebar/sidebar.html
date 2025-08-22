@@ -6,13 +6,14 @@
     <link rel="stylesheet" href="{{styleUri}}" />
     <title>OneClick CP</title>
     </head>
-    <body>
+    <body class="{{themeClass}}">
     <div class="sidebar-header">
         <img src="{{logoUri}}" class="logo" alt="OneClick CP Logo" />
         <h2>OneClick CP</h2>
         <p class="subtitle">Your one-click DSA & CP starter kit</p>
     </div>
     <div class="sidebar-container">
+      <div class="sidebar-wrapper">
 
         <!-- ===================== -->
         <!-- Template Section      -->
@@ -73,12 +74,14 @@
                     Snippet hover shows editor & tooltip preview (editor preview may be inaccurate).
                 </small>
                 <pre id="snippetTooltip" class="snippet-tooltip"></pre>
-                <label for="languagePicker">Language:</label>
-                <select id="languagePicker" onclick="onSnippetLanguageSelected()">
-                    <option value="cpp">C++</option>
-                    <option value="python">Python</option>
-                    <option value="java">Java</option>
-                </select>
+                <div class="language-select-wrapper">
+                  <label for="languagePicker">Language:</label>
+                  <select id="languagePicker" onclick="onSnippetLanguageSelected()">
+                      <option value="cpp">C++</option>
+                      <option value="python">Python</option>
+                      <option value="java">Java</option>
+                  </select>
+                </div>
             </div>
 
             <div class="snippet-accordion">
@@ -106,10 +109,7 @@
                     <!-- Custom -->
                     <div class="custom">
                         <button class="accordion" value="custom">Custom</button>
-                        <div class="customPanel panel">
-                            <button value="custom" data-category="custom" data-subcategory="all" onclick="loadSnippetsFromCategory(event)">All Custom Snippets</button>
-                            <div id="snippetListContainer" style="margin-top: 1em;"></div>
-                        </div>
+                        <div class="customPanel panel"></div>
                     </div>
 
                 </div>
@@ -128,6 +128,11 @@
         </section>
 
         <p class="coming-soon">🔥 More features coming soon...</p>
+      </div>
+      <footer class="signature">
+          <img src="{{bkLogoUri}}" class="bk-logo" alt="Bharath Kotipalli Logo" />
+          <p>Created by Bharath Kotipalli</p>
+      </footer>
     </div>
 
     <!-- Save Template Dialog -->
@@ -162,10 +167,6 @@
     </form>
     </dialog>
 
-    <div class="signature">
-        <img src="{{bkLogoUri}}" class="bk-logo" alt="Bharath Kotipalli Logo" />
-        <p>Created by Bharath Kotipalli</p>
-    </div>
     <script>
         const vscode = acquireVsCodeApi();
         let selectedTemplate = 'default';
@@ -331,6 +332,14 @@
         window.addEventListener('message', event => {
             const msg = event.data;
             switch(msg.command){
+                case 'updateThemeClass': {
+                    const body = document.querySelector('body');
+                    if (body) {
+                        body.classList.remove('vscode-dark', 'vscode-light');
+                        body.classList.add(msg.themeClass);
+                    }
+                    break;
+                }
                 case 'addTemplateToPicker': {
                     addTemplateToPicker(msg.templateName);
                     break;

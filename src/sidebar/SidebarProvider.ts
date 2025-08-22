@@ -74,6 +74,15 @@ export class SidebarProvider implements vscode.WebviewViewProvider {
       this.sendSnippetCategoriesToWebView('cpp');
     }, 100);
 
+    //Update theme of html if vscode changes theme
+    vscode.window.onDidChangeActiveColorTheme((theme) => {
+      const themeClass = theme.kind === vscode.ColorThemeKind.Dark ? 'vscode-dark' : 'vscode-light';
+      this.postMessage({
+        command: 'updateThemeClass',
+        themeClass,
+      });
+    });
+
     webviewView.webview.onDidReceiveMessage(async message => {
       console.log("Received message:", message); // Debug
       switch (message.command) {
@@ -207,6 +216,10 @@ export class SidebarProvider implements vscode.WebviewViewProvider {
     html = html.replace('{{styleUri}}', styleUri.toString());
     html = html.replace('{{logoUri}}', logoUri.toString());
     html = html.replace('{{bkLogoUri}}', bkLogoUri.toString());
+
+    const themeClass = vscode.window.activeColorTheme.kind === vscode.ColorThemeKind.Dark
+                       ? 'vscode-dark' : '';
+    html = html.replace('{{themeClass}}', themeClass);
 
     return html;
   }
