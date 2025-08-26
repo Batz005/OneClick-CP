@@ -47,7 +47,7 @@
             </div>
 
             <div class="button-row">
-                <button onclick="vscode.postMessage({ command: 'resetAndExportSolution' })" title="Export and reset">
+                <button onclick="vscode.postMessage({ command: 'resetAndExportSolution', template: selectedTemplate })" title="Export and reset">
                     📤 Export + 🔄 Reset
                 </button>
             </div>
@@ -76,12 +76,59 @@
                 <pre id="snippetTooltip" class="snippet-tooltip"></pre>
                 <div class="language-select-wrapper">
                   <label for="languagePicker">Language:</label>
-                  <select id="languagePicker" onclick="onSnippetLanguageSelected()">
+                  <select id="languagePicker" onchange="onSnippetLanguageSelected()">
                       <option value="cpp">C++</option>
                       <option value="python">Python</option>
                       <option value="java">Java</option>
                   </select>
                 </div>
+                <button class="create-snippet-btn" onclick="startCreateSnippet()" title="Create a custom snippet from editor selection">
+                  ➕ Create Snippet from Selection
+                </button>
+    <!-- Create Snippet Dialog -->
+    <dialog id="createSnippetDialog">
+      <form method="dialog" id="createSnippetForm" class="dialog-form">
+        <h4>Create Custom Snippet</h4>
+        <p class="dialog-info">Review the code below, then name and categorize your snippet.</p>
+
+        <div class="grid-two">
+          <label>Language
+            <select id="snipLang">
+              <option value="cpp">C++</option>
+              <option value="python">Python</option>
+              <option value="java">Java</option>
+            </select>
+          </label>
+          <label>Subcategory
+            <input type="text" id="snipSubcat" placeholder="e.g., basics" />
+          </label>
+        </div>
+
+        <div class="grid-two">
+          <label>Name / Key
+            <input type="text" id="snipName" placeholder="unique_key" required />
+          </label>
+          <label>Prefix (typed to trigger)
+            <input type="text" id="snipPrefix" placeholder="cpmySnippet" />
+          </label>
+        </div>
+
+        <label>Description
+          <input type="text" id="snipDesc" placeholder="What this snippet does…" />
+        </label>
+
+        <label>Snippet Body (editable)
+          <textarea id="snipBody" rows="10" spellcheck="false"></textarea>
+        </label>
+
+        <div class="dialog-actions">
+          <button type="button" onclick="refreshSelectionForSnippet()">Use Current Selection</button>
+          <span class="spacer"></span>
+          <button type="button" onclick="confirmCreateSnippet()">Save</button>
+          <button type="button" onclick="cancelCreateSnippet()">Cancel</button>
+        </div>
+      </form>
+    </dialog>
             </div>
 
             <div class="snippet-accordion">
@@ -178,6 +225,8 @@
                 if (panel && panel.classList.contains("panel")) {
                     panel.style.display = panel.style.display === "flex" ? "none" : "flex";
                 }
+                e.target.setAttribute('aria-expanded', String(panel.style.display === 'none'));
+                panel.setAttribute('aria-hidden', String(panel.style.display !== 'flex'));
             }
         });
         document.getElementById('templatePicker').addEventListener('change', (e) => {
@@ -185,6 +234,51 @@
             updateDeleteButton();
         });
 
+        function collapseAllAccordions() {
+          document.querySelectorAll('.accordion').forEach(acc => {
+            const panel = acc.nextElementSibling;
+            acc.classList.remove('active');
+            acc.setAttribute('aria-expanded', 'false');
+            if (panel && panel.classList.contains("panel")) {
+              panel.style.display = "none";
+              panel.setAttribute('aria-hidden', 'true');
+            }
+          });
+        }
+
+        function expandAccordionCategory(target) {
+            // Always open the top-level "Snippets" accordion
+            const topAcc = document.querySelector('.snippet-accordion > .accordion');
+            const topPanel = topAcc && topAcc.nextElementSibling;
+            if (topAcc && topPanel && topPanel.classList.contains('panel')) {
+                topAcc.classList.add('active');
+                topPanel.style.display = 'flex';
+                topPanel.setAttribute('aria-hidden', 'false');
+                topAcc.setAttribute('aria-expanded', 'true');
+            }
+
+            document.querySelectorAll('.accordion').forEach(acc => {
+            const cat = acc.getAttribute('data-category');
+            const sub = acc.getAttribute('data-subcategory');
+            const panel = acc.nextElementSibling;
+            const isMatch = (cat === target || sub === target);
+
+            if (panel && panel.classList.contains('panel')) {
+                if (isMatch) {
+                acc.classList.add('active');
+                panel.style.display = 'flex';
+                panel.setAttribute('aria-hidden', 'false');
+                acc.setAttribute('aria-expanded', 'true');
+                } else if (cat || sub) {
+                // Only collapse snippet sub-accordions; leave unrelated top-level alone
+                acc.classList.remove('active');
+                panel.style.display = 'none';
+                panel.setAttribute('aria-hidden', 'true');
+                acc.setAttribute('aria-expanded', 'false');
+                }
+            }
+            });
+        }
         function deleteTemplate() {
             const picker = document.getElementById('templatePicker');
             const selectedTemplate = picker.value;
@@ -227,9 +321,52 @@
         function closeSaveTemplateDialog() {
             dialog.close();
         }
-        // Update delete button enable/disable state
-        document.getElementById('templatePicker').addEventListener('change', updateDeleteButton);
-        
+
+        // ---- Custom Snippet Creation Flow ----
+        const createSnippetDialog = document.getElementById('createSnippetDialog');
+
+        function startCreateSnippet() {
+          const requestedLang = document.getElementById('languagePicker').value;
+          vscode.postMessage({ command: 'prepareCreateSnippet', requestedLang });
+        }
+
+        function refreshSelectionForSnippet() {
+          vscode.postMessage({ command: 'getSelectionText' });
+        }
+
+        function fillCreateSnippetDialog(payload) {
+          const { selectedText, language } = payload;
+          document.getElementById('snipLang').value = language || document.getElementById('languagePicker').value;
+          document.getElementById('snipSubcat').value = 'custom';
+          document.getElementById('snipName').value = '';
+          document.getElementById('snipPrefix').value = '';
+          document.getElementById('snipDesc').value = '';
+          document.getElementById('snipBody').value = selectedText || '';
+          createSnippetDialog.showModal();
+        }
+
+        function confirmCreateSnippet() {
+          const language = document.getElementById('snipLang').value;
+          const subcategory = document.getElementById('snipSubcat').value.trim() || 'custom';
+          const name = document.getElementById('snipName').value.trim();
+          const prefix = document.getElementById('snipPrefix').value.trim();
+          const description = document.getElementById('snipDesc').value.trim();
+          const body = document.getElementById('snipBody').value;
+
+          if (!name) {
+            alert('Please enter a unique Name / Key for the snippet.');
+            return;
+          }
+
+          vscode.postMessage({
+            command: 'createSnippet',
+            data: { language, subcategory, name, prefix, description, body }
+          });
+        }
+
+        function cancelCreateSnippet() {
+          createSnippetDialog.close();
+        }
         function updateDeleteButton() {
             const picker = document.getElementById('templatePicker');
             const btn = document.getElementById('deleteTemplateBtn');
@@ -374,19 +511,51 @@
                     });
                     break;
                 }
+                case 'openCreateSnippetDialog': {
+                  fillCreateSnippetDialog(msg);
+                  break;
+                }
+                case 'selectionText': {
+                  const area = document.getElementById('snipBody');
+                  if (area) area.value = msg.selectedText || '';
+                  break;
+                }
+                case 'snippetSaved': {
+                  // Close dialog, refresh categories & UI
+                  cancelCreateSnippet();
+                  // Refresh categories for the language that just changed
+                  vscode.postMessage({
+                    command: 'getSnippetCategories',
+                    selectedLanguage: msg.language
+                  });
+                  vscode.postMessage({
+                    command: 'showToast',
+                    type: 'info',
+                    text: `✅ Snippet '${msg.key}' saved successfully in '${msg.subcategory}'!`
+                  });
+                  collapseAllAccordions();
+                  expandAccordionCategory(msg.subcategory);
+                  break;
+                }
                 case 'loadSnippetCategories': {
-                    console.log('loadCategories');
-                    const { categories, language } = msg;
-                    console.log(categories);
+                    // Close all open accordions before rendering new categories
+                    collapseAllAccordions();
+
+                    const { categories } = msg;
                     const dsPanel = document.querySelector('.snippetSelection .dsPanel');
                     const algoPanel = document.querySelector('.snippetSelection .algoPanel');
                     const miscPanel = document.querySelector('.snippetSelection .miscPanel');
                     const customPanel = document.querySelector('.snippetSelection .customPanel');
 
-                    createCategoryButtons(categories.dataStructures, dsPanel, 'data_structures');
-                    createCategoryButtons(categories.algorithms, algoPanel, 'algorithms');
-                    createCategoryButtons(categories.misc, miscPanel, 'misc');
-                    createCategoryButtons(categories.custom, customPanel, 'custom');
+                    const ds = (categories && categories.dataStructures) || [];
+                    const alg = (categories && categories.algorithms) || [];
+                    const mis = (categories && categories.misc) || [];
+                    const cus = (categories && categories.custom) || [];
+
+                    if (dsPanel) createCategoryButtons(ds, dsPanel, 'data_structures');
+                    if (algoPanel) createCategoryButtons(alg, algoPanel, 'algorithms');
+                    if (miscPanel) createCategoryButtons(mis, miscPanel, 'misc');
+                    if (customPanel) createCategoryButtons(cus, customPanel, 'custom');
                     break;
                 }
                 case 'snippetsForCategory': {
@@ -405,19 +574,44 @@
                             const tooltip = document.getElementById('snippetTooltip');
                             tooltip.textContent = snippet.body.join('\n');
                             tooltip.style.display = 'block';
-                            tooltip.style.top = (e.clientY + 10) + 'px';
-                            tooltip.style.left = '12px';
+
+                            // Position after layout so we can read its size
+                            requestAnimationFrame(() => {
+                            const pad = 12;
+                            let top = e.clientY + pad;
+                            let left = pad; // start from left edge so it can extend beyond the sidebar
+
+                            const ttWidth = tooltip.offsetWidth;
+                            const ttHeight = tooltip.offsetHeight;
+                            const vw = window.innerWidth;
+                            const vh = window.innerHeight;
+
+                            if (top + ttHeight > vh) {
+                                top = Math.max(pad, e.clientY - ttHeight - pad);
+                            }
+                            if (left + ttWidth > vw) {
+                                left = Math.max(pad, vw - ttWidth - pad);
+                            }
+
+                            tooltip.style.top = `${top}px`;
+                            tooltip.style.left = `${left}px`;
+                            });
+
+                            const previewId = `${msg.category}:${msg.subCategory}:${snippet.prefix}`;
                             vscode.postMessage({
-                                command: "previewSnippet",
-                                snippet: snippet.body
-                            })
+                            command: "previewSnippet",
+                            previewId,
+                            snippet: snippet.body
+                            });
                         });
                         btn.addEventListener('mouseleave', () => {
                             const tooltip = document.getElementById('snippetTooltip');
                             tooltip.style.display = 'none';
+                            const previewId = `${msg.category}:${msg.subCategory}:${snippet.prefix}`;
                             vscode.postMessage({
-                                command: "clearPreview"
-                            })
+                                command: "clearPreview",
+                                previewId
+                            });
                         });
 
                         btn.addEventListener('click', () => {

@@ -1,37 +1,79 @@
+/* eslint-disable curly */
 import * as vscode from 'vscode';
 import * as fs from 'fs';
 import * as path from 'path';
 
 export class SidebarProvider implements vscode.WebviewViewProvider {
   private _view?: vscode.WebviewView;
-  private _snippetsPath: string;
-  private previewDecorations: Map<string, vscode.TextEditorDecorationType> = new Map();
+  private _builtinSnippetsPath: string; // shipped with the extension (read-only)
+  public userSnippetsPath: string;    // in user storage (persists across updates)
+
+  private ensureDir(p: string) {
+    try { fs.mkdirSync(p, { recursive: true }); } catch { /* ignore */ }
+  }
+
+  private readJsonIfExists<T = any>(filePath: string): T | {} {
+    try {
+      if (fs.existsSync(filePath)) {
+        const raw = fs.readFileSync(filePath, 'utf-8');
+        const parsed = JSON.parse(raw);
+        // Ensure object
+        return parsed && typeof parsed === 'object' && !Array.isArray(parsed) ? parsed : {};
+      }
+    } catch { /* ignore */ }
+    return {};
+  }
+
+  private previewDecoration?: vscode.TextEditorDecorationType;
+
   private sendSnippetCategoriesToWebView(language: string){
-      const langDir = path.join(this._snippetsPath, language);
-      console.log(langDir);
-      const getCategories = (type: 'data_structures' | 'algorithms' | 'misc' | 'custom') => {
-        const dirPath = path.join(langDir, type);
-        console.log(dirPath);
-        if (!fs.existsSync(dirPath)) return [];
+    const collect = (root: string, type: 'data_structures' | 'algorithms' | 'misc' | 'custom') => {
+      const dirPath = path.join(root, language, type);
+      if (!fs.existsSync(dirPath)) return [] as string[];
+      return fs.readdirSync(dirPath)
+        .filter(file => file.endsWith('.json'))
+        .map(file => path.basename(file, '.json'));
+    };
 
-        const categoryList =  fs.readdirSync(dirPath)
-          .filter(file => file.endsWith('.json'))
-          .map(file => path.basename(file, '.json'));
-        console.log(categoryList);
-        return categoryList;
-      };
-      const categories = {
-        dataStructures: getCategories('data_structures'),
-        algorithms: getCategories('algorithms'),
-        misc: getCategories('misc'),
-        custom: []
-      };
+    const mergeCats = (type: 'data_structures' | 'algorithms' | 'misc' | 'custom') => {
+      const merged = new Set<string>([
+        ...collect(this._builtinSnippetsPath, type),
+        ...collect(this.userSnippetsPath, type),
+      ]);
+      return Array.from(merged).sort();
+    };
+    
+    const dataStructures = mergeCats('data_structures');
+    const algorithms = mergeCats('algorithms');
+    const misc = mergeCats('misc');
+    const custom = mergeCats('custom');
+    
+    const categories: { [key: string]: string[] } = {};
+    if (dataStructures.length) 
+      categories.dataStructures = dataStructures;
+    else
+      console.warn(`[Snippets] No data structure snippets found for ${language}`);
+    
+    if (algorithms.length) 
+      categories.algorithms = algorithms;
+    else
+      console.warn(`[Snippets] No algorithm snippets found for ${language}`);
+    
+    if (misc.length) 
+      categories.misc = misc;
+    else
+      console.warn(`[Snippets] No misc snippets found for ${language}`);
 
-      this.postMessage({
-        command: 'loadSnippetCategories',
-        language,
-        categories
-      });
+    if (custom.length) 
+      categories.custom = custom;
+    else
+      console.warn(`[Snippets] No custom snippets found for ${language}`);
+
+    this.postMessage({
+      command: 'loadSnippetCategories',
+      language,
+      categories
+    });
   }
   public static readonly viewType = 'oneclicksidebar';
 
@@ -40,9 +82,51 @@ export class SidebarProvider implements vscode.WebviewViewProvider {
     this._view?.webview.postMessage(message);
   }
 
-  
-  constructor(private readonly _extensionUri: vscode.Uri) {
-    this._snippetsPath = path.join(this._extensionUri.fsPath, 'snippets');
+  private mapLangIdToKey(langId?: string, fallback?: string): string {
+    switch ((langId || '').toLowerCase()) {
+      case 'cpp':
+      case 'c++':
+      case 'c':
+        return 'cpp';
+      case 'python':
+      case 'py':
+        return 'python';
+      case 'java':
+        return 'java';
+      default:
+        return fallback || 'cpp';
+    }
+  }
+
+  // Add just above or below resolveWebviewView()
+  public refreshSnippetCategories(language?: string) {
+    const langKey = this.mapLangIdToKey(language);
+    this.sendSnippetCategoriesToWebView(langKey);
+  }
+
+  private sanitizeName(input: string): string {
+    return (input || 'snippet')
+      .trim()
+      .toLowerCase()
+      .replace(/\s+/g, '_')
+      .replace(/[^a-z0-9_\-]/g, '_')
+      .replace(/_+/g, '_');
+  }
+
+  constructor(
+    private readonly _extensionUri: vscode.Uri,
+    private readonly _context?: vscode.ExtensionContext
+  ) {
+    // Built-in snippets (read-only)
+    this._builtinSnippetsPath = path.join(this._extensionUri.fsPath, 'snippets');
+
+    // User snippets in extension global storage (survives updates)
+    const userRootFsPath = this._context?.globalStorageUri?.fsPath
+      // Fallback if context wasn’t passed (dev)
+      ?? path.join(this._extensionUri.fsPath, '.user-snippets');
+
+    this.userSnippetsPath = path.join(userRootFsPath, 'snippets');
+    this.ensureDir(this.userSnippetsPath);
   }
 
   resolveWebviewView(
@@ -71,12 +155,13 @@ export class SidebarProvider implements vscode.WebviewViewProvider {
 
     //Send all the snippet categories on load
     setTimeout(() => {
-      this.sendSnippetCategoriesToWebView('cpp');
-    }, 100);
+      const langKey = this.mapLangIdToKey(vscode.window.activeTextEditor?.document.languageId, 'cpp');
+      this.sendSnippetCategoriesToWebView(langKey);
+    },10);
 
     //Update theme of html if vscode changes theme
     vscode.window.onDidChangeActiveColorTheme((theme) => {
-      const themeClass = theme.kind === vscode.ColorThemeKind.Dark ? 'vscode-dark' : 'vscode-light';
+      const themeClass = theme.kind === vscode.ColorThemeKind.Dark ? 'vscode-dark' : '';
       this.postMessage({
         command: 'updateThemeClass',
         themeClass,
@@ -86,6 +171,25 @@ export class SidebarProvider implements vscode.WebviewViewProvider {
     webviewView.webview.onDidReceiveMessage(async message => {
       console.log("Received message:", message); // Debug
       switch (message.command) {
+                case 'showToast': {
+          const { type = 'info', text = '' } = message;
+          if (!text) break;
+
+          switch (type) {
+            case 'info':
+              vscode.window.showInformationMessage(text);
+              break;
+            case 'warn':
+              vscode.window.showWarningMessage(text);
+              break;
+            case 'error':
+              vscode.window.showErrorMessage(text);
+              break;
+            default:
+              vscode.window.showInformationMessage(text);
+          }
+          break;
+        }
         case 'resetFiles':
           vscode.commands.executeCommand('oneclick-cp.resetFiles', message.template);
           break;
@@ -121,9 +225,18 @@ export class SidebarProvider implements vscode.WebviewViewProvider {
             return;
           }
 
-          const snippetJSONPath = path.join(this._snippetsPath, language, category, `${subCategory}.json`);
-          console.log("Reading:", snippetJSONPath);
-          const snippets = JSON.parse(fs.readFileSync(snippetJSONPath, 'utf-8'));
+          const builtinPath = path.join(this._builtinSnippetsPath, language, category, `${subCategory}.json`);
+          const userPath    = path.join(this.userSnippetsPath,    language, category, `${subCategory}.json`);
+
+          console.log("Reading (builtin):", builtinPath);
+          console.log("Reading (user):", userPath);
+
+          const builtinSnips = this.readJsonIfExists(builtinPath) as Record<string, any>;
+          const userSnips    = this.readJsonIfExists(userPath) as Record<string, any>;
+
+          // user overrides built-in on key collision
+          const snippets = { ...builtinSnips, ...userSnips };
+
           this.postMessage({
             command: 'snippetsForCategory',
             category: message.category,
@@ -142,56 +255,165 @@ export class SidebarProvider implements vscode.WebviewViewProvider {
         }
         case 'previewSnippet': {
           const editor = vscode.window.activeTextEditor;
-          if (!editor) return;
+          if (!editor) break;
+
+          // dispose previous preview
+          if (this.previewDecoration) {
+            this.previewDecoration.dispose();
+            this.previewDecoration = undefined;
+          }
 
           const position = editor.selection.active;
-          const oldDecoration = this.previewDecorations.get(message.previewId);
-          oldDecoration?.dispose();
+          const snippetLines: string[] = Array.isArray(message.snippet) ? message.snippet : [];
+          if (snippetLines.length === 0) break;
 
-          const snippetLines = message.snippet;
-          if (snippetLines.length === 0) return;
-
+          // one type per preview
           const decorationType = vscode.window.createTextEditorDecorationType({
-            after: {
-              contentText: '', // no text here
-            },
-            isWholeLine: true,
+            isWholeLine: true
           });
 
-          const decorationRanges: vscode.DecorationOptions[] = snippetLines.map((line: string, idx: number) => {
-            const lineNumber = position.line + idx;
-            return {
-              range: new vscode.Range(lineNumber, 0, lineNumber, 0),
-              renderOptions: idx === 0
+          const maxLine = Math.max(0, editor.document.lineCount - 1);
+          const startLine = Math.min(position.line, maxLine);
+
+          const ranges: vscode.DecorationOptions[] = [];
+          let rendered = 0;
+
+          for (let idx = 0; idx < snippetLines.length; idx++) {
+            const lno = startLine + idx;
+            const text = snippetLines[idx];
+
+            if (lno > maxLine) {
+              // file ended — show a small “+N lines” hint on the last line
+              ranges.push({
+                range: new vscode.Range(maxLine, 0, maxLine, 0),
+                renderOptions: {
+                  after: {
+                    contentText: ` … +${snippetLines.length - rendered} lines`,
+                    color: new vscode.ThemeColor('editorGhostText.foreground'),
+                    textDecoration: 'font-style: italic;',
+                    margin: '0 0 0 1em'
+                  }
+                }
+              });
+              break;
+            }
+
+            const isFirst = idx === 0;
+            ranges.push({
+              range: new vscode.Range(lno, 0, lno, 0),
+              renderOptions: isFirst
                 ? {
                     after: {
-                      contentText: line,
-                      color: '#888',
-                      fontStyle: 'italic',
+                      contentText: text,
+                      color: new vscode.ThemeColor('editorGhostText.foreground'),
+                      textDecoration: 'font-style: italic;',
                       margin: '0 0 0 1em'
                     }
                   }
                 : {
                     before: {
-                      contentText: line,
-                      color: '#888',
-                      fontStyle: 'italic',
+                      contentText: text,
+                      color: new vscode.ThemeColor('editorGhostText.foreground'),
+                      textDecoration: 'font-style: italic;',
                       margin: '0 0 0 1em'
                     }
                   }
-            };
-          });
+            });
+            rendered++;
+          }
 
-          editor.setDecorations(decorationType, decorationRanges);
-          this.previewDecorations.set(message.previewId, decorationType);
+          editor.setDecorations(decorationType, ranges);
+          this.previewDecoration = decorationType;
           break;
         }
         case 'clearPreview': {
+          if (this.previewDecoration) {
+            this.previewDecoration.dispose();
+            this.previewDecoration = undefined;
+          }
+          break;
+        }
+        case 'prepareCreateSnippet': {
+          // Get current selection (if any) and best-guess language
           const editor = vscode.window.activeTextEditor;
-          if (!editor || !this.previewDecorations.has(message.previewId)) return;
-          const decoration = this.previewDecorations.get(message.previewId);
-          decoration?.dispose();
-          this.previewDecorations.delete(message.previewId);
+          const selectedText = editor ? editor.document.getText(editor.selection) : '';
+          const langKey = this.mapLangIdToKey(editor?.document.languageId, message.requestedLang);
+          this.postMessage({
+            command: 'openCreateSnippetDialog',
+            selectedText,
+            language: langKey,
+          });
+          break;
+        }
+        case 'getSelectionText': {
+          const editor = vscode.window.activeTextEditor;
+          const selectedText = editor ? editor.document.getText(editor.selection) : '';
+          this.postMessage({ command: 'selectionText', selectedText });
+          break;
+        }
+        case 'createSnippet': {
+          type CreatePayload = {
+            language: string;
+            subcategory: string;
+            name: string;
+            prefix?: string;
+            description?: string;
+            body: string; // raw text with newlines
+          };
+          const data = message.data as CreatePayload;
+
+          const language = this.mapLangIdToKey(undefined, data.language);
+          const subcatRaw = data.subcategory?.trim() || 'custom';
+          const subcategory = this.sanitizeName(subcatRaw);
+          const nameKey = this.sanitizeName(data.name);
+          const prefix = (data.prefix && data.prefix.trim()) || nameKey;
+          const description = data.description || '';
+
+          // Prepare snippet object
+          const bodyLines = data.body.replace(/\r\n/g, '\n').split('\n');
+
+          const snippetObj: any = {
+            prefix,
+            description,
+            body: bodyLines,
+          };
+
+          // Ensure directories
+          const dir = path.join(this.userSnippetsPath, language, 'custom');
+          const filePath = path.join(dir, `${subcategory}.json`);
+          this.ensureDir(dir);
+
+          // Read existing JSON (object style), or initialize
+          let jsonObj: Record<string, any> = {};
+          if (fs.existsSync(filePath)) {
+            try {
+              jsonObj = JSON.parse(fs.readFileSync(filePath, 'utf-8'));
+            } catch {
+              jsonObj = {};
+            }
+          }
+
+          // Avoid collision by auto-suffixing
+          let finalKey = nameKey;
+          let i = 2;
+          while (jsonObj[finalKey]) {
+            finalKey = `${nameKey}_${i++}`;
+          }
+          jsonObj[finalKey] = snippetObj;
+
+          // Write back
+          fs.writeFileSync(filePath, JSON.stringify(jsonObj, null, 2), 'utf-8');
+
+          // Notify UI & refresh categories for this language
+          this.postMessage({
+            command: 'snippetSaved',
+            language,
+            category: 'custom',
+            subcategory,
+            key: finalKey,
+          });
+
+          this.sendSnippetCategoriesToWebView(language);
           break;
         }
       }

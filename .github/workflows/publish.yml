@@ -1,0 +1,58 @@
+name: Publish VS Code Extension
+
+on:
+  push:
+    tags:
+      - 'v*'                 # triggers on tags like v0.1.4
+
+jobs:
+  build-and-publish:
+    runs-on: ubuntu-latest
+
+    env:
+      VSCE_TOKEN: ${{ secrets.VSCE_TOKEN }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Use Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build
+        run: npm run compile
+
+      - name: Verify tag matches package.json version
+        id: vcheck
+        run: |
+          TAG_VERSION="${GITHUB_REF_NAME#v}"
+          PKG_VERSION="$(node -p "require('./package.json').version")"
+          echo "Tag: $TAG_VERSION"
+          echo "Package: $PKG_VERSION"
+          if [ "$TAG_VERSION" != "$PKG_VERSION" ]; then
+            echo "Version mismatch: tag $TAG_VERSION != package.json $PKG_VERSION"
+            exit 1
+          fi
+
+      - name: Pack VSIX (artifact)
+        run: |
+          npm i -g @vscode/vsce
+          vsce package
+        # produces *.vsix in repo root
+
+      - name: Upload VSIX artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: vsix
+          path: "*.vsix"
+
+      - name: Publish to VS Code Marketplace
+        if: env.VSCE_TOKEN != ''
+        run: |
+          npm i -g @vscode/vsce
+          vsce publish -p "$VSCE_TOKEN"

@@ -1,0 +1,11 @@
+{
+  "test": {
+    "prefix": "cptest",
+    "description": "just testing",
+    "body": [
+      "int main() {",
+      "    return 0;",
+      "}"
+    ]
+  }
+}

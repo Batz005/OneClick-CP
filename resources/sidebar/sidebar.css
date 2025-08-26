@@ -85,7 +85,7 @@ body {
   border-bottom: 1px solid var(--border);
 }
 
-.logo { max-width: 5rem; max-height: 5rem; display: block; margin: 0.2rem auto 0.6rem; filter: var(--logo-filter); }
+.logo { max-width: 3rem; max-height: 3rem; display: block; margin: 0.2rem auto 0.6rem; filter: var(--logo-filter); }
 .bk-logo { width: 3rem; height: auto; transition: filter .2s; filter: var(--logo-filter); }
 
 .signature {
@@ -134,8 +134,8 @@ body {
 /* ---- Generic Buttons (incl. accordion & snippet items) ---- */
 .button-row { display: flex; gap: .7rem; flex-wrap: wrap; margin-bottom: .6rem; }
 
-.button-row button,
-button,
+.button-row button:not(.delete-btn),
+button:not(.delete-btn),
 .accordion,
 .snippetItem {
   font-size: .97rem;
@@ -213,7 +213,7 @@ button:disabled,
   max-width: 190px;
   padding: .35em .8em;
   border-radius: 8px;
-  border: 1.5px solid var(--border);
+  border: 1.5px solid var(--btn-border);
   font-size: 1rem;
   background: var(--surface);
   color: var(--text);
@@ -226,20 +226,23 @@ button:disabled,
 .snippet-tooltip {
   position: fixed;
   background: var(--vscode-editorHoverWidget-background, var(--surface-alt));
-  color: var(--text);
+  color: var(--vscode-editorHoverWidget-foreground, var(--text));
   border: 1px solid var(--vscode-editorHoverWidget-border, var(--border));
   padding: .55em .7em;
   z-index: 1500;
   font-family: var(--vscode-editor-font-family, ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace);
   font-size: .85em;
+  line-height: 1.35;
   white-space: pre-wrap;
   word-break: break-word;
+  tab-size: 2;
   box-shadow: var(--shadow);
   max-width: 520px;
   max-height: 320px;
   overflow: auto;
   display: none;
   border-radius: 6px;
+  pointer-events: none; /* no flicker when hovering near tooltip */
 }
 
 /* ---- Scrollbar (panels only) ---- */
@@ -248,3 +251,21 @@ button:disabled,
 
 /* ---- Misc text ---- */
 .coming-soon { margin-top: 2rem; font-style: italic; color: var(--muted); font-size: .95rem; text-align: center; }
+
+/* ---- Create Snippet Button ---- */
+.create-snippet-btn { width: fit-content; }
+
+/* ---- Dialog Styling ---- */
+dialog { border: 1px solid var(--border); border-radius: 10px; background: var(--surface); color: var(--text); padding: 1rem 1.1rem; box-shadow: var(--shadow); }
+dialog::backdrop { background: rgba(0,0,0,.35); }
+
+.dialog-form h4 { margin: 0 0 .5rem; }
+.dialog-form .dialog-info { color: var(--muted); margin: 0 0 .6rem; }
+
+.dialog-form label { display: block; font-weight: 600; margin: .5rem 0 .25rem; }
+.dialog-form input, .dialog-form select, .dialog-form textarea {
+  width: 100%; border: 1.5px solid var(--btn-border); border-radius: 8px; padding: .45rem .6rem; background: var(--surface); color: var(--text);
+}
+.grid-two { display: grid; grid-template-columns: 1fr 1fr; gap: .6rem; }
+.dialog-actions { display: flex; align-items: center; gap: .6rem; margin-top: .7rem; }
+.dialog-actions .spacer { flex: 1; }
