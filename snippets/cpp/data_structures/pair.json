@@ -1,0 +1,20 @@
+{
+  "Declare and use a pair": {
+    "prefix": "cppair",
+    "description": "Declare and use a pair",
+    "category": "Pair and Tuple",
+    "body": [
+      "pair<int, int> p = {${1:a}, ${2:b}};",
+      "cout << p.first << ' ' << p.second << endl;"
+    ]
+  },
+  "Declare and use a tuple": {
+    "prefix": "cptuple",
+    "description": "Declare and use a tuple",
+    "category": "Pair and Tuple",
+    "body": [
+      "tuple<int, int, int> t = make_tuple(${1:x}, ${2:y}, ${3:z});",
+      "auto [a, b, c] = t;"
+    ]
+  }
+}

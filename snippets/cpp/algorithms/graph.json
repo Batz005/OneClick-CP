@@ -1,0 +1,157 @@
+{
+  "Graph - DFS Recursive Traversal": {
+    "prefix": "cpgraphdfs",
+    "description": "Standard DFS traversal",
+    "category": "Graph Traversal",
+    "body": [
+      "vector<bool> visited(n, false);",
+      "function<void(int)> dfs = [&](int u) {",
+      "    visited[u] = true;",
+      "    for (int v : adj[u]) {",
+      "        if (!visited[v]) dfs(v);",
+      "    }",
+      "};",
+      "dfs(start);"
+    ]
+  },
+  "Graph - DFS Iterative Traversal (Stack)": {
+    "prefix": "cpgraphdfsstack",
+    "description": "Iterative DFS using stack",
+    "category": "Graph Traversal",
+    "body": [
+      "vector<bool> visited(n, false);",
+      "stack<int> st;",
+      "st.push(start);",
+      "while (!st.empty()) {",
+      "    int u = st.top(); st.pop();",
+      "    if (visited[u]) continue;",
+      "    visited[u] = true;",
+      "    for (int v : adj[u]) {",
+      "        if (!visited[v]) st.push(v);",
+      "    }",
+      "}"
+    ]
+  },
+  "Graph - BFS Traversal": {
+    "prefix": "cpgraphbfs",
+    "description": "Standard BFS traversal",
+    "category": "Graph Traversal",
+    "body": [
+      "vector<bool> visited(n, false);",
+      "queue<int> q;",
+      "q.push(start);",
+      "visited[start] = true;",
+      "while (!q.empty()) {",
+      "    int u = q.front(); q.pop();",
+      "    for (int v : adj[u]) {",
+      "        if (!visited[v]) {",
+      "            visited[v] = true;",
+      "            q.push(v);",
+      "        }",
+      "    }",
+      "}"
+    ]
+  },
+  "Graph - BFS for Shortest Distances": {
+    "prefix": "cpgraphbfsdist",
+    "description": "BFS to compute shortest distances in unweighted graph",
+    "category": "Graph Traversal",
+    "body": [
+      "vector<int> dist(n, -1);",
+      "queue<int> q;",
+      "q.push(start);",
+      "dist[start] = 0;",
+      "while (!q.empty()) {",
+      "    int u = q.front(); q.pop();",
+      "    for (int v : adj[u]) {",
+      "        if (dist[v] == -1) {",
+      "            dist[v] = dist[u] + 1;",
+      "            q.push(v);",
+      "        }",
+      "    }",
+      "}"
+    ]
+  },
+  "Graph - Count Connected Components": {
+    "prefix": "cpgraphcomp",
+    "description": "DFS to count connected components",
+    "category": "Graph Traversal",
+    "body": [
+      "vector<bool> visited(n, false);",
+      "function<void(int)> dfs = [&](int u) {",
+      "    visited[u] = true;",
+      "    for (int v : adj[u]) {",
+      "        if (!visited[v]) dfs(v);",
+      "    }",
+      "};",
+      "int components = 0;",
+      "for (int i = 0; i < n; ++i) {",
+      "    if (!visited[i]) {",
+      "        dfs(i);",
+      "        components++;",
+      "    }",
+      "}"
+    ]
+  },
+  "Graph - Cycle Detection (DFS, Undirected)": {
+    "prefix": "cpgraphcycleundirected",
+    "description": "Detect cycle in undirected graph using DFS",
+    "category": "Graph Traversal",
+    "body": [
+      "vector<bool> visited(n, false);",
+      "function<bool(int, int)> hasCycle = [&](int u, int parent) {",
+      "    visited[u] = true;",
+      "    for (int v : adj[u]) {",
+      "        if (!visited[v]) {",
+      "            if (hasCycle(v, u)) return true;",
+      "        } else if (v != parent) {",
+      "            return true;",
+      "        }",
+      "    }",
+      "    return false;",
+      "};"
+    ]
+  },
+  "Graph - Cycle Detection (BFS, Undirected)": {
+    "prefix": "cpgraphcyclebfs",
+    "description": "Detect cycle using BFS (undirected)",
+    "category": "Graph Traversal",
+    "body": [
+      "vector<bool> visited(n, false);",
+      "queue<pair<int, int>> q;",
+      "q.push({start, -1});",
+      "visited[start] = true;",
+      "while (!q.empty()) {",
+      "    auto [u, p] = q.front(); q.pop();",
+      "    for (int v : adj[u]) {",
+      "        if (!visited[v]) {",
+      "            visited[v] = true;",
+      "            q.push({v, u});",
+      "        } else if (v != p) {",
+      "            // cycle found",
+      "        }",
+      "    }",
+      "}"
+    ]
+  },
+  "Graph - Topological Sort (DFS)": {
+    "prefix": "cpgraphtoposort",
+    "description": "Topological sort using DFS",
+    "category": "Graph Traversal",
+    "body": [
+      "vector<bool> visited(n, false);",
+      "vector<int> order;",
+      "function<void(int)> dfs = [&](int u) {",
+      "    visited[u] = true;",
+      "    for (int v : adj[u]) {",
+      "        if (!visited[v]) dfs(v);",
+      "    }",
+      "    order.push_back(u);",
+      "};",
+      "for (int i = 0; i < n; ++i) {",
+      "    if (!visited[i]) dfs(i);",
+      "}",
+      "reverse(order.begin(), order.end());"
+    ]
+  }
+}

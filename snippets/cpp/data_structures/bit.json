@@ -1,0 +1,55 @@
+{
+  "Define bitset of size n": {
+    "prefix": "cpbitdef",
+    "description": "Define bitset of size n",
+    "category": "bitset",
+    "body": [
+      "#include <bitset>",
+      "bitset<${1:n}> ${2:bs};"
+    ]
+  },
+  "Set bits in bitset": {
+    "prefix": "cpbitset",
+    "description": "Set bits in bitset",
+    "category": "bitset",
+    "body": [
+      "${1:bs}.set(${2:pos});"
+    ]
+  },
+  "Reset bits in bitset": {
+    "prefix": "cpbitres",
+    "description": "Reset bits in bitset",
+    "category": "bitset",
+    "body": [
+      "${1:bs}.reset(${2:pos});"
+    ]
+  },
+  "Test bit in bitset": {
+    "prefix": "cpbittest",
+    "description": "Test bit in bitset",
+    "category": "bitset",
+    "body": [
+      "if (${1:bs}.test(${2:pos})) {",
+      "    $0",
+      "}"
+    ]
+  },
+  "Count number of 1s in bitset": {
+    "prefix": "cpbitcount",
+    "description": "Count number of 1s in bitset",
+    "category": "bitset",
+    "body": [
+      "int ${1:ones} = ${2:bs}.count();"
+    ]
+  },
+  "Check if any bit is set": {
+    "prefix": "cpbitany",
+    "description": "Check if any bit is set",
+    "category": "bitset",
+    "body": [
+      "if (${1:bs}.any()) {",
+      "    $0",
+      "}"
+    ]
+  }
+}

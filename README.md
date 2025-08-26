@@ -2,62 +2,88 @@
   <img src="https://raw.githubusercontent.com/Batz005/OneClick-CP/main/resources/OneClick_CP_LOGO.png" width="200" alt="OneClick CP Logo" />
 </p>
 
-<h1 align="center">OneClick CP - Competitive Programming Starter Kit</h1>
+<h1 align="center">OneClick-CP — One-click DSA & CP Starter Kit</h1>
 
-Welcome to OneClick CP, your all-in-one VS Code extension to kickstart and manage your Competitive Programming (CP) sessions with just a click!
+A VS Code extension that sets up your coding sandbox in seconds, exports your solutions neatly, and gives you a growing snippets library — all without leaving the editor.
 
-⸻
+---
 
-📦 Features
+## ✨ Features
 
-1. 🚀 Reset Files
+### 🚀 Reset Files
+Quickly reset the 3 standard files in your workspace:
+- `main.cpp`
+- `input.txt`
+- `output.txt`
 
-Quickly reset your main.cpp, input.txt, and output.txt based on the currently selected template. Templates include:
-	•	default
-	•	Fast_IO
-	•	Debug_Template
-	•	CP_Template
-	•	🔧 Custom templates
+Uses the **selected template** (see below). If any file is missing in the chosen template, a sensible default is used.
 
-2. 📤 Export Solution
+### 📤 Export Solution
+Save your current `main.cpp`, `input.txt`, and `output.txt` into `Solutions/<your-name>/`.  
+Reads from the **open editors** first (so unsaved work is exported), then falls back to disk.
 
-Save your current code and input/output files to a Solutions/ folder with a custom name you choose.
+### 🔁 Export + Reset
+One command to:
+1) Export the current solution  
+2) Reset the three files with your selected template
 
-3. 🔁 Export + Reset
+Perfect for quick problem switching.
 
-Combine both reset and export in a single action to move to your next problem.
+### 💾 Custom Templates
+Save any combination of the three files as a reusable template.
 
-4. 💾 Create Custom Templates
+- Create templates via the Sidebar → **Save Template**
+- Delete templates via the Sidebar → **Delete Template**
+- Templates are stored in VS Code settings under `oneclick-cp.templates`
 
-Save your currently open main.cpp, input.txt, and/or output.txt as a new reusable template. You control:
-	•	Template name
-	•	Which files to include
+### 📚 Snippets (Sidebar + Editor)
+A curated snippet library for **C++**, **Python**, and **Java**. (Only C++ snippets are implemented currently. custom snippets can still be created for other languages)
 
-5. 📚 Code Snippets (Editor-Based)
+- **Browse by Category/Subcategory** in the Sidebar
+- **Preview** a snippet (inline "ghost" preview)
+- **Insert** at the cursor location
+- **Create from Selection** → Save highlighted code as a new snippet (auto-name collision handling; saved under `Custom/<subcategory>.json`)
+- Built-in snippets are merged with your **user snippets** (user overrides on duplicate keys)
 
-Write faster using our curated snippets library. Snippets are automatically available for:
-	•	C++ (cpp_basics, cpp_ds, cpp_algos, cpp_adv_algos)
-	•	Java
-	•	Python
+> User snippets are stored under the extension’s global storage path:  
+> `<globalStorage>/snippets/<language>/<category>/<subcategory>.json`
 
-Use them directly via VS Code’s built-in IntelliSense (start typing the prefix like cpdijk for Dijkstra).
+### 🧩 Arrange Layout
+Closes all tabs and opens:
+- `main.cpp` (left)
+- `input.txt` (top-right)
+- `output.txt` (bottom-right)
 
-⚠️ Snippets currently work via editor autocomplete and not inside the sidebar UI.
+---
 
-6. 🧠 Coming Soon
-	•	Dynamic snippet search & categorization in sidebar
-	•	Integration with Codeforces, LeetCode, etc.
-	•	Problems dashboard, contest timers, and more!
+## 🧰 Commands & Shortcuts
 
-⸻
+| Command | ID | Notes |
+|---|---|---|
+| Reset Files | `oneclick-cp.resetFiles` | Uses currently selected template |
+| Export Solution | `oneclick-cp.exportSolution` | Prompts for folder name |
+| Export + Reset | _via Sidebar_ | First export, then reset |
+| Arrange Layout | `oneclick-cp.arrangeLayout` | Opens 1–2–3 layout |
+| Save Template | `oneclick-cp.saveTemplate` | From Sidebar form |
+| Delete Template | `oneclick-cp.deleteTemplate` | From Sidebar dropdown |
+| Create Snippet (from selection) | `oneclick-cp.createSnippet` | Stored under **Custom** |
 
-🖥️ How to Use
-	1.	Open your CP workspace folder.
-	2.	Click the OneClick CP icon in the Activity Bar.
-	3.	Choose your template from the dropdown.
-	4.	Click Reset Files to load your default CP setup.
-	5.	Start coding!
-	6.	Export your solution once done.
+> Default keybinding example (optional):  
+> - **Reset Files** → `Ctrl + Alt + R` (you can bind this yourself in `Keyboard Shortcuts`)
+
+---
+
+## 🧪 How to Use
+
+1. **Open** your CP workspace folder in VS Code.  
+2. Click the **OneClick-CP** icon in the Activity Bar to open the Sidebar.  
+3. Pick a **Template** (or create your own).  
+4. Click **Reset Files** to bootstrap `main.cpp`, `input.txt`, `output.txt`.  
+5. Start coding.  
+6. Use **Export Solution** when you’re done (or **Export + Reset** to jump to the next problem).  
+7. Use **Snippets** in the Sidebar to preview & insert, or create your own from selection.
+
+---
 
 Shortcuts:
 	•	Ctrl + Alt + R → Reset Files
@@ -100,6 +126,19 @@ Feel free to contribute to the snippet JSONs inside snippets/ folder or open an 
 [![License](https://img.shields.io/github/license/Batz005/OneClick-CP)](./LICENSE)
 
 ⸻
+🧯 Troubleshooting
+	•	Sidebar looks empty / styling off → Ensure HTML/CSS files are bundled (we fixed a webpack omission in v0.1.1).
+	•	Snippet preview not visible → Make sure an editor is active; preview shows as faint inline text.
+	•	Nothing resets → Confirm a workspace is open and the three files exist (fallback will write them to your first workspace).
+	•	Exported files missing changes → We read from open editors first; if none open, we read from disk.
+
+____
+
+📝 Changelog
+
+See CHANGELOG.md.
+
+____
 
 👤 Author
 <p align="center">
@@ -107,7 +146,7 @@ Feel free to contribute to the snippet JSONs inside snippets/ folder or open an 
 </p>
 Developed by Bharath Kotipalli
 
-“Made with ❤️ to make your CP journey smoother.”
+“Created to make your CP journey smoother.”
 
 
 ⸻

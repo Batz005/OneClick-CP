@@ -1,0 +1,72 @@
+{
+  "1D Prefix Sum Array": {
+    "prefix": "cppre1d",
+    "description": "1D Prefix Sum Array",
+    "category": "Prefix Sum",
+    "body": [
+      "vector<int> prefix(n);",
+      "prefix[0] = a[0];",
+      "for (int i = 1; i < n; ++i) {",
+      "    prefix[i] = prefix[i - 1] + a[i];",
+      "}"
+    ]
+  },
+  "1D Range Sum Query": {
+    "prefix": "cppre1dq",
+    "description": "1D Range Sum Query using Prefix Sum",
+    "category": "Prefix Sum",
+    "body": [
+      "// sum of range [l, r]",
+      "int sum = prefix[r] - (l > 0 ? prefix[l - 1] : 0);"
+    ]
+  },
+  "2D Prefix Sum Array": {
+    "prefix": "cppre2d",
+    "description": "2D Prefix Sum Array",
+    "category": "Prefix Sum",
+    "body": [
+      "vector<vector<int>> prefix(n, vector<int>(m));",
+      "for (int i = 0; i < n; ++i) {",
+      "    for (int j = 0; j < m; ++j) {",
+      "        prefix[i][j] = a[i][j]",
+      "            + (i > 0 ? prefix[i - 1][j] : 0)",
+      "            + (j > 0 ? prefix[i][j - 1] : 0)",
+      "            - (i > 0 && j > 0 ? prefix[i - 1][j - 1] : 0);",
+      "    }",
+      "}"
+    ]
+  },
+  "2D Range Sum Query": {
+    "prefix": "cppre2dq",
+    "description": "2D Range Sum Query using Prefix Sum",
+    "category": "Prefix Sum",
+    "body": [
+      "// sum of submatrix [(x1, y1), (x2, y2)]",
+      "int sum = prefix[x2][y2]",
+      "    - (x1 > 0 ? prefix[x1 - 1][y2] : 0)",
+      "    - (y1 > 0 ? prefix[x2][y1 - 1] : 0)",
+      "    + (x1 > 0 && y1 > 0 ? prefix[x1 - 1][y1 - 1] : 0);"
+    ]
+  },
+  "Prefix XOR Array": {
+    "prefix": "cpprebit",
+    "description": "Prefix XOR Array",
+    "category": "Prefix Sum",
+    "body": [
+      "vector<int> prefixXor(n);",
+      "prefixXor[0] = a[0];",
+      "for (int i = 1; i < n; ++i) {",
+      "    prefixXor[i] = prefixXor[i - 1] ^ a[i];",
+      "}"
+    ]
+  },
+  "Range XOR Query": {
+    "prefix": "cpprebitq",
+    "description": "Range XOR Query using Prefix XOR",
+    "category": "Prefix Sum",
+    "body": [
+      "// XOR of range [l, r]",
+      "int xr = prefixXor[r] ^ (l > 0 ? prefixXor[l - 1] : 0);"
+    ]
+  }
+}

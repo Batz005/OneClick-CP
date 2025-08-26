@@ -1,0 +1,83 @@
+{
+  "Fixed-size Sliding Window Sum": {
+    "prefix": "cppswfix",
+    "description": "Fixed-size Sliding Window Sum",
+    "category": "Sliding Window",
+    "body": [
+      "int windowSum = 0;",
+      "for (int i = 0; i < k; ++i)",
+      "    windowSum += a[i];",
+      "for (int i = k; i < n; ++i) {",
+      "    windowSum += a[i] - a[i - k];",
+      "    // process windowSum",
+      "}"
+    ]
+  },
+  "Minimum Length Subarray with Sum ≥ Target": {
+    "prefix": "cppswminlen",
+    "description": "Minimum length subarray with sum ≥ target",
+    "category": "Sliding Window",
+    "body": [
+      "int l = 0, sum = 0, minLen = INT_MAX;",
+      "for (int r = 0; r < n; ++r) {",
+      "    sum += a[r];",
+      "    while (sum >= target) {",
+      "        minLen = min(minLen, r - l + 1);",
+      "        sum -= a[l++];",
+      "    }",
+      "}"
+    ]
+  },
+  "Max in Sliding Window using Deque": {
+    "prefix": "cppswmaxdq",
+    "description": "Max in Sliding Window using Deque",
+    "category": "Sliding Window",
+    "body": [
+      "deque<int> dq;",
+      "for (int i = 0; i < n; ++i) {",
+      "    if (!dq.empty() && dq.front() <= i - k)",
+      "        dq.pop_front();",
+      "    while (!dq.empty() && a[dq.back()] <= a[i])",
+      "        dq.pop_back();",
+      "    dq.push_back(i);",
+      "    if (i >= k - 1)",
+      "        max_in_window = a[dq.front()];",
+      "}"
+    ]
+  },
+  "Min in Sliding Window using Deque": {
+    "prefix": "cppswmin",
+    "description": "Minimum in Sliding Window using Deque",
+    "category": "Sliding Window",
+    "body": [
+      "deque<int> dq;",
+      "for (int i = 0; i < n; ++i) {",
+      "    if (!dq.empty() && dq.front() <= i - k)",
+      "        dq.pop_front();",
+      "    while (!dq.empty() && a[dq.back()] >= a[i])",
+      "        dq.pop_back();",
+      "    dq.push_back(i);",
+      "    if (i >= k - 1)",
+      "        min_in_window = a[dq.front()];",
+      "}"
+    ]
+  },
+  "Sliding Window Frequency Counter": {
+    "prefix": "cppswfreq",
+    "description": "Sliding Window Frequency Counter (for maps)",
+    "category": "Sliding Window",
+    "body": [
+      "unordered_map<int, int> freq;",
+      "int l = 0;",
+      "for (int r = 0; r < n; ++r) {",
+      "    freq[a[r]]++;",
+      "    while (/* shrink condition */) {",
+      "        freq[a[l]]--;",
+      "        if (freq[a[l]] == 0) freq.erase(a[l]);",
+      "        ++l;",
+      "    }",
+      "    // process window [l, r]",
+      "}"
+    ]
+  }
+}

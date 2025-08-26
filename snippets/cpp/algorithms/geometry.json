@@ -1,0 +1,110 @@
+{
+  "Geometry - Distance Between Two Points": {
+    "prefix": "cpgeopointdist",
+    "description": "Distance between two points (Euclidean)",
+    "category": "Geometry",
+    "body": [
+      "double distance(double x1, double y1, double x2, double y2) {",
+      "    return sqrt((x1 - x2) * (x1 - x2) + (y1 - y2) * (y1 - y2));",
+      "}"
+    ]
+  },
+  "Geometry - Dot Product of 2D Vectors": {
+    "prefix": "cpgeodot",
+    "description": "Dot product of 2D vectors",
+    "category": "Geometry",
+    "body": [
+      "int dot(pair<int, int> a, pair<int, int> b) {",
+      "    return a.first * b.first + a.second * b.second;",
+      "}"
+    ]
+  },
+  "Geometry - Cross Product of 2D Vectors": {
+    "prefix": "cpgeocross",
+    "description": "Cross product of 2D vectors",
+    "category": "Geometry",
+    "body": [
+      "int cross(pair<int, int> a, pair<int, int> b) {",
+      "    return a.first * b.second - a.second * b.first;",
+      "}"
+    ]
+  },
+  "Geometry - Angle Between Two Vectors": {
+    "prefix": "cpgeoangle",
+    "description": "Angle between vectors using dot product",
+    "category": "Geometry",
+    "body": [
+      "double angle(pair<int, int> a, pair<int, int> b) {",
+      "    double dot = a.first * b.first + a.second * b.second;",
+      "    double magA = sqrt(a.first * a.first + a.second * a.second);",
+      "    double magB = sqrt(b.first * b.first + b.second * b.second);",
+      "    return acos(dot / (magA * magB));",
+      "}"
+    ]
+  },
+  "Geometry - Orientation Test (CCW / CW / Colinear)": {
+    "prefix": "cpgeoorient",
+    "description": "Orientation test (CCW, CW, colinear)",
+    "category": "Geometry",
+    "body": [
+      "int orientation(pair<int, int> a, pair<int, int> b, pair<int, int> c) {",
+      "    int val = (b.second - a.second) * (c.first - b.first) -",
+      "              (b.first - a.first) * (c.second - b.second);",
+      "    if (val == 0) return 0; // colinear",
+      "    return (val > 0) ? 1 : 2; // clock or counterclockwise",
+      "}"
+    ]
+  },
+  "Geometry - Check Line Segment Intersection": {
+    "prefix": "cpgeolineintersect",
+    "description": "Check if two lines intersect (bounding box + orientation)",
+    "category": "Geometry",
+    "body": [
+      "bool onSegment(pair<int, int> p, pair<int, int> q, pair<int, int> r) {",
+      "    return q.first <= max(p.first, r.first) && q.first >= min(p.first, r.first) &&",
+      "           q.second <= max(p.second, r.second) && q.second >= min(p.second, r.second);",
+      "}",
+      "",
+      "bool doIntersect(pair<int, int> p1, pair<int, int> q1,",
+      "                 pair<int, int> p2, pair<int, int> q2) {",
+      "    int o1 = orientation(p1, q1, p2);",
+      "    int o2 = orientation(p1, q1, q2);",
+      "    int o3 = orientation(p2, q2, p1);",
+      "    int o4 = orientation(p2, q2, q1);",
+      "",
+      "    if (o1 != o2 && o3 != o4) return true;",
+      "    if (o1 == 0 && onSegment(p1, p2, q1)) return true;",
+      "    if (o2 == 0 && onSegment(p1, q2, q1)) return true;",
+      "    if (o3 == 0 && onSegment(p2, p1, q2)) return true;",
+      "    if (o4 == 0 && onSegment(p2, q1, q2)) return true;",
+      "    return false;",
+      "}"
+    ]
+  },
+  "Geometry - Convex Hull (Monotone Chain)": {
+    "prefix": "cpgeoconvex",
+    "description": "Convex Hull (Monotone Chain / Andrew’s algorithm)",
+    "category": "Geometry",
+    "body": [
+      "vector<pair<int, int>> convexHull(vector<pair<int, int>> pts) {",
+      "    sort(pts.begin(), pts.end());",
+      "    vector<pair<int, int>> hull;",
+      "    for (int i = 0; i < 2; ++i) {",
+      "        int start = hull.size();",
+      "        for (auto &p : pts) {",
+      "            while (hull.size() >= start + 2 &&",
+      "                   cross({hull.end()[-1].first - hull.end()[-2].first,",
+      "                          hull.end()[-1].second - hull.end()[-2].second},",
+      "                         {p.first - hull.end()[-1].first,",
+      "                          p.second - hull.end()[-1].second}) <= 0)",
+      "                hull.pop_back();",
+      "            hull.push_back(p);",
+      "        }",
+      "        hull.pop_back();",
+      "        reverse(pts.begin(), pts.end());",
+      "    }",
+      "    return hull;",
+      "}"
+    ]
+  }
+}

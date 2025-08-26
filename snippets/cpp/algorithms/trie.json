@@ -1,0 +1,140 @@
+{
+  "Basic TrieNode class definition": {
+    "prefix": "cptrieclass",
+    "description": "Basic TrieNode class definition",
+    "category": "Trie",
+    "body": [
+      "struct TrieNode {",
+      "    TrieNode* children[26];",
+      "    bool isEnd;",
+      "    TrieNode() {",
+      "        isEnd = false;",
+      "        for (int i = 0; i < 26; ++i)",
+      "            children[i] = nullptr;",
+      "    }",
+      "};"
+    ]
+  },
+  "Insert word into Trie": {
+    "prefix": "cptrieinsert",
+    "description": "Insert word into Trie",
+    "category": "Trie",
+    "body": [
+      "void insert(TrieNode* root, string word) {",
+      "    TrieNode* node = root;",
+      "    for (char c : word) {",
+      "        int idx = c - 'a';",
+      "        if (!node->children[idx])",
+      "            node->children[idx] = new TrieNode();",
+      "        node = node->children[idx];",
+      "    }",
+      "    node->isEnd = true;",
+      "}"
+    ]
+  },
+  "Search word in Trie": {
+    "prefix": "cptriesearch",
+    "description": "Search word in Trie",
+    "category": "Trie",
+    "body": [
+      "bool search(TrieNode* root, string word) {",
+      "    TrieNode* node = root;",
+      "    for (char c : word) {",
+      "        int idx = c - 'a';",
+      "        if (!node->children[idx]) return false;",
+      "        node = node->children[idx];",
+      "    }",
+      "    return node->isEnd;",
+      "}"
+    ]
+  },
+  "Check prefix exists in Trie": {
+    "prefix": "cptriestarts",
+    "description": "Prefix startsWith check in Trie",
+    "category": "Trie",
+    "body": [
+      "bool startsWith(TrieNode* root, string prefix) {",
+      "    TrieNode* node = root;",
+      "    for (char c : prefix) {",
+      "        int idx = c - 'a';",
+      "        if (!node->children[idx]) return false;",
+      "        node = node->children[idx];",
+      "    }",
+      "    return true;",
+      "}"
+    ]
+  },
+  "Delete word from Trie (recursive)": {
+    "prefix": "cptriedelete",
+    "description": "Delete word from Trie (recursive)",
+    "category": "Trie",
+    "body": [
+      "bool deleteWord(TrieNode* node, string word, int depth = 0) {",
+      "    if (!node) return false;",
+      "    if (depth == word.length()) {",
+      "        if (!node->isEnd) return false;",
+      "        node->isEnd = false;",
+      "        for (int i = 0; i < 26; ++i)",
+      "            if (node->children[i]) return false;",
+      "        return true;",
+      "    }",
+      "    int idx = word[depth] - 'a';",
+      "    if (deleteWord(node->children[idx], word, depth + 1)) {",
+      "        delete node->children[idx];",
+      "        node->children[idx] = nullptr;",
+      "        return !node->isEnd &&",
+      "               all_of(begin(node->children), end(node->children), [](TrieNode* c) { return !c; });",
+      "    }",
+      "    return false;",
+      "}"
+    ]
+  },
+  "TrieNode with prefix count (structure only)": {
+    "prefix": "cptriecountprefix",
+    "description": "Trie with prefix count (structure only)",
+    "category": "Trie",
+    "body": [
+      "struct TrieNode {",
+      "    TrieNode* children[26];",
+      "    int count;",
+      "    TrieNode() {",
+      "        count = 0;",
+      "        for (int i = 0; i < 26; ++i)",
+      "            children[i] = nullptr;",
+      "    }",
+      "};"
+    ]
+  },
+  "Insert word into Trie with prefix count": {
+    "prefix": "cptrieinsertcount",
+    "description": "Insert into Trie with prefix count",
+    "category": "Trie",
+    "body": [
+      "void insert(TrieNode* root, string word) {",
+      "    TrieNode* node = root;",
+      "    for (char c : word) {",
+      "        int idx = c - 'a';",
+      "        if (!node->children[idx])",
+      "            node->children[idx] = new TrieNode();",
+      "        node = node->children[idx];",
+      "        node->count++;",
+      "    }",
+      "}"
+    ]
+  },
+  "Erase word from Trie with prefix count": {
+    "prefix": "cptrieerasecount",
+    "description": "Erase from Trie with prefix count",
+    "category": "Trie",
+    "body": [
+      "void erase(TrieNode* root, string word) {",
+      "    TrieNode* node = root;",
+      "    for (char c : word) {",
+      "        int idx = c - 'a';",
+      "        node = node->children[idx];",
+      "        node->count--;",
+      "    }",
+      "}"
+    ]
+  }
+}

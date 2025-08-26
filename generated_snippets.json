@@ -1,0 +1,146 @@
+[
+  {
+    "language": "cpp",
+    "path": "./snippets/cpp/misc/basics.json"
+  },
+  {
+    "language": "cpp",
+    "path": "./snippets/cpp/data_structures/bit.json"
+  },
+  {
+    "language": "cpp",
+    "path": "./snippets/cpp/data_structures/comparator.json"
+  },
+  {
+    "language": "cpp",
+    "path": "./snippets/cpp/data_structures/graph.json"
+  },
+  {
+    "language": "cpp",
+    "path": "./snippets/cpp/data_structures/linear_ds.json"
+  },
+  {
+    "language": "cpp",
+    "path": "./snippets/cpp/data_structures/linked_list.json"
+  },
+  {
+    "language": "cpp",
+    "path": "./snippets/cpp/data_structures/map.json"
+  },
+  {
+    "language": "cpp",
+    "path": "./snippets/cpp/data_structures/pair.json"
+  },
+  {
+    "language": "cpp",
+    "path": "./snippets/cpp/data_structures/priority_queue.json"
+  },
+  {
+    "language": "cpp",
+    "path": "./snippets/cpp/data_structures/set.json"
+  },
+  {
+    "language": "cpp",
+    "path": "./snippets/cpp/data_structures/string.json"
+  },
+  {
+    "language": "cpp",
+    "path": "./snippets/cpp/data_structures/tree.json"
+  },
+  {
+    "language": "cpp",
+    "path": "./snippets/cpp/data_structures/vector.json"
+  },
+  {
+    "language": "cpp",
+    "path": "./snippets/cpp/algorithms/backtracking.json"
+  },
+  {
+    "language": "cpp",
+    "path": "./snippets/cpp/algorithms/combinatorics.json"
+  },
+  {
+    "language": "cpp",
+    "path": "./snippets/cpp/algorithms/disjoint_set.json"
+  },
+  {
+    "language": "cpp",
+    "path": "./snippets/cpp/algorithms/distance.json"
+  },
+  {
+    "language": "cpp",
+    "path": "./snippets/cpp/algorithms/dynamic_programming.json"
+  },
+  {
+    "language": "cpp",
+    "path": "./snippets/cpp/algorithms/game_theory.json"
+  },
+  {
+    "language": "cpp",
+    "path": "./snippets/cpp/algorithms/geometry.json"
+  },
+  {
+    "language": "cpp",
+    "path": "./snippets/cpp/algorithms/graph.json"
+  },
+  {
+    "language": "cpp",
+    "path": "./snippets/cpp/algorithms/greedy.json"
+  },
+  {
+    "language": "cpp",
+    "path": "./snippets/cpp/algorithms/minimum_spanning_tree.json"
+  },
+  {
+    "language": "cpp",
+    "path": "./snippets/cpp/algorithms/miscellaneous.json"
+  },
+  {
+    "language": "cpp",
+    "path": "./snippets/cpp/algorithms/number_theory.json"
+  },
+  {
+    "language": "cpp",
+    "path": "./snippets/cpp/algorithms/prefix_sum.json"
+  },
+  {
+    "language": "cpp",
+    "path": "./snippets/cpp/algorithms/recursion.json"
+  },
+  {
+    "language": "cpp",
+    "path": "./snippets/cpp/algorithms/searching.json"
+  },
+  {
+    "language": "cpp",
+    "path": "./snippets/cpp/algorithms/segment_tree.json"
+  },
+  {
+    "language": "cpp",
+    "path": "./snippets/cpp/algorithms/sliding_window.json"
+  },
+  {
+    "language": "cpp",
+    "path": "./snippets/cpp/algorithms/sorting.json"
+  },
+  {
+    "language": "cpp",
+    "path": "./snippets/cpp/algorithms/suffix_sum.json"
+  },
+  {
+    "language": "cpp",
+    "path": "./snippets/cpp/algorithms/trie.json"
+  },
+  {
+    "language": "cpp",
+    "path": "./snippets/cpp/algorithms/two_pointer.json"
+  },
+  {
+    "language": "java",
+    "path": "./snippets/java/java.json"
+  },
+  {
+    "language": "python",
+    "path": "./snippets/python/py.json"
+  }
+]

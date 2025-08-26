@@ -1,0 +1,153 @@
+{
+  "Main Function": {
+    "prefix": "cpmain",
+    "description": "Basic main function with return 0",
+    "category": "Basics",
+    "body": [
+      "int main() {",
+      "    $0",
+      "    return 0;",
+      "}"
+    ]
+  },
+
+  "Fast IO": {
+    "prefix": "cpfastio",
+    "description": "Setup fast IO for competitive programming",
+    "category": "Basics",
+    "body": [
+      "ios::sync_with_stdio(false);",
+      "cin.tie(0);"
+    ]
+  },
+
+  "For Loop": {
+    "prefix": "cpfor",
+    "description": "Standard for loop",
+    "category": "Basics",
+    "body": [
+      "for (int ${1:i} = 0; ${1} < ${2:n}; ${1}++) {",
+      "    $0",
+      "}"
+    ]
+  },
+
+  "While Loop": {
+    "prefix": "cpwhile",
+    "description": "Standard while loop",
+    "category": "Basics",
+    "body": [
+      "while (${1:condition}) {",
+      "    $0",
+      "}"
+    ]
+  },
+
+  "Input Integer": {
+    "prefix": "cpintin",
+    "description": "Input a single integer",
+    "category": "Basics",
+    "body": [
+      "int ${1:x};",
+      "cin >> ${1};"
+    ]
+  },
+
+  "Input Array": {
+    "prefix": "cparrayin",
+    "description": "Input integer array",
+    "category": "Basics",
+    "body": [
+      "int ${1:n};",
+      "cin >> ${1};",
+      "vector<int> ${2:arr}(${1});",
+      "for (int ${3:i} = 0; ${3} < ${1}; ${3}++) cin >> ${2}[${3}];"
+    ]
+  },
+
+  "Output Array": {
+    "prefix": "cparrayout",
+    "description": "Print array space-separated",
+    "category": "Basics",
+    "body": [
+      "for (int ${1:i} = 0; ${1} < ${2:arr}.size(); ${1}++)",
+      "    cout << ${2}[${1}] << ' ';",
+      "cout << '\\n';"
+    ]
+  },
+
+  "Debug Print": {
+    "prefix": "cpdbg",
+    "description": "Print variable with label (debug)",
+    "category": "Basics",
+    "body": [
+      "cout << \"${1:var} = \" << ${1} << '\\n';"
+    ]
+  },
+
+  "Input 2D Array": {
+    "prefix": "cp2din",
+    "description": "Input 2D array",
+    "category": "Basics",
+    "body": [
+      "int ${1:n}, ${2:m};",
+      "cin >> ${1} >> ${2};",
+      "vector<vector<int>> ${3:mat}(${1}, vector<int>(${2}));",
+      "for (int ${4:i} = 0; ${4} < ${1}; ${4}++)",
+      "    for (int ${5:j} = 0; ${5} < ${2}; ${5}++)",
+      "        cin >> ${3}[${4}][${5}];"
+    ]
+  },
+
+  "Output 2D Array": {
+    "prefix": "cp2dout",
+    "description": "Print 2D array",
+    "category": "Basics",
+    "body": [
+      "for (int ${1:i} = 0; ${1} < ${2:mat}.size(); ${1}++) {",
+      "    for (int ${3:j} = 0; ${3} < ${2}[${1}].size(); ${3}++)",
+      "        cout << ${2}[${1}][${3}] << ' ';",
+      "    cout << '\\n';",
+      "}"
+    ]
+  },
+
+  "Define Pair": {
+    "prefix": "cppair",
+    "description": "Define pair and take input",
+    "category": "Basics",
+    "body": [
+      "pair<int, int> ${1:p};",
+      "cin >> ${1}.first >> ${1}.second;"
+    ]
+  },
+
+  "Input Multiple Integers": {
+    "prefix": "cpints",
+    "description": "Input multiple integers",
+    "category": "Basics",
+    "body": [
+      "int ${1:a}, ${2:b};",
+      "cin >> ${1} >> ${2};"
+    ]
+  },
+
+  "Print Yes/No": {
+    "prefix": "cpyn",
+    "description": "Print Yes or No based on boolean",
+    "category": "Basics",
+    "body": [
+      "cout << (${1:condition} ? \"YES\" : \"NO\") << '\\n';"
+    ]
+  },
+
+  "Define Constants": {
+    "prefix": "cpconst",
+    "description": "Useful constants",
+    "category": "Basics",
+    "body": [
+      "const int MOD = ${1:1e9+7};",
+      "const int INF = ${2:1e9};"
+    ]
+  }
+}

@@ -1,0 +1,183 @@
+{
+  "Distance - BFS (Unweighted Graph)": {
+    "prefix": "cpdistbfs",
+    "description": "BFS for shortest path in unweighted graph",
+    "category": "Distance Algorithms",
+    "body": [
+      "vector<int> dist(n, -1);",
+      "queue<int> q;",
+      "dist[$1] = 0;",
+      "q.push($1);",
+      "while (!q.empty()) {",
+      "    int u = q.front(); q.pop();",
+      "    for (int v : adj[u]) {",
+      "        if (dist[v] == -1) {",
+      "            dist[v] = dist[u] + 1;",
+      "            q.push(v);",
+      "        }",
+      "    }",
+      "}"
+    ]
+  },
+  "Distance - Floyd Warshall (All Pairs)": {
+    "prefix": "cpdistfw",
+    "description": "Floyd-Warshall for all-pairs shortest paths",
+    "category": "Distance Algorithms",
+    "body": [
+      "vector<vector<int>> dist = $1;",
+      "int n = dist.size();",
+      "for (int k = 0; k < n; ++k) {",
+      "    for (int i = 0; i < n; ++i) {",
+      "        for (int j = 0; j < n; ++j) {",
+      "            if (dist[i][k] < INF && dist[k][j] < INF)",
+      "                dist[i][j] = min(dist[i][j], dist[i][k] + dist[k][j]);",
+      "        }",
+      "    }",
+      "}"
+    ]
+  },
+  "Distance - Dijkstra's Algorithm (PQ)": {
+    "prefix": "cpdistdijk",
+    "description": "Dijkstra's shortest path using priority queue",
+    "category": "Distance Algorithms",
+    "body": [
+      "vector<long long> d(n, INF);",
+      "priority_queue<pair<long long, int>, vector<pair<long long, int>>, greater<>> pq;",
+      "d[$1] = 0;",
+      "pq.push({0, $1});",
+      "while (!pq.empty()) {",
+      "    auto [dist, u] = pq.top(); pq.pop();",
+      "    if (dist > d[u]) continue;",
+      "    for (auto [v, w] : adj[u]) {",
+      "        if (d[u] + w < d[v]) {",
+      "            d[v] = d[u] + w;",
+      "            pq.push({d[v], v});",
+      "        }",
+      "    }",
+      "}"
+    ]
+  },
+  "Distance - Bellman-Ford Algorithm": {
+    "prefix": "cpdistbellman",
+    "description": "Bellman-Ford for negative weights",
+    "category": "Distance Algorithms",
+    "body": [
+      "vector<long long> d(n, INF);",
+      "d[$1] = 0;",
+      "for (int i = 0; i < n - 1; ++i) {",
+      "    for (auto [u, v, w] : edges) {",
+      "        if (d[u] + w < d[v]) {",
+      "            d[v] = d[u] + w;",
+      "        }",
+      "    }",
+      "}"
+    ]
+  },
+  "Distance - Detect Negative Cycle (Bellman)": {
+    "prefix": "cpdistnegcycle",
+    "description": "Detect negative cycle using Bellman-Ford",
+    "category": "Distance Algorithms",
+    "body": [
+      "bool hasNegativeCycle = false;",
+      "for (int i = 0; i < n; ++i) {",
+      "    for (auto [u, v, w] : edges) {",
+      "        if (d[u] + w < d[v]) {",
+      "            d[v] = d[u] + w;",
+      "            if (i == n - 1) hasNegativeCycle = true;",
+      "        }",
+      "    }",
+      "}"
+    ]
+  },
+  "Distance - 0-1 BFS (Deque)": {
+    "prefix": "cpdist0_1bfs",
+    "description": "0-1 BFS for graphs with weights 0 or 1",
+    "category": "Distance Algorithms",
+    "body": [
+      "deque<int> dq;",
+      "vector<int> d(n, INF);",
+      "d[$1] = 0;",
+      "dq.push_front($1);",
+      "while (!dq.empty()) {",
+      "    int u = dq.front(); dq.pop_front();",
+      "    for (auto [v, w] : adj[u]) {",
+      "        if (d[u] + w < d[v]) {",
+      "            d[v] = d[u] + w;",
+      "            if (w == 0) dq.push_front(v);",
+      "            else dq.push_back(v);",
+      "        }",
+      "    }",
+      "}"
+    ]
+  },
+  "Distance - Multi-source BFS": {
+    "prefix": "cpdistmulti",
+    "description": "Multi-source BFS for shortest distance from multiple nodes",
+    "category": "Distance Algorithms",
+    "body": [
+      "vector<int> dist(n, -1);",
+      "queue<int> q;",
+      "for (int s : sources) {",
+      "    dist[s] = 0;",
+      "    q.push(s);",
+      "}",
+      "while (!q.empty()) {",
+      "    int u = q.front(); q.pop();",
+      "    for (int v : adj[u]) {",
+      "        if (dist[v] == -1) {",
+      "            dist[v] = dist[u] + 1;",
+      "            q.push(v);",
+      "        }",
+      "    }",
+      "}"
+    ]
+  },
+  "Distance - BFS on 2D Grid": {
+    "prefix": "cpdistmatrixbfs",
+    "description": "BFS in a 2D grid with 4 directions",
+    "category": "Distance Algorithms",
+    "body": [
+      "int n = grid.size(), m = grid[0].size();",
+      "queue<pair<int, int>> q;",
+      "vector<vector<int>> dist(n, vector<int>(m, -1));",
+      "vector<int> dx = {-1, 0, 1, 0}, dy = {0, 1, 0, -1};",
+      "",
+      "q.push({$1, $2});",
+      "dist[$1][$2] = 0;",
+      "while (!q.empty()) {",
+      "    auto [x, y] = q.front(); q.pop();",
+      "    for (int dir = 0; dir < 4; ++dir) {",
+      "        int nx = x + dx[dir], ny = y + dy[dir];",
+      "        if (0 <= nx && nx < n && 0 <= ny && ny < m && grid[nx][ny] != '#' && dist[nx][ny] == -1) {",
+      "            dist[nx][ny] = dist[x][y] + 1;",
+      "            q.push({nx, ny});",
+      "        }",
+      "    }",
+      "}"
+    ]
+  },
+  "Distance - SPFA (Shortest Path Faster Algo)": {
+    "prefix": "cpdistspfa",
+    "description": "SPFA (Shortest Path Faster Algorithm)",
+    "category": "Distance Algorithms",
+    "body": [
+      "vector<int> dist(n, INF), in_queue(n, 0);",
+      "queue<int> q;",
+      "dist[src] = 0;",
+      "q.push(src); in_queue[src] = 1;",
+      "while (!q.empty()) {",
+      "    int u = q.front(); q.pop();",
+      "    in_queue[u] = 0;",
+      "    for (auto [v, w] : adj[u]) {",
+      "        if (dist[u] + w < dist[v]) {",
+      "            dist[v] = dist[u] + w;",
+      "            if (!in_queue[v]) {",
+      "                q.push(v);",
+      "                in_queue[v] = 1;",
+      "            }",
+      "        }",
+      "    }",
+      "}"
+    ]
+  }
+}

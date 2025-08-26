@@ -1,0 +1,127 @@
+{
+  "Greedy - Activity Selection (End Time Based)": {
+    "prefix": "cppgreactivity",
+    "description": "Activity Selection Problem (end time based)",
+    "category": "Greedy",
+    "body": [
+      "vector<pair<int, int>> activities(n); // {end, start}",
+      "sort(activities.begin(), activities.end());",
+      "int count = 1, last_end = activities[0].first;",
+      "for (int i = 1; i < n; ++i) {",
+      "    if (activities[i].second >= last_end) {",
+      "        ++count;",
+      "        last_end = activities[i].first;",
+      "    }",
+      "}"
+    ]
+  },
+  "Greedy - Fractional Knapsack": {
+    "prefix": "cppgrefractionalknapsack",
+    "description": "Fractional Knapsack using Greedy",
+    "category": "Greedy",
+    "body": [
+      "vector<pair<double, int>> ratio(n); // {value/weight, index}",
+      "for (int i = 0; i < n; ++i)",
+      "    ratio[i] = {1.0 * value[i] / weight[i], i};",
+      "sort(ratio.rbegin(), ratio.rend());",
+      "double maxVal = 0; int cap = W;",
+      "for (auto [r, idx] : ratio) {",
+      "    if (weight[idx] <= cap) {",
+      "        cap -= weight[idx];",
+      "        maxVal += value[idx];",
+      "    } else {",
+      "        maxVal += r * cap;",
+      "        break;",
+      "    }",
+      "}"
+    ]
+  },
+  "Greedy - Job Sequencing Problem": {
+    "prefix": "cppgrejobseq",
+    "description": "Job Sequencing Problem",
+    "category": "Greedy",
+    "body": [
+      "vector<tuple<int, int, int>> jobs(n); // {profit, deadline, id}",
+      "sort(jobs.rbegin(), jobs.rend());",
+      "int maxDeadline = 0;",
+      "for (auto &[p, d, id] : jobs) maxDeadline = max(maxDeadline, d);",
+      "vector<int> slot(maxDeadline + 1, -1);",
+      "int count = 0, profit = 0;",
+      "for (auto &[p, d, id] : jobs) {",
+      "    for (int i = d; i > 0; --i) {",
+      "        if (slot[i] == -1) {",
+      "            slot[i] = id;",
+      "            ++count; profit += p;",
+      "            break;",
+      "        }",
+      "    }",
+      "}"
+    ]
+  },
+  "Greedy - Huffman Encoding (Min Cost Merge)": {
+    "prefix": "cppgrehuff",
+    "description": "Huffman Encoding (Greedy)",
+    "category": "Greedy",
+    "body": [
+      "priority_queue<int, vector<int>, greater<int>> pq;",
+      "for (int f : freq) pq.push(f);",
+      "int cost = 0;",
+      "while (pq.size() > 1) {",
+      "    int a = pq.top(); pq.pop();",
+      "    int b = pq.top(); pq.pop();",
+      "    cost += a + b;",
+      "    pq.push(a + b);",
+      "}"
+    ]
+  },
+  "Greedy - Merge Overlapping Intervals": {
+    "prefix": "cppgreintervalmerge",
+    "description": "Merge Overlapping Intervals",
+    "category": "Greedy",
+    "body": [
+      "sort(intervals.begin(), intervals.end());",
+      "vector<pair<int, int>> merged;",
+      "for (auto &[start, end] : intervals) {",
+      "    if (merged.empty() || merged.back().second < start) {",
+      "        merged.emplace_back(start, end);",
+      "    } else {",
+      "        merged.back().second = max(merged.back().second, end);",
+      "    }",
+      "}"
+    ]
+  },
+  "Greedy - Minimum Coins (Canonical Denominations)": {
+    "prefix": "cppgremincoin",
+    "description": "Min Coins (Greedy, works for canonical denominations)",
+    "category": "Greedy",
+    "body": [
+      "vector<int> coins = {1, 5, 10, 20, 50, 100};",
+      "int target; cin >> target;",
+      "vector<int> used;",
+      "for (int i = coins.size() - 1; i >= 0; --i) {",
+      "    while (target >= coins[i]) {",
+      "        target -= coins[i];",
+      "        used.push_back(coins[i]);",
+      "    }",
+      "}"
+    ]
+  },
+  "Greedy - Max Chain Length (Pairs)": {
+    "prefix": "cppgremaxchain",
+    "description": "Maximum Length Chain of Pairs",
+    "category": "Greedy",
+    "body": [
+      "vector<pair<int, int>> pairs(n);",
+      "sort(pairs.begin(), pairs.end(), [](auto &a, auto &b) {",
+      "    return a.second < b.second;",
+      "});",
+      "int cnt = 1, last = pairs[0].second;",
+      "for (int i = 1; i < n; ++i) {",
+      "    if (pairs[i].first > last) {",
+      "        ++cnt;",
+      "        last = pairs[i].second;",
+      "    }",
+      "}"
+    ]
+  }
+}

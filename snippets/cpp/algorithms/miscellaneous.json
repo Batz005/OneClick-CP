@@ -1,0 +1,145 @@
+{
+  "Modular Multiplication (64-bit safe)": {
+    "prefix": "cpmismodmul",
+    "description": "Modular Multiplication without overflow (64-bit safe)",
+    "category": "Miscellaneous",
+    "body": [
+      "long long mod_mul(long long a, long long b, long long mod) {",
+      "    long long res = 0;",
+      "    a %= mod;",
+      "    while (b) {",
+      "        if (b & 1) res = (res + a) % mod;",
+      "        a = (2 * a) % mod;",
+      "        b >>= 1;",
+      "    }",
+      "    return res;",
+      "}"
+    ]
+  },
+  "Random Number in Range": {
+    "prefix": "cpmisrandrange",
+    "description": "Generate random number in range [l, r]",
+    "category": "Miscellaneous",
+    "body": [
+      "mt19937 rng(chrono::steady_clock::now().time_since_epoch().count());",
+      "int randrange(int l, int r) {",
+      "    return uniform_int_distribution<int>(l, r)(rng);",
+      "}"
+    ]
+  },
+  "Ceil Division": {
+    "prefix": "cpmisceildiv",
+    "description": "Ceil division of two integers",
+    "category": "Miscellaneous",
+    "body": [
+      "int ceil_div(int a, int b) {",
+      "    return (a + b - 1) / b;",
+      "}"
+    ]
+  },
+  "Fast Modular Exponentiation": {
+    "prefix": "cpmisfastpow",
+    "description": "Fast modular exponentiation",
+    "category": "Miscellaneous",
+    "body": [
+      "long long modpow(long long a, long long b, long long mod) {",
+      "    long long res = 1;",
+      "    a %= mod;",
+      "    while (b > 0) {",
+      "        if (b & 1) res = (res * a) % mod;",
+      "        a = (a * a) % mod;",
+      "        b >>= 1;",
+      "    }",
+      "    return res;",
+      "}"
+    ]
+  },
+  "Count Set Bits": {
+    "prefix": "cpmisbitcount",
+    "description": "Count number of set bits in integer",
+    "category": "Miscellaneous",
+    "body": [
+      "int countBits(int x) {",
+      "    return __builtin_popcount(x);",
+      "}"
+    ]
+  },
+  "Floor of Log2": {
+    "prefix": "cpmislog2floor",
+    "description": "Compute floor(log2(x))",
+    "category": "Miscellaneous",
+    "body": [
+      "int log2floor(int x) {",
+      "    return 31 - __builtin_clz(x);",
+      "}"
+    ]
+  },
+  "Generate Unique ID Using __COUNTER__": {
+    "prefix": "cpmisuniqid",
+    "description": "Generate unique ID/hash using __COUNTER__",
+    "category": "Miscellaneous",
+    "body": [
+      "#define UNIQUE_NAME(base) CONCAT(base, __COUNTER__)",
+      "#define CONCAT(a, b) CONCAT_INNER(a, b)",
+      "#define CONCAT_INNER(a, b) a##b"
+    ]
+  },
+  "Benchmark Code Execution Time": {
+    "prefix": "cpmistimefn",
+    "description": "Timer utility for benchmarking functions",
+    "category": "Miscellaneous",
+    "body": [
+      "#include <chrono>",
+      "auto start = chrono::high_resolution_clock::now();",
+      "// ... code to measure ...",
+      "auto end = chrono::high_resolution_clock::now();",
+      "cout << \"Time: \" << chrono::duration_cast<chrono::milliseconds>(end - start).count() << \" ms\\n\";"
+    ]
+  },
+  "Least Significant Bit": {
+    "prefix": "cpmislsb",
+    "description": "Get least significant bit",
+    "category": "Miscellaneous",
+    "body": [
+      "int lsb(int x) {",
+      "    return x & -x;",
+      "}"
+    ]
+  },
+  "Leading and Trailing Zeros": {
+    "prefix": "cpmisclzctz",
+    "description": "Count leading/trailing zeros",
+    "category": "Miscellaneous",
+    "body": [
+      "int leadingZeros = __builtin_clz(x);",
+      "int trailingZeros = __builtin_ctz(x);"
+    ]
+  },
+  "Reverse Bits of 32-bit Integer": {
+    "prefix": "cpmisreversebits",
+    "description": "Reverse bits of a 32-bit integer",
+    "category": "Miscellaneous",
+    "body": [
+      "uint32_t reverseBits(uint32_t n) {",
+      "    uint32_t res = 0;",
+      "    for (int i = 0; i < 32; i++) {",
+      "        res <<= 1;",
+      "        res |= (n & 1);",
+      "        n >>= 1;",
+      "    }",
+      "    return res;",
+      "}"
+    ]
+  },
+  "Next Permutation (Lexicographically)": {
+    "prefix": "cpmisnextperm",
+    "description": "Next permutation (lexicographically)",
+    "category": "Miscellaneous",
+    "body": [
+      "vector<int> v = {1, 2, 3};",
+      "do {",
+      "    // process permutation",
+      "} while (next_permutation(v.begin(), v.end()));"
+    ]
+  }
+}

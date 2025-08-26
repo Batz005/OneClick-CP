@@ -1,0 +1,47 @@
+{
+  "DFS traversal of tree": {
+    "prefix": "cptrdfs",
+    "description": "DFS traversal of tree",
+    "category": "Trees",
+    "body": [
+      "void dfs(int ${1:u}, int ${2:parent}, vector<vector<int>>& ${3:tree}) {",
+      "    for (int ${4:v} : ${3:tree}[${1}]) {",
+      "        if (${4} != ${2}) dfs(${4}, ${1}, ${3:tree});",
+      "    }",
+      "}"
+    ]
+  },
+  "Convert unrooted tree to rooted": {
+    "prefix": "cptrrooted",
+    "description": "Convert unrooted tree to rooted",
+    "category": "Trees",
+    "body": [
+      "void buildRootedTree(int ${1:u}, int ${2:par},",
+      "                     vector<vector<int>>& ${3:adj},",
+      "                     vector<vector<int>>& ${4:tree}) {",
+      "    for (int ${5:v} : ${3:adj}[${1}]) {",
+      "        if (${5} == ${2:par}) continue;",
+      "        ${4:tree}[${1}].push_back(${5});",
+      "        buildRootedTree(${5}, ${1}, ${3:adj}, ${4:tree});",
+      "    }",
+      "}"
+    ]
+  },
+  "Subtree size calculation": {
+    "prefix": "cptrsize",
+    "description": "Subtree size calculation",
+    "category": "Trees",
+    "body": [
+      "vector<int> ${1:sz}(n);",
+      "function<void(int, int)> ${2:dfs} = [&](int ${3:u}, int ${4:p}) {",
+      "    ${1:sz}[${3:u}] = 1;",
+      "    for (int ${5:v} : ${6:adj}[${3:u}]) {",
+      "        if (${5:v} != ${4:p}) {",
+      "            ${2:dfs}(${5:v}, ${3:u});",
+      "            ${1:sz}[${3:u}] += ${1:sz}[${5:v}];",
+      "        }",
+      "    }",
+      "};"
+    ]
+  }
+}

@@ -1,0 +1,144 @@
+{
+  "Initialize vector of size n": {
+    "prefix": "cpvecinit",
+    "description": "Initialize a vector of size n",
+    "category": "vector",
+    "body": [
+      "int ${1:n} = ${2:10};",
+      "vector<int> ${3:v}(${1});"
+    ]
+  },
+  "Input vector of n integers": {
+    "prefix": "cpvecinput",
+    "description": "Input a vector of n integers",
+    "category": "vector",
+    "body": [
+      "int ${1:n};",
+      "cin >> ${1};",
+      "vector<int> ${2:v}(${1});",
+      "for (int ${3:i} = 0; ${3} < ${1}; ++${3}) cin >> ${2}[${3}];"
+    ]
+  },
+  "Print vector elements": {
+    "prefix": "cpvecprint",
+    "description": "Print all elements of a vector",
+    "category": "vector",
+    "body": [
+      "for (int ${1:i} = 0; ${1} < ${2:v}.size(); ++${1})",
+      "    cout << ${2}[${1}] << \" \";",
+      "cout << \"\\n\";"
+    ]
+  },
+  "Range-based for loop over vector": {
+    "prefix": "cpvecforeach",
+    "description": "Range-based for loop over vector",
+    "category": "vector",
+    "body": [
+      "for (auto ${1:x} : ${2:v}) {",
+      "    ${3:// code}",
+      "}"
+    ]
+  },
+  "Sort vector ascending": {
+    "prefix": "cpvecsortasc",
+    "description": "Sort vector in ascending order",
+    "category": "vector",
+    "body": [
+      "sort(${1:v}.begin(), ${1}.end());"
+    ]
+  },
+  "Sort vector descending": {
+    "prefix": "cpvecsortdesc",
+    "description": "Sort vector in descending order",
+    "category": "vector",
+    "body": [
+      "sort(${1:v}.rbegin(), ${1}.rend());"
+    ]
+  },
+  "Resize vector with default value": {
+    "prefix": "cpvecresize",
+    "description": "Resize vector to size n with default value",
+    "category": "vector",
+    "body": [
+      "vector<int> ${1:v};",
+      "${1}.resize(${2:n}, ${3:0});"
+    ]
+  },
+  "2D vector declaration and initialization": {
+    "prefix": "cpvec2d",
+    "description": "Declare and initialize 2D vector",
+    "category": "vector",
+    "body": [
+      "int ${1:n} = ${2:3}, ${3:m} = ${4:4};",
+      "vector<vector<int>> ${5:mat}(${1}, vector<int>(${3}, ${6:0}));"
+    ]
+  },
+  "2D vector input": {
+    "prefix": "cpvec2dinput",
+    "description": "Input for 2D vector",
+    "category": "vector",
+    "body": [
+      "int ${1:n}, ${2:m};",
+      "cin >> ${1} >> ${2};",
+      "vector<vector<int>> ${3:mat}(${1}, vector<int>(${2}));",
+      "for (int ${4:i} = 0; ${4} < ${1}; ++${4})",
+      "    for (int ${5:j} = 0; ${5} < ${2}; ++${5})",
+      "        cin >> ${3}[${4}][${5}];"
+    ]
+  },
+  "Remove duplicates from sorted vector": {
+    "prefix": "cpvecunique",
+    "description": "Remove duplicates from sorted vector",
+    "category": "vector",
+    "body": [
+      "${1:v}.erase(unique(${1}.begin(), ${1}.end()), ${1}.end());"
+    ]
+  },
+  "Find element using std::find": {
+    "prefix": "cpvecfind",
+    "description": "Find element using std::find",
+    "category": "vector",
+    "body": [
+      "auto ${2:it} = find(${1:v}.begin(), ${1}.end(), ${3:x});",
+      "if (${2} != ${1}.end()) {",
+      "    // found",
+      "} else {",
+      "    // not found",
+      "}"
+    ]
+  },
+  "Binary search on sorted vector": {
+    "prefix": "cpvecbinarysearch",
+    "description": "Binary search on sorted vector",
+    "category": "vector",
+    "body": [
+      "bool ${1:found} = binary_search(${2:v}.begin(), ${2}.end(), ${3:x});"
+    ]
+  },
+  "Lower bound in sorted vector": {
+    "prefix": "cpveclowerbound",
+    "description": "Lower bound index in sorted vector",
+    "category": "vector",
+    "body": [
+      "int ${1:idx} = lower_bound(${2:v}.begin(), ${2}.end(), ${3:x}) - ${2}.begin();"
+    ]
+  },
+  "Upper bound in sorted vector": {
+    "prefix": "cpvecupperbound",
+    "description": "Upper bound index in sorted vector",
+    "category": "vector",
+    "body": [
+      "int ${1:idx} = upper_bound(${2:v}.begin(), ${2}.end(), ${3:x}) - ${2}.begin();"
+    ]
+  },
+  "Prefix sum of vector": {
+    "prefix": "cpvecprefixsum",
+    "description": "Prefix sum of vector",
+    "category": "vector",
+    "body": [
+      "vector<int> ${1:pref}(${2:v}.size() + 1);",
+      "for (int ${3:i} = 0; ${3} < ${2}.size(); ++${3})",
+      "    ${1}[${3} + 1] = ${1}[${3}] + ${2}[${3}];"
+    ]
+  }
+}

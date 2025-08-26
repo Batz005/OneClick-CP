@@ -1,0 +1,86 @@
+{
+  "Min heap using priority_queue": {
+    "prefix": "cppqmin",
+    "description": "Min heap using priority_queue",
+    "category": "priority_queue",
+    "body": [
+      "priority_queue<int, vector<int>, greater<int>> ${1:pq};"
+    ]
+  },
+  "Max heap using priority_queue": {
+    "prefix": "cppqmax",
+    "description": "Max heap using priority_queue",
+    "category": "priority_queue",
+    "body": [
+      "priority_queue<int> ${1:pq};"
+    ]
+  },
+  "Push element into priority_queue": {
+    "prefix": "cppqpush",
+    "description": "Push element into priority_queue",
+    "category": "priority_queue",
+    "body": [
+      "${1:pq}.push(${2:val});"
+    ]
+  },
+  "Access top element of priority_queue": {
+    "prefix": "cppqtop",
+    "description": "Access top element of priority_queue",
+    "category": "priority_queue",
+    "body": [
+      "int ${1:top} = ${2:pq}.top();"
+    ]
+  },
+  "Pop top element from priority_queue": {
+    "prefix": "cppqpop",
+    "description": "Pop top element from priority_queue",
+    "category": "priority_queue",
+    "body": [
+      "${1:pq}.pop();"
+    ]
+  },
+  "Loop over all elements in priority_queue": {
+    "prefix": "cppqloop",
+    "description": "Loop over all elements in priority_queue",
+    "category": "priority_queue",
+    "body": [
+      "while (!${1:pq}.empty()) {",
+      "    int ${2:top} = ${1:pq}.top();",
+      "    ${1:pq}.pop();",
+      "    $0",
+      "}"
+    ]
+  },
+  "Custom comparator for priority_queue (min-heap)": {
+    "prefix": "cppqpcomp",
+    "description": "Custom comparator for priority_queue (min-heap)",
+    "category": "priority_queue",
+    "body": [
+      "struct cmp {",
+      "    bool operator()(const pair<int, int>& a, const pair<int, int>& b) const {",
+      "        return a.second > b.second;",
+      "    }",
+      "};",
+      "",
+      "priority_queue<pair<int, int>, vector<pair<int, int>>, cmp> ${1:pq};"
+    ]
+  },
+  "Custom comparator with struct for objects": {
+    "prefix": "cppqpstruct",
+    "description": "Custom comparator with struct for objects",
+    "category": "priority_queue",
+    "body": [
+      "struct Node {",
+      "    int x, y;",
+      "};",
+      "",
+      "struct cmp {",
+      "    bool operator()(const Node& a, const Node& b) const {",
+      "        return a.x > b.x; // sort by x ascending",
+      "    }",
+      "};",
+      "",
+      "priority_queue<Node, vector<Node>, cmp> ${1:pq};"
+    ]
+  }
+}

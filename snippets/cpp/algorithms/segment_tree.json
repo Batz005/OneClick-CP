@@ -1,0 +1,138 @@
+{
+  "Build Segment Tree (Recursive)": {
+    "prefix": "cpsegbuild",
+    "description": "Build Segment Tree (Recursive)",
+    "category": "Segment Trees",
+    "body": [
+      "void build(int node, int l, int r) {",
+      "    if (l == r) {",
+      "        t[node] = arr[l];",
+      "    } else {",
+      "        int mid = (l + r) / 2;",
+      "        build(2*node, l, mid);",
+      "        build(2*node+1, mid+1, r);",
+      "        t[node] = t[2*node] + t[2*node+1];",
+      "    }",
+      "}"
+    ]
+  },
+  "Range Query on Segment Tree (Recursive)": {
+    "prefix": "cpsegquery",
+    "description": "Range Query on Segment Tree (Recursive)",
+    "category": "Segment Trees",
+    "body": [
+      "int query(int node, int l, int r, int ql, int qr) {",
+      "    if (ql > r || qr < l) return 0;",
+      "    if (ql <= l && r <= qr) return t[node];",
+      "    int mid = (l + r) / 2;",
+      "    return query(2*node, l, mid, ql, qr) +",
+      "           query(2*node+1, mid+1, r, ql, qr);",
+      "}"
+    ]
+  },
+  "Point Update on Segment Tree (Recursive)": {
+    "prefix": "cpsegupdate",
+    "description": "Point Update on Segment Tree (Recursive)",
+    "category": "Segment Trees",
+    "body": [
+      "void update(int node, int l, int r, int idx, int val) {",
+      "    if (l == r) {",
+      "        t[node] = val;",
+      "    } else {",
+      "        int mid = (l + r) / 2;",
+      "        if (idx <= mid) update(2*node, l, mid, idx, val);",
+      "        else update(2*node+1, mid+1, r, idx, val);",
+      "        t[node] = t[2*node] + t[2*node+1];",
+      "    }",
+      "}"
+    ]
+  },
+  "Segment Tree with Lazy Propagation": {
+    "prefix": "cpseglazy",
+    "description": "Segment Tree with Lazy Propagation (Range Update + Query)",
+    "category": "Segment Trees",
+    "body": [
+      "void push(int node, int l, int r) {",
+      "    if (lazy[node] != 0) {",
+      "        t[node] += (r - l + 1) * lazy[node];",
+      "        if (l != r) {",
+      "            lazy[2*node] += lazy[node];",
+      "            lazy[2*node+1] += lazy[node];",
+      "        }",
+      "        lazy[node] = 0;",
+      "    }",
+      "}",
+      "",
+      "void update(int node, int l, int r, int ql, int qr, int val) {",
+      "    push(node, l, r);",
+      "    if (ql > r || qr < l) return;",
+      "    if (ql <= l && r <= qr) {",
+      "        lazy[node] += val;",
+      "        push(node, l, r);",
+      "        return;",
+      "    }",
+      "    int mid = (l + r) / 2;",
+      "    update(2*node, l, mid, ql, qr, val);",
+      "    update(2*node+1, mid+1, r, ql, qr, val);",
+      "    t[node] = t[2*node] + t[2*node+1];",
+      "}",
+      "",
+      "int query(int node, int l, int r, int ql, int qr) {",
+      "    push(node, l, r);",
+      "    if (ql > r || qr < l) return 0;",
+      "    if (ql <= l && r <= qr) return t[node];",
+      "    int mid = (l + r) / 2;",
+      "    return query(2*node, l, mid, ql, qr) +",
+      "           query(2*node+1, mid+1, r, ql, qr);",
+      "}"
+    ]
+  },
+  "Iterative Segment Tree (Build + Query + Update)": {
+    "prefix": "cpsegiter",
+    "description": "Iterative Segment Tree (Build + Query + Update)",
+    "category": "Segment Trees",
+    "body": [
+      "vector<int> t(2 * n);",
+      "for (int i = 0; i < n; ++i)",
+      "    t[n + i] = arr[i];",
+      "for (int i = n - 1; i > 0; --i)",
+      "    t[i] = t[i<<1] + t[i<<1|1];",
+      "",
+      "// Query [l, r)",
+      "int query(int l, int r) {",
+      "    int res = 0;",
+      "    for (l += n, r += n; l < r; l >>= 1, r >>= 1) {",
+      "        if (l&1) res += t[l++];",
+      "        if (r&1) res += t[--r];",
+      "    }",
+      "    return res;",
+      "}",
+      "",
+      "// Update index p to value",
+      "void update(int p, int value) {",
+      "    for (t[p += n] = value; p > 1; p >>= 1)",
+      "        t[p>>1] = t[p] + t[p^1];",
+      "}"
+    ]
+  },
+  "Generic Merge Segment Tree": {
+    "prefix": "cpsegmerge",
+    "description": "Generic Merge Segment Tree (custom merge function)",
+    "category": "Segment Trees",
+    "body": [
+      "function<int(int, int)> merge = [&](int a, int b) {",
+      "    return max(a, b);",
+      "};",
+      "",
+      "void build(int node, int l, int r) {",
+      "    if (l == r) t[node] = arr[l];",
+      "    else {",
+      "        int mid = (l + r) / 2;",
+      "        build(2*node, l, mid);",
+      "        build(2*node+1, mid+1, r);",
+      "        t[node] = merge(t[2*node], t[2*node+1]);",
+      "    }",
+      "}"
+    ]
+  }
+}

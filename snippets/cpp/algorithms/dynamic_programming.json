@@ -1,0 +1,145 @@
+{
+  "DP - 1D Bottom-Up": {
+    "prefix": "cpdp1d",
+    "description": "1D Bottom-Up DP template",
+    "category": "Dynamic Programming",
+    "body": [
+      "vector<int> dp(n + 1, 0);",
+      "for (int i = 1; i <= n; ++i) {",
+      "    dp[i] = dp[i - 1] + /* cost[i] */;",
+      "}"
+    ]
+  },
+  "DP - 2D Bottom-Up": {
+    "prefix": "cpdp2d",
+    "description": "2D Bottom-Up DP template",
+    "category": "Dynamic Programming",
+    "body": [
+      "vector<vector<int>> dp(n + 1, vector<int>(m + 1, 0));",
+      "for (int i = 1; i <= n; ++i) {",
+      "    for (int j = 1; j <= m; ++j) {",
+      "        dp[i][j] = max(dp[i - 1][j], dp[i][j - 1]);",
+      "    }",
+      "}"
+    ]
+  },
+  "DP - Top-Down Memoization": {
+    "prefix": "cpdpmemo",
+    "description": "Top-Down Memoization template",
+    "category": "Dynamic Programming",
+    "body": [
+      "vector<vector<int>> memo(n, vector<int>(m, -1));",
+      "function<int(int, int)> dp = [&](int i, int j) -> int {",
+      "    if (i == 0 || j == 0) return 0;",
+      "    if (memo[i][j] != -1) return memo[i][j];",
+      "    return memo[i][j] = max(dp(i - 1, j), dp(i, j - 1));",
+      "};"
+    ]
+  },
+  "DP - Tabulation (Fibonacci)": {
+    "prefix": "cpdptabfib",
+    "description": "Tabulation for Fibonacci",
+    "category": "Dynamic Programming",
+    "body": [
+      "vector<int> dp(n + 1);",
+      "dp[0] = 0;",
+      "dp[1] = 1;",
+      "for (int i = 2; i <= n; ++i) {",
+      "    dp[i] = dp[i - 1] + dp[i - 2];",
+      "}"
+    ]
+  },
+  "DP - Coin Change (Count Ways)": {
+    "prefix": "cpdpcoinchange",
+    "description": "Coin Change (number of ways)",
+    "category": "Dynamic Programming",
+    "body": [
+      "vector<int> dp(amount + 1, 0);",
+      "dp[0] = 1;",
+      "for (int coin : coins) {",
+      "    for (int i = coin; i <= amount; ++i) {",
+      "        dp[i] += dp[i - coin];",
+      "    }",
+      "}"
+    ]
+  },
+  "DP - Longest Common Subsequence": {
+    "prefix": "cpdplcs",
+    "description": "Longest Common Subsequence (LCS)",
+    "category": "Dynamic Programming",
+    "body": [
+      "int n = a.size(), m = b.size();",
+      "vector<vector<int>> dp(n + 1, vector<int>(m + 1));",
+      "for (int i = 1; i <= n; ++i) {",
+      "    for (int j = 1; j <= m; ++j) {",
+      "        if (a[i - 1] == b[j - 1])",
+      "            dp[i][j] = 1 + dp[i - 1][j - 1];",
+      "        else",
+      "            dp[i][j] = max(dp[i - 1][j], dp[i][j - 1]);",
+      "    }",
+      "}"
+    ]
+  },
+  "DP - 0/1 Knapsack (Tabulation)": {
+    "prefix": "cpdpknapsack01",
+    "description": "0/1 Knapsack - Tabulation",
+    "category": "Dynamic Programming",
+    "body": [
+      "vector<vector<int>> dp(n + 1, vector<int>(W + 1, 0));",
+      "for (int i = 1; i <= n; ++i) {",
+      "    for (int w = 0; w <= W; ++w) {",
+      "        if (wt[i - 1] <= w)",
+      "            dp[i][w] = max(dp[i - 1][w], val[i - 1] + dp[i - 1][w - wt[i - 1]]);",
+      "        else",
+      "            dp[i][w] = dp[i - 1][w];",
+      "    }",
+      "}"
+    ]
+  },
+  "DP - Space Optimized 1D": {
+    "prefix": "cpdpoptspace",
+    "description": "Space optimized 1D DP",
+    "category": "Dynamic Programming",
+    "body": [
+      "vector<int> prev(m + 1, 0), curr(m + 1);",
+      "for (int i = 1; i <= n; ++i) {",
+      "    for (int j = 1; j <= m; ++j) {",
+      "        curr[j] = max(prev[j], curr[j - 1]);",
+      "    }",
+      "    prev = curr;",
+      "}"
+    ]
+  },
+  "DP - Longest Increasing Subsequence (LIS)": {
+    "prefix": "cpdplis",
+    "description": "Longest Increasing Subsequence (LIS)",
+    "category": "Dynamic Programming",
+    "body": [
+      "vector<int> dp(n, 1);",
+      "for (int i = 1; i < n; ++i) {",
+      "    for (int j = 0; j < i; ++j) {",
+      "        if (a[i] > a[j])",
+      "            dp[i] = max(dp[i], dp[j] + 1);",
+      "    }",
+      "}",
+      "int ans = *max_element(dp.begin(), dp.end());"
+    ]
+  },
+  "DP - Subset Sum": {
+    "prefix": "cpdpsubsum",
+    "description": "Subset sum problem",
+    "category": "Dynamic Programming",
+    "body": [
+      "vector<vector<bool>> dp(n + 1, vector<bool>(sum + 1, false));",
+      "for (int i = 0; i <= n; ++i) dp[i][0] = true;",
+      "for (int i = 1; i <= n; ++i) {",
+      "    for (int j = 1; j <= sum; ++j) {",
+      "        if (arr[i - 1] <= j)",
+      "            dp[i][j] = dp[i - 1][j] || dp[i - 1][j - arr[i - 1]];",
+      "        else",
+      "            dp[i][j] = dp[i - 1][j];",
+      "    }",
+      "}"
+    ]
+  }
+}
