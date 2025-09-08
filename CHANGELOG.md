@@ -4,6 +4,11 @@ All notable changes to the "oneclick-cp" extension will be documented in this fi
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
+## v0.1.6
+- Fixed showPreview check.
+- removed preview status 
+- Added snippet Index
+
 ## v0.1.5
 ### Added
 - **Snippets Sidebar**: Browse categories/subcategories, preview inline, and insert snippets for C++/Python/Java.
