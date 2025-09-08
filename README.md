@@ -46,7 +46,10 @@ A curated snippet library for **C++**, **Python**, and **Java**. (Only C++ snipp
 - Built-in snippets are merged with your **user snippets** (user overrides on duplicate keys)
 
 > User snippets are stored under the extension’s global storage path:  
-> `<globalStorage>/snippets/<language>/<category>/<subcategory>.json`
+> `<globalStorage>/snippets/<language>/Custom/<subcategory>.json`
+
+👉 Full list of built-in snippets is available here:  
+[📑 Snippets Index](./docs/snippets-index.md)
 
 ### 🧩 Arrange Layout
 Closes all tabs and opens:

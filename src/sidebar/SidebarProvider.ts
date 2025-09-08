@@ -214,6 +214,13 @@ export class SidebarProvider implements vscode.WebviewViewProvider {
           await vscode.commands.executeCommand('oneclick-cp.resetFiles', message.template);
           break;
         }
+        case 'openSnippetsIndex': {
+          const fileUri = vscode.Uri.file(
+            path.join(this._extensionUri.fsPath, 'docs', 'snippets-index.md')
+          );
+          vscode.commands.executeCommand('vscode.open', fileUri);
+          break;
+        }
         case 'getSnippetCategories': {
           this.sendSnippetCategoriesToWebView(message.selectedLanguage);
           break;

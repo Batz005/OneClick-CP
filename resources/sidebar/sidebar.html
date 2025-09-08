@@ -63,7 +63,12 @@
         <!-- Snippet Section       -->
         <!-- ===================== -->
         <section class="section-snippets">
-            <h2>Snippets</h2>
+            <h2>
+                Snippets
+                <a href="#" id="openSnippetsIndex" title="Open pre-defined snippets index" style="font-size: 0.8em; margin-left: 8px;">
+                    📑 Index
+                </a>
+            </h2>
 
             <div class="snippet-options">
                 <label>
@@ -218,6 +223,10 @@
         const vscode = acquireVsCodeApi();
         let selectedTemplate = 'default';
 
+        document.getElementById('openSnippetsIndex').addEventListener('click', (e) => {
+            e.preventDefault();
+            vscode.postMessage({ command: 'openSnippetsIndex' });
+        });
         document.addEventListener("click", function (e) {
             if (e.target && e.target.classList.contains("accordion")) {
                 e.target.classList.toggle("active");
@@ -571,47 +580,53 @@
                         btn.title = snippet.description;
 
                         btn.addEventListener('mouseenter', (e) => {
-                            const tooltip = document.getElementById('snippetTooltip');
-                            tooltip.textContent = snippet.body.join('\n');
-                            tooltip.style.display = 'block';
+                            const showPreview = document.getElementById("showPreview");
+                            if(showPreview && showPreview.checked){
+                                const tooltip = document.getElementById('snippetTooltip');
+                                tooltip.textContent = snippet.body.join('\n');
+                                tooltip.style.display = 'block';
 
-                            // Position after layout so we can read its size
-                            requestAnimationFrame(() => {
-                            const pad = 12;
-                            let top = e.clientY + pad;
-                            let left = pad; // start from left edge so it can extend beyond the sidebar
+                                // Position after layout so we can read its size
+                                requestAnimationFrame(() => {
+                                const pad = 12;
+                                let top = e.clientY + pad;
+                                let left = pad; // start from left edge so it can extend beyond the sidebar
 
-                            const ttWidth = tooltip.offsetWidth;
-                            const ttHeight = tooltip.offsetHeight;
-                            const vw = window.innerWidth;
-                            const vh = window.innerHeight;
+                                const ttWidth = tooltip.offsetWidth;
+                                const ttHeight = tooltip.offsetHeight;
+                                const vw = window.innerWidth;
+                                const vh = window.innerHeight;
 
-                            if (top + ttHeight > vh) {
-                                top = Math.max(pad, e.clientY - ttHeight - pad);
+                                if (top + ttHeight > vh) {
+                                    top = Math.max(pad, e.clientY - ttHeight - pad);
+                                }
+                                if (left + ttWidth > vw) {
+                                    left = Math.max(pad, vw - ttWidth - pad);
+                                }
+
+                                tooltip.style.top = `${top}px`;
+                                tooltip.style.left = `${left}px`;
+                                });
+
+                                const previewId = `${msg.category}:${msg.subCategory}:${snippet.prefix}`;
+                                vscode.postMessage({
+                                command: "previewSnippet",
+                                previewId,
+                                snippet: snippet.body
+                                });
                             }
-                            if (left + ttWidth > vw) {
-                                left = Math.max(pad, vw - ttWidth - pad);
-                            }
-
-                            tooltip.style.top = `${top}px`;
-                            tooltip.style.left = `${left}px`;
-                            });
-
-                            const previewId = `${msg.category}:${msg.subCategory}:${snippet.prefix}`;
-                            vscode.postMessage({
-                            command: "previewSnippet",
-                            previewId,
-                            snippet: snippet.body
-                            });
                         });
                         btn.addEventListener('mouseleave', () => {
-                            const tooltip = document.getElementById('snippetTooltip');
-                            tooltip.style.display = 'none';
-                            const previewId = `${msg.category}:${msg.subCategory}:${snippet.prefix}`;
-                            vscode.postMessage({
-                                command: "clearPreview",
-                                previewId
-                            });
+                            const showPreview = document.getElementById("showPreview");
+                            if(showPreview && showPreview.checked){
+                                const tooltip = document.getElementById('snippetTooltip');
+                                tooltip.style.display = 'none';
+                                const previewId = `${msg.category}:${msg.subCategory}:${snippet.prefix}`;
+                                vscode.postMessage({
+                                    command: "clearPreview",
+                                    previewId
+                                });
+                            }
                         });
 
                         btn.addEventListener('click', () => {
