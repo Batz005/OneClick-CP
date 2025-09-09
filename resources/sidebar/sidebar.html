@@ -87,6 +87,36 @@
                       <option value="java">Java</option>
                   </select>
                 </div>
+                <div class="snippet-accordion">
+                    <button class="accordion">Snippets</button>
+                    <div class="panel snippetSelection">
+
+                        <!-- Data Structures -->
+                        <div class="data_structures">
+                            <button class="accordion" value="data_structures">Data Structures</button>
+                            <div class="dsPanel panel"></div>
+                        </div>
+
+                        <!-- Algorithms -->
+                        <div class="algorithms">
+                            <button class="accordion" value="algorithms">Algorithms</button>
+                            <div class="algoPanel panel"></div>
+                        </div>
+
+                        <!-- Miscellaneous -->
+                        <div class="misc">
+                            <button class="accordion" value="misc">Miscellaneous</button>
+                            <div class="miscPanel panel"></div>
+                        </div>
+
+                        <!-- Custom -->
+                        <div class="custom">
+                            <button class="accordion" value="custom">Custom</button>
+                            <div class="customPanel panel"></div>
+                        </div>
+
+                    </div>
+                </div>
                 <button class="create-snippet-btn" onclick="startCreateSnippet()" title="Create a custom snippet from editor selection">
                   ➕ Create Snippet from Selection
                 </button>
@@ -136,36 +166,7 @@
     </dialog>
             </div>
 
-            <div class="snippet-accordion">
-                <button class="accordion">Snippets</button>
-                <div class="panel snippetSelection">
 
-                    <!-- Data Structures -->
-                    <div class="data_structures">
-                        <button class="accordion" value="data_structures">Data Structures</button>
-                        <div class="dsPanel panel"></div>
-                    </div>
-
-                    <!-- Algorithms -->
-                    <div class="algorithms">
-                        <button class="accordion" value="algorithms">Algorithms</button>
-                        <div class="algoPanel panel"></div>
-                    </div>
-
-                    <!-- Miscellaneous -->
-                    <div class="misc">
-                        <button class="accordion" value="misc">Miscellaneous</button>
-                        <div class="miscPanel panel"></div>
-                    </div>
-
-                    <!-- Custom -->
-                    <div class="custom">
-                        <button class="accordion" value="custom">Custom</button>
-                        <div class="customPanel panel"></div>
-                    </div>
-
-                </div>
-            </div>
         </section>
 
         <!-- ===================== -->

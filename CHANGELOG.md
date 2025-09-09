@@ -4,6 +4,9 @@ All notable changes to the "oneclick-cp" extension will be documented in this fi
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
+## v0.1.7
+- minor ui changes
+
 ## v0.1.6
 - Fixed showPreview check.
 - removed preview status 
