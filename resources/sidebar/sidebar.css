@@ -52,7 +52,36 @@ body.vscode-dark {
 
   --logo-filter: invert(1) brightness(1000%);
 }
+/* =========Font Sizes========*/
 
+/* General scale-down */
+body {
+  font-size: clamp(11px, 1.2vw, 14px);
+}
+
+button {
+  padding: 0.25em 0.75em;
+  font-size: clamp(10px, 1vw, 13px);
+}
+
+input, textarea, select {
+  font-size: clamp(10px, 1vw, 13px);
+  padding: 0.3em;
+}
+
+label {
+  font-size: clamp(10px, 1vw, 13px);
+}
+
+.accordion {
+  font-size: clamp(11px, 1vw, 13px);
+  padding: 6px 10px;
+}
+
+.panel {
+  font-size: clamp(10px, 1vw, 13px);
+  padding: 6px 10px;
+}
 /* ---- Base Layout ---- */
 body {
   font-family: var(--vscode-font-family, ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, Arial, "Apple Color Emoji", "Segoe UI Emoji");
