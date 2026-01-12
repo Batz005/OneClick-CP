@@ -231,11 +231,35 @@
       },
       {
         "language": "python",
+        "path": "./snippets/python/algorithms/dynamic_programming.json"
+      },
+      {
+        "language": "python",
+        "path": "./snippets/python/algorithms/searching.json"
+      },
+      {
+        "language": "python",
+        "path": "./snippets/python/algorithms/backtracking.json"
+      },
+      {
+        "language": "python",
         "path": "./snippets/python/data_structures/list.json"
       },
       {
         "language": "python",
         "path": "./snippets/python/data_structures/advanced.json"
+      },
+      {
+        "language": "python",
+        "path": "./snippets/python/data_structures/segment_tree.json"
+      },
+      {
+        "language": "python",
+        "path": "./snippets/python/data_structures/trie.json"
+      },
+      {
+        "language": "python",
+        "path": "./snippets/python/data_structures/tree.json"
       },
       {
         "language": "java",
@@ -251,7 +275,31 @@
       },
       {
         "language": "java",
+        "path": "./snippets/java/algorithms/dynamic_programming.json"
+      },
+      {
+        "language": "java",
+        "path": "./snippets/java/algorithms/searching.json"
+      },
+      {
+        "language": "java",
+        "path": "./snippets/java/algorithms/backtracking.json"
+      },
+      {
+        "language": "java",
         "path": "./snippets/java/data_structures/list.json"
+      },
+      {
+        "language": "java",
+        "path": "./snippets/java/data_structures/segment_tree.json"
+      },
+      {
+        "language": "java",
+        "path": "./snippets/java/data_structures/trie.json"
+      },
+      {
+        "language": "java",
+        "path": "./snippets/java/data_structures/tree.json"
       },
       {
         "language": "java",
@@ -268,6 +316,30 @@
       {
         "language": "javascript",
         "path": "./snippets/javascript/algorithms/math.json"
+      },
+      {
+        "language": "javascript",
+        "path": "./snippets/javascript/algorithms/dynamic_programming.json"
+      },
+      {
+        "language": "javascript",
+        "path": "./snippets/javascript/algorithms/searching.json"
+      },
+      {
+        "language": "javascript",
+        "path": "./snippets/javascript/algorithms/backtracking.json"
+      },
+      {
+        "language": "javascript",
+        "path": "./snippets/javascript/data_structures/segment_tree.json"
+      },
+      {
+        "language": "javascript",
+        "path": "./snippets/javascript/data_structures/trie.json"
+      },
+      {
+        "language": "javascript",
+        "path": "./snippets/javascript/data_structures/tree.json"
       }
     ],
     "configuration": {

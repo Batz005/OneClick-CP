@@ -1,0 +1,22 @@
+{
+    "Permutations": {
+        "prefix": "permutations",
+        "body": [
+            "function permute(nums) {",
+            "    const res = [];",
+            "    function backtrack(path, options) {",
+            "        if (options.length === 0) {",
+            "            res.push(path);",
+            "            return;",
+            "        }",
+            "        for (let i = 0; i < options.length; i++) {",
+            "            backtrack([...path, options[i]], [...options.slice(0, i), ...options.slice(i + 1)]);",
+            "        }",
+            "    }",
+            "    backtrack([], nums);",
+            "    return res;",
+            "}"
+        ],
+        "description": "Generate Permutations"
+    }
+}

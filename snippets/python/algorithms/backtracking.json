@@ -1,0 +1,32 @@
+{
+    "Permutations": {
+        "prefix": "permutations",
+        "body": [
+            "def permute(nums):",
+            "    res = []",
+            "    def backtrack(path, options):",
+            "        if not options:",
+            "            res.append(path)",
+            "            return",
+            "        for i in range(len(options)):",
+            "            backtrack(path + [options[i]], options[:i] + options[i+1:])",
+            "    backtrack([], nums)",
+            "    return res"
+        ],
+        "description": "Generate Permutations"
+    },
+    "Subsets": {
+        "prefix": "subsets",
+        "body": [
+            "def subsets(nums):",
+            "    res = []",
+            "    def backtrack(start, path):",
+            "        res.append(path)",
+            "        for i in range(start, len(nums)):",
+            "            backtrack(i + 1, path + [nums[i]])",
+            "    backtrack(0, [])",
+            "    return res"
+        ],
+        "description": "Generate Subsets"
+    }
+}

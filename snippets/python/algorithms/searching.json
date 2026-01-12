@@ -1,0 +1,45 @@
+{
+    "Binary Search": {
+        "prefix": "binarysearch",
+        "body": [
+            "def binary_search(arr, x):",
+            "    low = 0",
+            "    high = len(arr) - 1",
+            "    mid = 0",
+            "    while low <= high:",
+            "        mid = (high + low) // 2",
+            "        if arr[mid] < x:",
+            "            low = mid + 1",
+            "        elif arr[mid] > x:",
+            "            high = mid - 1",
+            "        else:",
+            "            return mid",
+            "    return -1"
+        ],
+        "description": "Binary Search"
+    },
+    "Lower Bound": {
+        "prefix": "lowerbound",
+        "body": [
+            "from bisect import bisect_left",
+            "def lower_bound(arr, x):",
+            "    i = bisect_left(arr, x)",
+            "    if i != len(arr):",
+            "        return i",
+            "    return -1"
+        ],
+        "description": "Lower Bound (First element >= x)"
+    },
+    "Upper Bound": {
+        "prefix": "upperbound",
+        "body": [
+            "from bisect import bisect_right",
+            "def upper_bound(arr, x):",
+            "    i = bisect_right(arr, x)",
+            "    if i != len(arr):",
+            "        return i",
+            "    return -1"
+        ],
+        "description": "Upper Bound (First element > x)"
+    }
+}
