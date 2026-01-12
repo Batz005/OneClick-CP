@@ -15,7 +15,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/yourusername/OneClick-CP"
+    "url": "https://github.com/Batz005/OneClick-CP"
   },
   "categories": [
     "Other"
@@ -232,21 +232,29 @@
           "default": {
             "default": {
               "main.cpp": "#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    return 0;\n}\n",
+              "Main.java": "import java.util.*;\nimport java.io.*;\n\npublic class Main {\n    public static void main(String[] args) {\n    }\n}\n",
+              "main.py": "import sys\n\ndef main():\n    pass\n\nif __name__ == \"__main__\":\n    main()\n",
               "input.txt": "",
               "output.txt": ""
             },
             "Fast_IO": {
               "main.cpp": "...",
+              "Main.java": "...",
+              "main.py": "...",
               "input.txt": "...",
               "output.txt": "..."
             },
             "Debug_Template": {
               "main.cpp": "...",
+              "Main.java": "...",
+              "main.py": "...",
               "input.txt": "...",
               "output.txt": "..."
             },
             "CP_Template": {
               "main.cpp": "#include<bits/stdc++.h>\n// #define ONLINE_JUDGE\nusing namespace std;\n\nint main() {\n\n#ifndef ONLINE_JUDGE\nfreopen(\"input.txt\", \"r\", stdin);\nfreopen(\"output.txt\", \"w\", stdout);\n#endif\n\nint t;\ncin >> t;\nwhile(t--){\n\t\n}\nreturn 0;\n}",
+              "Main.java": "import java.util.*;\nimport java.io.*;\n\npublic class Main {\n    public static void main(String[] args) {\n        // Fast I/O\n    }\n}\n",
+              "main.py": "import sys\n\n# sys.stdin = open('input.txt', 'r')\n# sys.stdout = open('output.txt', 'w')\n\ndef main():\n    t = int(input())\n    for _ in range(t):\n        pass\n\nif __name__ == \"__main__\":\n    main()\n",
               "input.txt": "",
               "output.txt": ""
             }

@@ -3,6 +3,7 @@
 import * as vscode from 'vscode';
 import { SidebarProvider } from './sidebar/SidebarProvider';
 import { registerAllCommands } from './commands';
+import { LanguageManager } from './languages/LanguageManager';
 
 // This method is called when your extension is activated
 // Your extension is activated the very first time the command is executed
@@ -20,7 +21,8 @@ export function activate(context: vscode.ExtensionContext) {
 	console.log("✅ WebviewViewProvider registered for:", SidebarProvider.viewType);
 
 
-	context.subscriptions.push(...registerAllCommands(context, sidebarProvider));
+    const languageManager = new LanguageManager();
+	context.subscriptions.push(...registerAllCommands(context, sidebarProvider, languageManager));
 	vscode.commands.getCommands(true).then(cmds => {
    		console.log('✅ Registered commands:', cmds);
 	});

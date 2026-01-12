@@ -2,31 +2,25 @@ import * as vscode from 'vscode';
 import * as fs from 'fs';
 import * as path from 'path';
 import { SidebarProvider } from './sidebar/SidebarProvider';
+import { LanguageManager } from './languages/LanguageManager';
+import { LanguageStrategy } from './languages/strategies';
 
 export function registerAllCommands(
     context: vscode.ExtensionContext,
-        sidebarProvider: SidebarProvider
+    sidebarProvider: SidebarProvider,
+    languageManager: LanguageManager
 ): vscode.Disposable[] {
   return [
-    registerResetCommand(),
-    registerSaveTemplateCommand(sidebarProvider),
+    registerResetCommand(languageManager),
+    registerSaveTemplateCommand(sidebarProvider, languageManager),
     registerDeleteTemplateCommand(sidebarProvider),
-    registerExportSolutionCommand(),
-    registerArrangeLayoutCommand(),
+    registerExportSolutionCommand(languageManager),
+    registerArrangeLayoutCommand(languageManager),
     registerCreateSnippetCommand(sidebarProvider)
   ];
 }
 
-const defaultMainCpp = `#include <bits/stdc++.h>
-using namespace std;
 
-int main() {
-    // your code here
-    return 0;
-}
-`;
-const defaultInputTxt = "";
-const defaultOutputTxt = "";
 
 function getTemplate(templateName: string): { [key: string]: string } {
   const config = vscode.workspace.getConfiguration('oneclick-cp');
@@ -35,85 +29,51 @@ function getTemplate(templateName: string): { [key: string]: string } {
   return allTemplates[templateName] || {};
 }
 
-function registerResetCommand(): vscode.Disposable {
+function registerResetCommand(languageManager: LanguageManager): vscode.Disposable {
   return vscode.commands.registerCommand('oneclick-cp.resetFiles', async (templateName?: string) => {
     const workspaceFolders = vscode.workspace.workspaceFolders;
     if (!workspaceFolders) {
       vscode.window.showErrorMessage('❌ No workspace folder found.');
-      console.error('[Reset] No workspace folder found. Aborting resetFiles command.');
       return;
     }
 
-    let status = 0;
     const templateToUse = templateName ?? 'default';
     const templates = getTemplate(templateToUse);
-    const inputContent = templates["input.txt"] ?? defaultInputTxt;
-    const outputContent = templates["output.txt"] ?? defaultOutputTxt;
-    const mainCppContent = templates["main.cpp"] ?? defaultMainCpp;
-
-    console.log(`[Reset] Selected template: ${templateToUse}`);
-    console.log(`[Reset] Templates loaded: main.cpp=${!!templates["main.cpp"]}, input.txt=${!!templates["input.txt"]}, output.txt=${!!templates["output.txt"]}`);
-    if (!templates["main.cpp"] || !templates["input.txt"] || !templates["output.txt"]) {
-      console.log(`[Reset] One or more template files missing for "${templateToUse}". Using defaults for missing files.`);
-    }
+    const inputContent = templates["input.txt"] ?? "";
+    const outputContent = templates["output.txt"] ?? "";
 
     for (const folder of workspaceFolders) {
-      const folderUri = folder.uri;
-      if (folderUri.path.includes('/Solutions/')) {
-        console.log(`[Reset] Skipping Solutions folder: ${folderUri.fsPath}`);
-        continue;
-      }
-      const mainCpp = vscode.Uri.joinPath(folderUri, 'main.cpp');
-      const inputTxt = vscode.Uri.joinPath(folderUri, 'input.txt');
-      const outputTxt = vscode.Uri.joinPath(folderUri, 'output.txt');
+      if (folder.uri.path.includes('/Solutions/')) continue;
 
-      try {
-        await vscode.workspace.fs.stat(mainCpp);
-        await vscode.workspace.fs.stat(inputTxt);
-        await vscode.workspace.fs.stat(outputTxt);
-
-        vscode.window.showInformationMessage(`📂 Found folder: ${folder.name} with all 3 files.`);
+      // Detect language or default to C++
+      let strategy = languageManager.getStrategy('cpp');
+      for (const s of languageManager.getAllStrategies()) {
         try {
-          await vscode.workspace.fs.writeFile(mainCpp, Buffer.from(mainCppContent, 'utf8'));
-          await vscode.workspace.fs.writeFile(inputTxt, Buffer.from(inputContent, 'utf8'));
-          await vscode.workspace.fs.writeFile(outputTxt, Buffer.from(outputContent, 'utf8'));
-          vscode.window.showInformationMessage(`✅ Reset files in folder: ${folderUri.fsPath}`);
-          console.log(`[Reset] Successfully reset files in folder: ${folderUri.fsPath} using template: ${templateToUse}`);
-        } catch (err) {
-          vscode.window.showErrorMessage(`❌ Failed to write files in folder: ${folderUri.fsPath} – ${err}`);
-          console.error(`[Reset] Failed to write files in folder: ${folderUri.fsPath} –`, err);
-        }
-        status = 1;
-        break;
-      } catch (statErr) {
-        console.log(`[Reset] Skipping folder (missing files): ${folderUri.fsPath}`);
+          await vscode.workspace.fs.stat(vscode.Uri.joinPath(folder.uri, s.mainFileName));
+          strategy = s;
+          break;
+        } catch {}
       }
-    }
 
-    if (status === 0) {
-      vscode.window.showWarningMessage('⚠️ No folder had all 3 files — fallback triggered.');
-      const folderUri = workspaceFolders[0].uri;
-      const mainCpp = vscode.Uri.joinPath(folderUri, "main.cpp");
-      const inputTxt = vscode.Uri.joinPath(folderUri, "input.txt");
-      const outputTxt = vscode.Uri.joinPath(folderUri, "output.txt");
+      const mainFile = vscode.Uri.joinPath(folder.uri, strategy.mainFileName);
+      const inputTxt = vscode.Uri.joinPath(folder.uri, 'input.txt');
+      const outputTxt = vscode.Uri.joinPath(folder.uri, 'output.txt');
+
+      const mainContent = templates[strategy.mainFileName] ?? strategy.defaultContent;
+
       try {
-        await vscode.workspace.fs.writeFile(mainCpp, Buffer.from(mainCppContent, 'utf8'));
+        await vscode.workspace.fs.writeFile(mainFile, Buffer.from(mainContent, 'utf8'));
         await vscode.workspace.fs.writeFile(inputTxt, Buffer.from(inputContent, 'utf8'));
         await vscode.workspace.fs.writeFile(outputTxt, Buffer.from(outputContent, 'utf8'));
-        vscode.window.showInformationMessage(`✅ Reset files in fallback folder: ${folderUri.fsPath}`);
-        console.log(`[Reset] Fallback: Reset files in folder: ${folderUri.fsPath} using template: ${templateToUse}`);
-        if (!templates["main.cpp"] || !templates["input.txt"] || !templates["output.txt"]) {
-          console.log(`[Reset] Fallback used default templates for missing files in folder: ${folderUri.fsPath}`);
-        }
+        vscode.window.showInformationMessage(`✅ Reset files in ${folder.name} (${strategy.languageId})`);
       } catch (err) {
-        vscode.window.showErrorMessage(`❌ Fallback write failed: ${err}`);
-        console.error(`[Reset] Fallback write failed in folder: ${folderUri.fsPath} –`, err);
+        vscode.window.showErrorMessage(`❌ Failed to reset files: ${err}`);
       }
     }
   });
 }
 
-function registerSaveTemplateCommand(sidebarProvider: SidebarProvider): vscode.Disposable {
+function registerSaveTemplateCommand(sidebarProvider: SidebarProvider, languageManager: LanguageManager): vscode.Disposable {
   return vscode.commands.registerCommand('oneclick-cp.saveTemplate', async (message: any) => {
     if (!message.templateName) {
       vscode.window.showWarningMessage('Template save cancelled (no name provided).');
@@ -123,7 +83,6 @@ function registerSaveTemplateCommand(sidebarProvider: SidebarProvider): vscode.D
     const config = vscode.workspace.getConfiguration('oneclick-cp');
     const templates = config.get<{ [key: string]: { [file: string]: string } }>('templates') || {};
 
-    // Collision check
     if (templates[message.templateName]) {
       const confirm = await vscode.window.showQuickPick(['Yes', 'No'], {
         placeHolder: `Template "${message.templateName}" already exists. Overwrite?`,
@@ -141,50 +100,49 @@ function registerSaveTemplateCommand(sidebarProvider: SidebarProvider): vscode.D
     }
 
     const root = workspace.uri;
-    const mainUri = vscode.Uri.joinPath(root, 'main.cpp');
-    const inputUri = vscode.Uri.joinPath(root, 'input.txt');
-    const outputUri = vscode.Uri.joinPath(root, 'output.txt');
-
     const editors = vscode.window.visibleTextEditors;
-    let mainCpp = "", inputTxt = "", outputTxt = "";
+    const template: { [key: string]: string } = {};
 
     const getEditorText = (filename: string) =>
       editors.find(ed => ed.document.fileName.endsWith(filename))?.document.getText();
 
     if (message.includeMainCpp) {
-      mainCpp = getEditorText('main.cpp') ?? '';
-      if (!mainCpp) {
-        try {
-          const buffer = await vscode.workspace.fs.readFile(mainUri);
-          mainCpp = Buffer.from(buffer).toString('utf8');
-        } catch { console.warn(`⚠️ Couldn't read main.cpp from disk`); }
+      for (const strategy of languageManager.getAllStrategies()) {
+        const filename = strategy.mainFileName;
+        let content = getEditorText(filename);
+        if (!content) {
+          try {
+            const buffer = await vscode.workspace.fs.readFile(vscode.Uri.joinPath(root, filename));
+            content = Buffer.from(buffer).toString('utf8');
+          } catch {}
+        }
+        if (content) {
+          template[filename] = content;
+        }
       }
     }
 
     if (message.includeInputTxt) {
-      inputTxt = getEditorText('input.txt') ?? '';
+      let inputTxt = getEditorText('input.txt');
       if (!inputTxt) {
         try {
-          const buffer = await vscode.workspace.fs.readFile(inputUri);
+          const buffer = await vscode.workspace.fs.readFile(vscode.Uri.joinPath(root, 'input.txt'));
           inputTxt = Buffer.from(buffer).toString('utf8');
-        } catch { console.warn(`⚠️ Couldn't read input.txt from disk`); }
+        } catch {}
       }
+      if (inputTxt) template["input.txt"] = inputTxt;
     }
 
     if (message.includeOutputTxt) {
-      outputTxt = getEditorText('output.txt') ?? '';
+      let outputTxt = getEditorText('output.txt');
       if (!outputTxt) {
         try {
-          const buffer = await vscode.workspace.fs.readFile(outputUri);
+          const buffer = await vscode.workspace.fs.readFile(vscode.Uri.joinPath(root, 'output.txt'));
           outputTxt = Buffer.from(buffer).toString('utf8');
-        } catch { console.warn(`⚠️ Couldn't read output.txt from disk`); }
+        } catch {}
       }
+      if (outputTxt) template["output.txt"] = outputTxt;
     }
-
-    const template: { [key: string]: string } = {};
-    if (message.includeMainCpp) template["main.cpp"] = mainCpp;
-    if (message.includeInputTxt) template["input.txt"] = inputTxt;
-    if (message.includeOutputTxt) template["output.txt"] = outputTxt;
 
     templates[message.templateName] = template;
     await config.update('templates', templates, vscode.ConfigurationTarget.Global);
@@ -195,7 +153,6 @@ function registerSaveTemplateCommand(sidebarProvider: SidebarProvider): vscode.D
     });
 
     vscode.window.showInformationMessage(`✅ Template "${message.templateName}" saved!`);
-    console.log(`[Template] Saved: "${message.templateName}"`);
   });
 }
 
@@ -231,7 +188,7 @@ function registerDeleteTemplateCommand(sidebarProvider: SidebarProvider): vscode
 }
 
 
-function registerExportSolutionCommand(): vscode.Disposable {
+function registerExportSolutionCommand(languageManager: LanguageManager): vscode.Disposable {
   return vscode.commands.registerCommand('oneclick-cp.exportSolution', async (message) => {
     const solutionName = await vscode.window.showInputBox({
       prompt: 'Enter a name for the exported solution folder',
@@ -262,17 +219,25 @@ function registerExportSolutionCommand(): vscode.Disposable {
       await vscode.workspace.fs.createDirectory(targetFolder);
     } catch { /* already exists */ }
 
-    const targetMainCpp = vscode.Uri.joinPath(targetFolder, "main.cpp");
+    // Detect language
+    let strategy = languageManager.getStrategy('cpp');
+    for (const s of languageManager.getAllStrategies()) {
+      try {
+        await vscode.workspace.fs.stat(vscode.Uri.joinPath(rootUri, s.mainFileName));
+        strategy = s;
+        break;
+      } catch {}
+    }
+
+    const targetMain = vscode.Uri.joinPath(targetFolder, strategy.mainFileName);
     const targetInputTxt = vscode.Uri.joinPath(targetFolder, "input.txt");
     const targetOutputTxt = vscode.Uri.joinPath(targetFolder, "output.txt");
 
-    const root = workspace[0].uri;
-    const mainUri = vscode.Uri.joinPath(root, 'main.cpp');
-    const inputUri = vscode.Uri.joinPath(root, 'input.txt');
-    const outputUri = vscode.Uri.joinPath(root, 'output.txt');
+    const mainUri = vscode.Uri.joinPath(rootUri, strategy.mainFileName);
+    const inputUri = vscode.Uri.joinPath(rootUri, 'input.txt');
+    const outputUri = vscode.Uri.joinPath(rootUri, 'output.txt');
 
     const editors = vscode.window.visibleTextEditors;
-
     const getEditorText = (filename: string) =>
       editors.find(ed => ed.document.fileName.endsWith(filename))?.document.getText();
 
@@ -285,9 +250,9 @@ function registerExportSolutionCommand(): vscode.Disposable {
       }
     }
 
-    let mainCppContent = getEditorText('main.cpp') ?? '';
-    if (!mainCppContent) mainCppContent = await readFileIfNotOpen(mainUri);
-    if (!mainCppContent) mainCppContent = defaultMainCpp;
+    let mainContent = getEditorText(strategy.mainFileName) ?? '';
+    if (!mainContent) mainContent = await readFileIfNotOpen(mainUri);
+    if (!mainContent) mainContent = strategy.defaultContent;
 
     let inputTxtContent = getEditorText('input.txt') ?? '';
     if (!inputTxtContent) inputTxtContent = await readFileIfNotOpen(inputUri);
@@ -296,59 +261,54 @@ function registerExportSolutionCommand(): vscode.Disposable {
     if (!outputTxtContent) outputTxtContent = await readFileIfNotOpen(outputUri);
 
     try {
-      await vscode.workspace.fs.writeFile(targetMainCpp, Buffer.from(mainCppContent, 'utf8'));
+      await vscode.workspace.fs.writeFile(targetMain, Buffer.from(mainContent, 'utf8'));
       await vscode.workspace.fs.writeFile(targetInputTxt, Buffer.from(inputTxtContent, 'utf8'));
       await vscode.workspace.fs.writeFile(targetOutputTxt, Buffer.from(outputTxtContent, 'utf8'));
 
       vscode.window.showInformationMessage(`✅ Solution "${solutionName}" exported successfully.`);
-      console.log(`[Export] Exported to: ${targetFolder.fsPath}`);
     } catch (err) {
       vscode.window.showErrorMessage(`❌ Failed to export solution: ${err}`);
-      console.error(`[Export] Failed to write exported solution –`, err);
     }
   });
 }
 
-function registerArrangeLayoutCommand(): vscode.Disposable {
+function registerArrangeLayoutCommand(languageManager: LanguageManager): vscode.Disposable {
   return vscode.commands.registerCommand('oneclick-cp.arrangeLayout', async () => {
     const wsFolders = vscode.workspace.workspaceFolders;
     if (!wsFolders) {
       vscode.window.showErrorMessage('No workspace folder found.');
-      console.error('[Layout] No workspace folder found.');
       return;
     }
 
     const root = wsFolders[0].uri;
-    const mainUri = vscode.Uri.joinPath(root, 'main.cpp');
+    
+    // Detect language
+    let strategy = languageManager.getStrategy('cpp');
+    for (const s of languageManager.getAllStrategies()) {
+      try {
+        await vscode.workspace.fs.stat(vscode.Uri.joinPath(root, s.mainFileName));
+        strategy = s;
+        break;
+      } catch {}
+    }
+
+    const mainUri = vscode.Uri.joinPath(root, strategy.mainFileName);
     const inputUri = vscode.Uri.joinPath(root, 'input.txt');
     const outputUri = vscode.Uri.joinPath(root, 'output.txt');
 
     try {
-      // Close all existing editors to avoid duplicate splits and tabs
       await vscode.commands.executeCommand('workbench.action.closeAllEditors');
-      console.log('[Layout] Closed all editors to ensure no duplicate splits/tabs.');
-
-      // Open main.cpp in column 1 (left)
       await vscode.commands.executeCommand('vscode.open', mainUri, { viewColumn: vscode.ViewColumn.One });
-      console.log('[Layout] Opened main.cpp in ViewColumn.One');
-
-      // Open input.txt in column 2 (right)
       await vscode.commands.executeCommand('vscode.open', inputUri, { viewColumn: vscode.ViewColumn.Two });
-      console.log('[Layout] Opened input.txt in ViewColumn.Two');
-
-      // Split editor down and open output.txt in the bottom half of column 2
       await vscode.commands.executeCommand('workbench.action.focusSecondEditorGroup');
       await vscode.commands.executeCommand('workbench.action.splitEditorDown');
       await vscode.commands.executeCommand('vscode.open', outputUri, { viewColumn: vscode.ViewColumn.Three });
-      console.log('[Layout] Opened output.txt in ViewColumn.Three (split below)');
 
       vscode.window.showInformationMessage('🧩 Layout arranged successfully!');
     } catch (err) {
       vscode.window.showErrorMessage(`❌ Failed to arrange layout: ${err}`);
-      console.error('[Layout] Error arranging layout:', err);
     }
   });
-  
 }
 
 function registerCreateSnippetCommand(sidebarProvider: SidebarProvider): vscode.Disposable {
