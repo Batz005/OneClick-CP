@@ -13,7 +13,8 @@ export function activate(context: vscode.ExtensionContext) {
 	// This line of code will only be executed once when your extension is activated
 	console.log('Congratulations, your extension "oneclick-cp" is now active!');
 
-    const sidebarProvider = new SidebarProvider(context.extensionUri, context);
+    const languageManager = new LanguageManager();
+    const sidebarProvider = new SidebarProvider(context.extensionUri, languageManager, context);
 
 	context.subscriptions.push(
 		vscode.window.registerWebviewViewProvider(SidebarProvider.viewType, sidebarProvider)
@@ -21,7 +22,6 @@ export function activate(context: vscode.ExtensionContext) {
 	console.log("✅ WebviewViewProvider registered for:", SidebarProvider.viewType);
 
 
-    const languageManager = new LanguageManager();
 	context.subscriptions.push(...registerAllCommands(context, sidebarProvider, languageManager));
 	vscode.commands.getCommands(true).then(cmds => {
    		console.log('✅ Registered commands:', cmds);

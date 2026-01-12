@@ -2,6 +2,7 @@
 import * as vscode from 'vscode';
 import * as fs from 'fs';
 import * as path from 'path';
+import { LanguageManager } from '../languages/LanguageManager';
 
 export class SidebarProvider implements vscode.WebviewViewProvider {
   private _view?: vscode.WebviewView;
@@ -83,19 +84,9 @@ export class SidebarProvider implements vscode.WebviewViewProvider {
   }
 
   private mapLangIdToKey(langId?: string, fallback?: string): string {
-    switch ((langId || '').toLowerCase()) {
-      case 'cpp':
-      case 'c++':
-      case 'c':
-        return 'cpp';
-      case 'python':
-      case 'py':
-        return 'python';
-      case 'java':
-        return 'java';
-      default:
-        return fallback || 'cpp';
-    }
+    if (!langId) return fallback || 'cpp';
+    const strategy = this._languageManager.getStrategy(langId);
+    return strategy.languageId;
   }
 
   // Add just above or below resolveWebviewView()
@@ -115,6 +106,7 @@ export class SidebarProvider implements vscode.WebviewViewProvider {
 
   constructor(
     private readonly _extensionUri: vscode.Uri,
+    private readonly _languageManager: LanguageManager,
     private readonly _context?: vscode.ExtensionContext
   ) {
     // Built-in snippets (read-only)
