@@ -582,37 +582,37 @@
 
                                 // Position after layout so we can read its size
                                 // Position after layout so we can read its size
+                                // Position relative to the hovered item
+                                const btnRect = e.currentTarget.getBoundingClientRect();
+
                                 requestAnimationFrame(() => {
                                     const vh = window.innerHeight;
-                                    const headerHeight = 80; // Approx header height
-                                    const footerHeight = 40; // Approx footer height
+                                    const tooltipHeight = tooltip.offsetHeight;
                                     
-                                    // Smart Positioning:
-                                    // If cursor is in the bottom half, show tooltip at the TOP (below header)
-                                    // If cursor is in the top half, show tooltip at the BOTTOM (above footer)
+                                    // Default: Show below
+                                    let top = btnRect.bottom;
                                     
-                                    if (e.clientY > vh / 2) {
-                                        // Show at Top
-                                        tooltip.style.top = '0'; 
-                                        tooltip.style.bottom = 'auto';
+                                    // If not enough space below, show above
+                                    if (top + tooltipHeight > vh) {
+                                        // Show Above
+                                        tooltip.style.top = 'auto';
+                                        tooltip.style.bottom = (vh - btnRect.top) + 'px';
                                         tooltip.style.borderBottom = '1px solid var(--border)';
                                         tooltip.style.borderTop = 'none';
-                                        tooltip.style.borderRadius = '0 0 var(--radius-md) var(--radius-md)';
                                     } else {
-                                        // Show at Bottom
-                                        tooltip.style.top = 'auto';
-                                        tooltip.style.bottom = '0';
+                                        // Show Below
+                                        tooltip.style.top = top + 'px';
+                                        tooltip.style.bottom = 'auto';
                                         tooltip.style.borderTop = '1px solid var(--border)';
                                         tooltip.style.borderBottom = 'none';
-                                        tooltip.style.borderRadius = 'var(--radius-md) var(--radius-md) 0 0';
                                     }
                                     
-                                    tooltip.style.left = '0';
-                                    tooltip.style.right = '0';
-                                    tooltip.style.width = '100%';
+                                    tooltip.style.left = btnRect.left + 'px';
+                                    tooltip.style.width = btnRect.width + 'px';
                                     tooltip.style.maxWidth = 'none';
                                     tooltip.style.margin = '0';
-                                    tooltip.style.boxShadow = '0 0 10px rgba(0,0,0,0.1)';
+                                    tooltip.style.borderRadius = 'var(--radius-sm)';
+                                    tooltip.style.boxShadow = '0 4px 6px rgba(0,0,0,0.15)';
                                 });
 
                                 const previewId = `${msg.category}:${msg.subCategory}:${snippet.prefix}`;
