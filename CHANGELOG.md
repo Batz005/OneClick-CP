@@ -5,7 +5,17 @@ All notable changes to the "oneclick-cp" extension will be documented in this fi
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
 ## v0.1.7
-- minor ui changes
+### Added
+- **Multi-Language Support**: Full support for **C++**, **Java**, **Python**, and **JavaScript**.
+- **Exhaustive Snippets**: Comprehensive snippet library for all supported languages (Algorithms & Data Structures).
+- **Modern UI/UX**: Completely redesigned sidebar with a premium look, better spacing, and smooth animations.
+- **Smart Snippet Preview**: Snippet preview now positions smartly (below/above) to avoid layout shifts and overlap.
+- **JavaScript Support**: Added `main.js` to templates and `createSnippet` support for JS.
+
+### Changed
+- **Refactored Architecture**: Introduced `LanguageManager` and `LanguageStrategy` for scalable language support.
+- **Improved Templates**: Default templates now include `Fast_IO` and `Debug` implementations for all languages.
+- **Updated README**: Comprehensive documentation for all new features.
 
 ## v0.1.6
 - Fixed showPreview check.
