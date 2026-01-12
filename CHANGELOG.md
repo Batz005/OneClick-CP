@@ -4,7 +4,7 @@ All notable changes to the "oneclick-cp" extension will be documented in this fi
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
-## v0.1.7
+## v0.1.8
 ### Added
 - **Multi-Language Support**: Full support for **C++**, **Java**, **Python**, and **JavaScript**.
 - **Exhaustive Snippets**: Comprehensive snippet library for all supported languages (Algorithms & Data Structures).
