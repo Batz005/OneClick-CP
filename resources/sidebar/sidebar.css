@@ -343,6 +343,8 @@ dialog::backdrop {
   max-height: 40vh; /* Limit height */
   overflow-y: hidden; /* Hide overflow */
   background: var(--surface); /* Ensure opaque background */
+  position: fixed; /* Fix positioning to viewport */
+  display: none; /* Hidden by default */
 }
 
 /* ---- Scrollbar ---- */
