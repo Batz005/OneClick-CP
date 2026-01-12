@@ -324,6 +324,9 @@ function registerCreateSnippetCommand(sidebarProvider: SidebarProvider): vscode.
         return 'python';
       case 'java':
         return 'java';
+      case 'javascript':
+      case 'js':
+        return 'javascript';
       default:
         return 'cpp';
     }
