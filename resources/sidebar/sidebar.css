@@ -339,6 +339,7 @@ dialog::backdrop {
   font-family: 'Fira Code', monospace;
   font-size: 11px;
   z-index: 100;
+  pointer-events: none;
 }
 
 /* ---- Scrollbar ---- */
