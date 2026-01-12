@@ -1,0 +1,9 @@
+{
+    "Array Sort": {
+        "prefix": "sort",
+        "body": [
+            "${1:arr}.sort((a, b) => a - b);"
+        ],
+        "description": "Sort Array Ascending"
+    }
+}

@@ -1,5 +1,5 @@
 import * as vscode from 'vscode';
-import { LanguageStrategy, cppStrategy, javaStrategy, pythonStrategy } from './strategies';
+import { LanguageStrategy, cppStrategy, javaStrategy, pythonStrategy, javascriptStrategy } from './strategies';
 
 export class LanguageManager {
     private strategies: Map<string, LanguageStrategy>;
@@ -9,6 +9,7 @@ export class LanguageManager {
         this.registerStrategy(cppStrategy);
         this.registerStrategy(javaStrategy);
         this.registerStrategy(pythonStrategy);
+        this.registerStrategy(javascriptStrategy);
     }
 
     public registerStrategy(strategy: LanguageStrategy) {
@@ -28,6 +29,9 @@ export class LanguageManager {
         }
         if (fileName.endsWith('.py')) {
             return pythonStrategy;
+        }
+        if (fileName.endsWith('.js')) {
+            return javascriptStrategy;
         }
         return cppStrategy;
     }

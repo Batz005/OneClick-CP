@@ -219,7 +219,23 @@
       },
       {
         "language": "python",
-        "path": "./snippets/python/py.json"
+        "path": "./snippets/python/algorithms/sorting.json"
+      },
+      {
+        "language": "python",
+        "path": "./snippets/python/data_structures/list.json"
+      },
+      {
+        "language": "java",
+        "path": "./snippets/java/algorithms/sorting.json"
+      },
+      {
+        "language": "java",
+        "path": "./snippets/java/data_structures/list.json"
+      },
+      {
+        "language": "javascript",
+        "path": "./snippets/javascript/algorithms/sorting.json"
       }
     ],
     "configuration": {

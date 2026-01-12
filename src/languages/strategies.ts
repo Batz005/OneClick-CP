@@ -48,3 +48,18 @@ if __name__ == "__main__":
     main()
 `
 };
+
+export const javascriptStrategy: LanguageStrategy = {
+    languageId: 'javascript',
+    mainFileName: 'main.js',
+    defaultContent: `const fs = require('fs');
+
+function main() {
+    // your code here
+}
+
+if (require.main === module) {
+    main();
+}
+`
+};

@@ -1,0 +1,9 @@
+{
+    "ArrayList Initialization": {
+        "prefix": "arraylist",
+        "body": [
+            "ArrayList<${1:Integer}> ${2:list} = new ArrayList<>();"
+        ],
+        "description": "Initialize ArrayList"
+    }
+}

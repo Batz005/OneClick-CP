@@ -1,0 +1,16 @@
+{
+    "List Comprehension": {
+        "prefix": "listcomp",
+        "body": [
+            "[x for x in iterable if condition]"
+        ],
+        "description": "List Comprehension"
+    },
+    "2D List": {
+        "prefix": "list2d",
+        "body": [
+            "[[0 for _ in range(cols)] for _ in range(rows)]"
+        ],
+        "description": "Initialize 2D List"
+    }
+}
