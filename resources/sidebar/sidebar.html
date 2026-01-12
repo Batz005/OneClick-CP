@@ -7,12 +7,15 @@
     <title>OneClick CP</title>
     </head>
     <body class="{{themeClass}}">
-    <div class="sidebar-header">
-        <img src="{{logoUri}}" class="logo" alt="OneClick CP Logo" />
-        <h2>OneClick CP</h2>
-        <p class="subtitle">Your one-click DSA & CP starter kit</p>
-    </div>
     <div class="sidebar-container">
+      
+      <!-- Header -->
+      <header class="sidebar-header">
+          <img src="{{logoUri}}" class="logo" alt="OneClick CP Logo" />
+          <h2>OneClick CP</h2>
+          <p class="subtitle">Your one-click DSA & CP starter kit</p>
+      </header>
+
       <div class="sidebar-wrapper">
 
         <!-- ===================== -->
@@ -20,9 +23,8 @@
         <!-- ===================== -->
         <section class="section-template">
             <h2>Templates</h2>
-            <label for="templatePicker" class="template-label">Choose Template:</label>
             <div class="template-picker-row">
-                <select id="templatePicker">
+                <select id="templatePicker" aria-label="Choose Template">
                     <option value="default">Default Template</option>
                     <option value="Fast_IO">Fast IO</option>
                     <option value="Debug_Template">Debug Template</option>
@@ -33,7 +35,7 @@
                     class="delete-btn"
                     onclick="deleteTemplate()"
                     aria-label="Delete Template"
-                    title="Delete selected template (only for custom templates)"
+                    title="Delete selected template"
                 >🗑️</button>
             </div>
 
@@ -63,110 +65,60 @@
         <!-- Snippet Section       -->
         <!-- ===================== -->
         <section class="section-snippets">
-            <h2>
-                Snippets
-                <a href="#" id="openSnippetsIndex" title="Open pre-defined snippets index" style="font-size: 0.8em; margin-left: 8px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--spacing-sm);">
+                <h2>Snippets</h2>
+                <a href="#" id="openSnippetsIndex" title="Open pre-defined snippets index" style="font-size: 11px; color: var(--accent); text-decoration: none;">
                     📑 Index
                 </a>
-            </h2>
+            </div>
 
             <div class="snippet-options">
-                <label>
+                <label style="font-size: 12px; display: flex; align-items: center; gap: 6px; cursor: pointer;">
                     <input type="checkbox" id="showPreview" checked />
-                    Snippet Preview
+                    Show Preview on Hover
                 </label>
-                <small style="color: var(--vscode-descriptionForeground); font-style: italic;">
-                    Snippet hover shows editor & tooltip preview (editor preview may be inaccurate).
-                </small>
+                
                 <pre id="snippetTooltip" class="snippet-tooltip"></pre>
+                
                 <div class="language-select-wrapper">
-                  <label for="languagePicker">Language:</label>
-                  <select id="languagePicker" onchange="onSnippetLanguageSelected()">
+                  <select id="languagePicker" onchange="onSnippetLanguageSelected()" aria-label="Select Language">
                       <option value="cpp">C++</option>
                       <option value="python">Python</option>
                       <option value="java">Java</option>
+                      <option value="javascript">JavaScript</option>
                   </select>
                 </div>
+
                 <div class="snippet-accordion">
-                    <button class="accordion">Snippets</button>
-                    <div class="panel snippetSelection">
+                    <!-- Data Structures -->
+                    <div class="data_structures">
+                        <button class="accordion" value="data_structures">Data Structures</button>
+                        <div class="dsPanel panel"></div>
+                    </div>
 
-                        <!-- Data Structures -->
-                        <div class="data_structures">
-                            <button class="accordion" value="data_structures">Data Structures</button>
-                            <div class="dsPanel panel"></div>
-                        </div>
+                    <!-- Algorithms -->
+                    <div class="algorithms">
+                        <button class="accordion" value="algorithms">Algorithms</button>
+                        <div class="algoPanel panel"></div>
+                    </div>
 
-                        <!-- Algorithms -->
-                        <div class="algorithms">
-                            <button class="accordion" value="algorithms">Algorithms</button>
-                            <div class="algoPanel panel"></div>
-                        </div>
+                    <!-- Miscellaneous -->
+                    <div class="misc">
+                        <button class="accordion" value="misc">Miscellaneous</button>
+                        <div class="miscPanel panel"></div>
+                    </div>
 
-                        <!-- Miscellaneous -->
-                        <div class="misc">
-                            <button class="accordion" value="misc">Miscellaneous</button>
-                            <div class="miscPanel panel"></div>
-                        </div>
-
-                        <!-- Custom -->
-                        <div class="custom">
-                            <button class="accordion" value="custom">Custom</button>
-                            <div class="customPanel panel"></div>
-                        </div>
-
+                    <!-- Custom -->
+                    <div class="custom">
+                        <button class="accordion" value="custom">Custom</button>
+                        <div class="customPanel panel"></div>
                     </div>
                 </div>
-                <button class="create-snippet-btn" onclick="startCreateSnippet()" title="Create a custom snippet from editor selection">
+                
+                <button class="create-snippet-btn" onclick="startCreateSnippet()" title="Create a custom snippet from editor selection" style="margin-top: var(--spacing-md);">
                   ➕ Create Snippet from Selection
                 </button>
-    <!-- Create Snippet Dialog -->
-    <dialog id="createSnippetDialog">
-      <form method="dialog" id="createSnippetForm" class="dialog-form">
-        <h4>Create Custom Snippet</h4>
-        <p class="dialog-info">Review the code below, then name and categorize your snippet.</p>
-
-        <div class="grid-two">
-          <label>Language
-            <select id="snipLang">
-              <option value="cpp">C++</option>
-              <option value="python">Python</option>
-              <option value="java">Java</option>
-            </select>
-          </label>
-          <label>Subcategory
-            <input type="text" id="snipSubcat" placeholder="e.g., basics" />
-          </label>
-        </div>
-
-        <div class="grid-two">
-          <label>Name / Key
-            <input type="text" id="snipName" placeholder="unique_key" required />
-          </label>
-          <label>Prefix (typed to trigger)
-            <input type="text" id="snipPrefix" placeholder="cpmySnippet" />
-          </label>
-        </div>
-
-        <label>Description
-          <input type="text" id="snipDesc" placeholder="What this snippet does…" />
-        </label>
-
-        <label>Snippet Body (editable)
-          <textarea id="snipBody" rows="10" spellcheck="false"></textarea>
-        </label>
-
-        <div class="dialog-actions">
-          <button type="button" onclick="refreshSelectionForSnippet()">Use Current Selection</button>
-          <span class="spacer"></span>
-          <button type="button" onclick="confirmCreateSnippet()">Save</button>
-          <button type="button" onclick="cancelCreateSnippet()">Cancel</button>
-        </div>
-      </form>
-    </dialog>
             </div>
-
-
         </section>
 
         <!-- ===================== -->
@@ -180,44 +132,91 @@
             >🧩 Arrange View</button>
         </section>
 
-        <p class="coming-soon">🔥 More features coming soon...</p>
       </div>
+      
+      <!-- Footer -->
       <footer class="signature">
           <img src="{{bkLogoUri}}" class="bk-logo" alt="Bharath Kotipalli Logo" />
-          <p>Created by Bharath Kotipalli</p>
+          <span>Created by Bharath Kotipalli</span>
       </footer>
     </div>
 
-    <!-- Save Template Dialog -->
-    <dialog id="saveTemplateDialog">
-      <form method="dialog" id="saveTemplateForm">
-        <h4>Create Custom Template</h4>
-        <p class="dialog-info">
-            Only checked files will be saved. Content is taken from open files in your workspace.
-        </p>
-        <div>
-          <label><input type="checkbox" id="includeMainCpp" checked /> main.cpp</label><br>
-          <label><input type="checkbox" id="includeInputTxt" checked /> input.txt</label><br>
-          <label><input type="checkbox" id="includeOutputTxt" checked /> output.txt</label>
+    <!-- Dialogs -->
+    <dialog id="createSnippetDialog">
+      <form method="dialog" id="createSnippetForm" class="dialog-form">
+        <h4>Create Custom Snippet</h4>
+        <p class="dialog-info">Review the code below, then name and categorize your snippet.</p>
+
+        <div class="grid-two">
+          <label>Language
+            <select id="snipLang">
+              <option value="cpp">C++</option>
+              <option value="python">Python</option>
+              <option value="java">Java</option>
+              <option value="javascript">JavaScript</option>
+            </select>
+          </label>
+          <label>Subcategory
+            <input type="text" id="snipSubcat" placeholder="e.g., basics" />
+          </label>
         </div>
-        <div>
-          <label for="templateName">Template Name:</label>
-          <input type="text" id="templateName" required />
+
+        <div class="grid-two">
+          <label>Name / Key
+            <input type="text" id="snipName" placeholder="unique_key" required />
+          </label>
+          <label>Prefix
+            <input type="text" id="snipPrefix" placeholder="cpmySnippet" />
+          </label>
         </div>
-        <div>
-          <button type="button" onclick="saveTemplate()">Save</button>
-          <button type="button" onclick="closeSaveTemplateDialog()">Cancel</button>
+
+        <label>Description
+          <input type="text" id="snipDesc" placeholder="What this snippet does…" />
+        </label>
+
+        <label>Snippet Body
+          <textarea id="snipBody" rows="8" spellcheck="false"></textarea>
+        </label>
+
+        <div class="dialog-actions">
+          <button type="button" onclick="refreshSelectionForSnippet()" style="background: var(--surface); color: var(--text); border: 1px solid var(--border);">Use Selection</button>
+          <div style="flex: 1;"></div>
+          <button type="button" onclick="cancelCreateSnippet()" style="background: transparent; color: var(--text-muted); border: none;">Cancel</button>
+          <button type="button" onclick="confirmCreateSnippet()" style="background: var(--accent); color: var(--accent-foreground);">Save</button>
         </div>
       </form>
     </dialog>
 
-    <!-- Confirm Delete Dialog -->
+    <dialog id="saveTemplateDialog">
+      <form method="dialog" id="saveTemplateForm" class="dialog-form">
+        <h4>Create Custom Template</h4>
+        <p class="dialog-info">
+            Only checked files will be saved. Content is taken from open files in your workspace.
+        </p>
+        <div style="display: flex; flex-direction: column; gap: 4px;">
+          <label><input type="checkbox" id="includeMainCpp" checked /> Main File (cpp/java/py/js)</label>
+          <label><input type="checkbox" id="includeInputTxt" checked /> input.txt</label>
+          <label><input type="checkbox" id="includeOutputTxt" checked /> output.txt</label>
+        </div>
+        <div>
+          <label for="templateName">Template Name:</label>
+          <input type="text" id="templateName" required placeholder="MyTemplate" />
+        </div>
+        <div class="dialog-actions">
+          <button type="button" onclick="closeSaveTemplateDialog()" style="background: transparent; color: var(--text-muted); border: none;">Cancel</button>
+          <button type="button" onclick="saveTemplate()" style="background: var(--accent); color: var(--accent-foreground);">Save</button>
+        </div>
+      </form>
+    </dialog>
+
     <dialog id="deleteConfirmDialog">
-    <form method="dialog">
-        <p id="deleteConfirmText"></p>
-        <button value="yes" id="deleteYesBtn">Delete</button>
-        <button value="no">Cancel</button>
-    </form>
+        <form method="dialog" class="dialog-form">
+            <p id="deleteConfirmText" style="margin-bottom: var(--spacing-md);"></p>
+            <div class="dialog-actions">
+                <button value="no" style="background: transparent; color: var(--text-muted); border: none;">Cancel</button>
+                <button value="yes" id="deleteYesBtn" style="background: var(--danger); color: white;">Delete</button>
+            </div>
+        </form>
     </dialog>
 
     <script>
@@ -258,15 +257,9 @@
 
         function expandAccordionCategory(target) {
             // Always open the top-level "Snippets" accordion
-            const topAcc = document.querySelector('.snippet-accordion > .accordion');
-            const topPanel = topAcc && topAcc.nextElementSibling;
-            if (topAcc && topPanel && topPanel.classList.contains('panel')) {
-                topAcc.classList.add('active');
-                topPanel.style.display = 'flex';
-                topPanel.setAttribute('aria-hidden', 'false');
-                topAcc.setAttribute('aria-expanded', 'true');
-            }
-
+            // Note: In the new HTML structure, we removed the top-level "Snippets" accordion wrapper
+            // and made categories top-level. So we just look for the category accordion.
+            
             document.querySelectorAll('.accordion').forEach(acc => {
             const cat = acc.getAttribute('data-category');
             const sub = acc.getAttribute('data-subcategory');
@@ -552,10 +545,10 @@
                     collapseAllAccordions();
 
                     const { categories } = msg;
-                    const dsPanel = document.querySelector('.snippetSelection .dsPanel');
-                    const algoPanel = document.querySelector('.snippetSelection .algoPanel');
-                    const miscPanel = document.querySelector('.snippetSelection .miscPanel');
-                    const customPanel = document.querySelector('.snippetSelection .customPanel');
+                    const dsPanel = document.querySelector('.snippet-accordion .dsPanel');
+                    const algoPanel = document.querySelector('.snippet-accordion .algoPanel');
+                    const miscPanel = document.querySelector('.snippet-accordion .miscPanel');
+                    const customPanel = document.querySelector('.snippet-accordion .customPanel');
 
                     const ds = (categories && categories.dataStructures) || [];
                     const alg = (categories && categories.algorithms) || [];

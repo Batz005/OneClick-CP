@@ -1,300 +1,361 @@
 /* =============================
-   OneClick-CP Sidebar (Refactor)
-   – Single source of truth via CSS variables
-   – Light defaults; dark overrides via body.vscode-dark
-   – Component rules stay identical across themes
+   OneClick-CP Sidebar (Modernized)
+   – Premium UI/UX Design
+   – Refined Color Palette & Typography
+   – Smooth Animations & Transitions
    ============================= */
 
 * { box-sizing: border-box; }
 
-/* ---- Design Tokens (Light defaults) ---- */
+/* ---- Design Tokens ---- */
 :root {
-  /* Brand */
-  --accent: var(--vscode-button-background, #007acc);
-  --accent-hover: var(--vscode-button-hoverBackground, #0a84ff);
+  /* Brand Colors - More Vibrant */
+  --accent: var(--vscode-button-background, #3b82f6);
+  --accent-hover: var(--vscode-button-hoverBackground, #2563eb);
+  --accent-foreground: var(--vscode-button-foreground, #ffffff);
 
-  /* Surfaces & Text */
-  --surface: var(--vscode-sideBar-background, var(--vscode-editor-background, #ffffff));
-  --surface-alt: var(--vscode-editorWidget-background, #f7f7f7);
-  --text: var(--vscode-foreground, #1f2328);
-  --muted: var(--vscode-descriptionForeground, #6b7280);
-  --border: var(--vscode-panel-border, #d0d7de);
-  --shadow: 0 2px 10px rgba(0,0,0,0.08);
+  /* Surfaces */
+  --surface: var(--vscode-sideBar-background, #ffffff);
+  --surface-hover: var(--vscode-list-hoverBackground, #f3f4f6);
+  --surface-active: var(--vscode-list-activeSelectionBackground, #e5e7eb);
+  --border: var(--vscode-panel-border, #e5e7eb);
+  
+  /* Text */
+  --text: var(--vscode-foreground, #1f2937);
+  --text-muted: var(--vscode-descriptionForeground, #6b7280);
+  
+  /* Status */
+  --danger: #ef4444;
+  --danger-hover: #dc2626;
+  --success: #10b981;
 
-  /* Compute neutral button tones from accent + surface so they look consistent across themes */
-  --btn-bg: color-mix(in srgb, var(--accent) 10%, var(--surface) 90%);
-  --btn-hover: color-mix(in srgb, var(--accent) 40%, var(--surface) 60%);
-  --btn-border: color-mix(in srgb, var(--accent) 35%, var(--surface) 65%);
-
-  /* States */
-  --danger: var(--vscode-inputValidation-errorBorder, #d13438);
-  --danger-hover: #f1707a;
-
-  /* Media tweaks */
-  --logo-filter: none; /* swapped in dark */
-
-  --footer-height: 56px; /* used for layout spacing */
+  /* Spacing & Layout */
+  --radius-sm: 4px;
+  --radius-md: 6px;
+  --radius-lg: 8px;
+  --spacing-xs: 0.25rem;
+  --spacing-sm: 0.5rem;
+  --spacing-md: 1rem;
+  
+  /* Effects */
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  --transition: all 0.2s ease-in-out;
+  
+  --font-family: var(--vscode-font-family, 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif);
 }
 
-/* ---- Dark overrides: only variables ---- */
 body.vscode-dark {
-  --surface: var(--vscode-sideBar-background, #1e1e1e);
-  --surface-alt: var(--vscode-editorWidget-background, #1b1b1b);
-  --text: var(--vscode-foreground, #e7e7e7);
-  --muted: var(--vscode-descriptionForeground, #a9b1ba);
-  --border: var(--vscode-panel-border, #2a2f36);
-  --shadow: 0 2px 14px rgba(0,0,0,0.35);
-
-  /* Dark theme: a bit more accent to maintain contrast */
-  --btn-bg: color-mix(in srgb, var(--accent) 22%, var(--surface) 78%);
-  --btn-hover: color-mix(in srgb, var(--accent) 50%, var(--surface) 50%);
-  --btn-border: color-mix(in srgb, var(--accent) 45%, var(--surface) 55%);
-
-  --logo-filter: invert(1) brightness(1000%);
+  --surface: var(--vscode-sideBar-background, #111827);
+  --surface-hover: var(--vscode-list-hoverBackground, #1f2937);
+  --surface-active: var(--vscode-list-activeSelectionBackground, #374151);
+  --border: var(--vscode-panel-border, #374151);
+  --text: var(--vscode-foreground, #f9fafb);
+  --text-muted: var(--vscode-descriptionForeground, #9ca3af);
 }
-/* =========Font Sizes========*/
 
-/* General scale-down */
+/* ---- Base Styles ---- */
 body {
-  font-size: clamp(11px, 1.2vw, 14px);
+  font-family: var(--font-family);
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--text);
+  background: var(--surface);
+  margin: 0;
+  padding: 0;
+}
+
+h2 {
+  font-size: 14px;
+  font-weight: 600;
+  margin: 0 0 var(--spacing-sm) 0;
+  color: var(--text);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  opacity: 0.9;
 }
 
 button {
-  padding: 0.25em 0.75em;
-  font-size: clamp(10px, 1vw, 13px);
+  cursor: pointer;
+  font-family: inherit;
 }
 
-input, textarea, select {
-  font-size: clamp(10px, 1vw, 13px);
-  padding: 0.3em;
-}
-
-label {
-  font-size: clamp(10px, 1vw, 13px);
-}
-
-.accordion {
-  font-size: clamp(11px, 1vw, 13px);
-  padding: 6px 10px;
-}
-
-.panel {
-  font-size: clamp(10px, 1vw, 13px);
-  padding: 6px 10px;
-}
-/* ---- Base Layout ---- */
-body {
-  font-family: var(--vscode-font-family, ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, Arial, "Apple Color Emoji", "Segoe UI Emoji");
-  color: var(--text);
-  background: transparent;
-}
-
+/* ---- Layout ---- */
 .sidebar-container {
-  display: grid;
-  grid-template-rows: auto 1fr auto; /* header, scrollable content, footer */
+  display: flex;
+  flex-direction: column;
   height: 100vh;
-  background: transparent;
-  overflow: hidden; /* content scrolls only inside wrapper */
+  overflow: hidden;
 }
 
 .sidebar-wrapper {
-  flex: 1 1 auto;
+  flex: 1;
+  overflow-y: auto;
+  padding: var(--spacing-md);
   display: flex;
   flex-direction: column;
-  overflow-y: auto;             /* this is the only scroller */
-  padding: 0 1rem;              /* horizontal breathing room */
-  scroll-padding-bottom: calc(var(--footer-height) + 12px);
+  gap: var(--spacing-md);
 }
 
+/* ---- Header ---- */
 .sidebar-header {
-  flex: 0 0 auto;
-  padding: 0.6rem 0 1rem 0;
+  padding: var(--spacing-md);
   text-align: center;
-  line-height: 1.2;
   border-bottom: 1px solid var(--border);
+  background: var(--surface);
 }
 
-.logo { max-width: 3rem; max-height: 3rem; display: block; margin: 0.2rem auto 0.6rem; filter: var(--logo-filter); }
-.bk-logo { width: 3rem; height: auto; transition: filter .2s; filter: var(--logo-filter); }
+.logo {
+  width: 48px;
+  height: 48px;
+  margin: 0 auto var(--spacing-sm);
+  filter: drop-shadow(0 4px 6px rgba(0,0,0,0.1));
+}
 
-.signature {
-  grid-row: 3;
-  position: sticky;             /* stays visible even if parent ever scrolls */
-  bottom: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: .5rem;
-  min-height: var(--footer-height);
-  padding: .6rem .8rem;
-  background: var(--surface);
-  border-top: 1px solid var(--border);
-  box-shadow: 0 -2px 8px rgba(0,0,0,.06);
-  text-align: center;
-  font-size: .72rem;
-  color: var(--muted);
+.sidebar-header h2 {
+  font-size: 16px;
+  margin: 0;
+  text-transform: none;
+  letter-spacing: normal;
+}
+
+.subtitle {
+  font-size: 11px;
+  color: var(--text-muted);
+  margin: var(--spacing-xs) 0 0;
 }
 
 /* ---- Sections ---- */
-.section-template, .section-snippets, .section-view { padding: 1rem; border-top: 1px solid var(--border); }
-.arrange-btn { width: 100%; margin-top: 1em; }
+section {
+  background: var(--surface);
+  border-radius: var(--radius-lg);
+  /* border: 1px solid var(--border); */ /* Removed border for cleaner look */
+}
 
-/* ---- Template Picker ---- */
-.template-label { display: block; margin: 1rem 0 .4rem; font-size: 1rem; font-weight: 600; color: var(--muted); }
-.template-picker-row { display: flex; align-items: center; gap: .5rem; flex-wrap: wrap; margin-bottom: 1rem; }
-
-#templatePicker {
-  flex: 4;
-  padding: 0.45rem 0.6rem;
-  font-size: 1rem;
-  border-radius: 8px;
-  border: 1.5px solid var(--btn-border);
+/* ---- Inputs & Selects ---- */
+select, input[type="text"], textarea {
+  width: 100%;
+  padding: 8px 12px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border);
   background: var(--surface);
   color: var(--text);
-  box-shadow: 0 .5px 2px -1px var(--btn-border);
-  transition: border .18s, box-shadow .18s;
-}
-#templatePicker:focus { outline: 2px solid var(--accent); outline-offset: 1px; }
-
-.delete-btn { background: transparent; border: 0; font-size: 1.2rem; cursor: pointer; color: var(--danger); flex: 1; padding: 0 .3rem; transition: color .2s, transform .15s ease; box-shadow: none; border-left: none; }
-.delete-btn:hover { color: var(--danger-hover); transform: translateY(-1px); }
-.delete-btn:disabled { color: var(--muted); cursor: not-allowed; }
-
-/* ---- Generic Buttons (incl. accordion & snippet items) ---- */
-.button-row { display: flex; gap: .7rem; flex-wrap: wrap; margin-bottom: .6rem; }
-
-.button-row button:not(.delete-btn),
-button:not(.delete-btn),
-.accordion,
-.snippetItem {
-  font-size: .97rem;
-  font-weight: 600;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  text-align: center;
-  background: var(--btn-bg);
-  color: var(--text);
-  border-radius: 8px;
-  border: 1.5px solid var(--btn-border);
-  border-left: 4px solid var(--accent);
-  padding: .48rem 1.1rem .48rem .9rem;
-  margin-bottom: .15rem;
-  box-shadow: var(--shadow);
-  transition: background-color .2s, border .2s, box-shadow .2s, color .2s, transform .15s ease;
+  font-size: 12px;
+  transition: var(--transition);
+  appearance: none; /* Custom dropdown arrow would be nice, but keeping simple for now */
 }
 
-.button-row button:hover,
-button:hover,
-.accordion:hover,
-.snippetItem:hover {
-  background: var(--btn-hover);
-  color: var(--text);
-  border-color: var(--btn-border);
-  border-left-color: var(--accent);
+select:focus, input:focus, textarea:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--accent) 30%, transparent);
+}
+
+/* ---- Buttons ---- */
+button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 16px;
+  border-radius: var(--radius-md);
+  font-size: 12px;
+  font-weight: 500;
+  transition: var(--transition);
+  border: 1px solid transparent;
+  gap: 6px;
+}
+
+/* Primary Actions */
+.reset-btn, .arrange-btn, .create-snippet-btn, button[onclick*="exportSolution"] {
+  background: var(--accent);
+  color: var(--accent-foreground);
+  width: 100%;
+  box-shadow: var(--shadow-sm);
+}
+
+.reset-btn:hover, .arrange-btn:hover, .create-snippet-btn:hover, button[onclick*="exportSolution"]:hover {
+  background: var(--accent-hover);
   transform: translateY(-1px);
+  box-shadow: var(--shadow-md);
 }
 
-.button-row button:active,
-button:active,
-.accordion:active,
-.snippetItem:active { transform: translateY(0); box-shadow: inset 0 1px 3px rgba(0,0,0,.18); }
+.reset-btn:active, .arrange-btn:active, .create-snippet-btn:active, button[onclick*="exportSolution"]:active {
+  transform: translateY(0);
+  box-shadow: none;
+}
 
-.button-row button:focus-visible,
-button:focus-visible,
-.accordion:focus-visible,
-.snippetItem:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+/* Secondary Actions */
+button.accordion, button.snippetItem {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  color: var(--text);
+  width: 100%;
+  justify-content: flex-start;
+  text-align: left;
+}
 
-.button-row button:disabled,
-button:disabled,
-.accordion:disabled,
-.snippetItem:disabled { opacity: .55; cursor: not-allowed; color: var(--muted); }
+button.accordion:hover, button.snippetItem:hover {
+  background: var(--surface-hover);
+  border-color: var(--accent);
+}
 
-/* ---- Accordion Panels ---- */
-.accordion { text-align: left; box-shadow: 0 1px 4px rgba(0,0,0,.08); }
-.accordion.active { background: var(--btn-hover); }
+/* Delete Button */
+.delete-btn {
+  background: transparent;
+  color: var(--text-muted);
+  padding: 8px;
+  width: auto;
+  border: 1px solid var(--border);
+}
+
+.delete-btn:hover {
+  color: var(--danger);
+  background: color-mix(in srgb, var(--danger) 10%, transparent);
+  border-color: var(--danger);
+}
+
+.delete-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* ---- Template Picker ---- */
+.template-picker-row {
+  display: flex;
+  gap: var(--spacing-sm);
+  margin-bottom: var(--spacing-md);
+}
+
+#templatePicker {
+  flex: 1;
+}
+
+/* ---- Button Rows ---- */
+.button-row {
+  display: flex;
+  gap: var(--spacing-sm);
+  margin-bottom: var(--spacing-sm);
+}
+
+.button-row button {
+  flex: 1;
+}
+
+/* ---- Accordion ---- */
+.accordion {
+  position: relative;
+  font-weight: 600;
+}
+
+.accordion::after {
+  content: '›';
+  position: absolute;
+  right: 12px;
+  font-size: 14px;
+  transition: transform 0.2s;
+}
+
+.accordion.active::after {
+  transform: rotate(90deg);
+}
 
 .panel {
   display: none;
   flex-direction: column;
-  padding: .6em .6em .8em;
-  background: transparent;
-  max-height: clamp(240px, 45vh, 520px); /* larger but bounded */
-  overflow-y: auto;                       /* scroll inside panel */
-  border-left: 3px solid transparent;
-  gap: .6em;
+  gap: var(--spacing-xs);
+  padding: var(--spacing-sm) 0;
+  animation: slideDown 0.2s ease-out;
 }
-.panel > button { margin-top: .2em; min-height: 36px; }
+
+@keyframes slideDown {
+  from { opacity: 0; transform: translateY(-5px); }
+  to { opacity: 1; transform: translateY(0); }
+}
 
 /* ---- Snippet Items ---- */
-.snippetItem { cursor: pointer; }
+.snippetItem {
+  font-family: 'Fira Code', monospace; /* Code font for snippets */
+  font-size: 11px;
+  padding: 6px 12px;
+  border-left: 3px solid var(--accent);
+}
 
-/* ---- Options / Language ---- */
-.snippet-options { display: flex; flex-direction: column; align-items: flex-start; gap: .35em; margin-bottom: 1.2em; }
-.snippet-options label { display: flex; align-items: center; gap: .45em; font-weight: 600; font-size: 1rem; }
-.snippet-options small { color: var(--muted); }
+/* ---- Footer ---- */
+.signature {
+  padding: var(--spacing-md);
+  text-align: center;
+  border-top: 1px solid var(--border);
+  background: var(--surface);
+  font-size: 11px;
+  color: var(--text-muted);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-sm);
+}
 
-/* Language select wrapper for label + dropdown */
-.language-select-wrapper { display: flex; flex-direction: column; margin-top: .45em; gap: .25em; width: 100%; }
+.bk-logo {
+  height: 20px;
+  width: auto;
+  opacity: 0.8;
+}
 
-#languagePicker {
-  width: 100%;
-  max-width: 190px;
-  padding: .35em .8em;
-  border-radius: 8px;
-  border: 1.5px solid var(--btn-border);
-  font-size: 1rem;
+/* ---- Dialogs ---- */
+dialog {
   background: var(--surface);
   color: var(--text);
-  transition: border .18s, box-shadow .18s;
-  box-shadow: 0 .5px 2px -1px var(--btn-border);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+  padding: var(--spacing-md);
+  max-width: 400px;
+  width: 90%;
 }
-#languagePicker:focus { outline: 2px solid var(--accent); outline-offset: 1px; }
+
+dialog::backdrop {
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(2px);
+}
+
+.dialog-form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+}
+
+.dialog-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--spacing-sm);
+}
 
 /* ---- Tooltip ---- */
 .snippet-tooltip {
-  position: fixed;
-  background: var(--vscode-editorHoverWidget-background, var(--surface-alt));
-  color: var(--vscode-editorHoverWidget-foreground, var(--text));
-  border: 1px solid var(--vscode-editorHoverWidget-border, var(--border));
-  padding: .55em .7em;
-  z-index: 1500;
-  font-family: var(--vscode-editor-font-family, ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace);
-  font-size: .85em;
-  line-height: 1.35;
-  white-space: pre-wrap;
-  word-break: break-word;
-  tab-size: 2;
-  box-shadow: var(--shadow);
-  max-width: 520px;
-  max-height: 320px;
-  overflow: auto;
-  display: none;
-  border-radius: 6px;
-  pointer-events: none; /* no flicker when hovering near tooltip */
+  background: var(--surface);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-md);
+  border-radius: var(--radius-md);
+  padding: var(--spacing-sm);
+  font-family: 'Fira Code', monospace;
+  font-size: 11px;
+  z-index: 100;
 }
 
-/* ---- Scrollbar (panels only) ---- */
-.panel::-webkit-scrollbar { width: 8px; }
-.panel::-webkit-scrollbar-thumb { background: var(--vscode-scrollbarSlider-background, #bbb); border-radius: 4px; }
-
-/* ---- Misc text ---- */
-.coming-soon { margin-top: 2rem; font-style: italic; color: var(--muted); font-size: .95rem; text-align: center; }
-
-/* ---- Create Snippet Button ---- */
-.create-snippet-btn { width: fit-content; }
-
-/* ---- Dialog Styling ---- */
-dialog { border: 1px solid var(--border); border-radius: 10px; background: var(--surface); color: var(--text); padding: 1rem 1.1rem; box-shadow: var(--shadow); }
-dialog::backdrop { background: rgba(0,0,0,.35); }
-
-.dialog-form h4 { margin: 0 0 .5rem; }
-.dialog-form .dialog-info { color: var(--muted); margin: 0 0 .6rem; }
-
-.dialog-form label { display: block; font-weight: 600; margin: .5rem 0 .25rem; }
-.dialog-form input, .dialog-form select, .dialog-form textarea {
-  width: 100%; border: 1.5px solid var(--btn-border); border-radius: 8px; padding: .45rem .6rem; background: var(--surface); color: var(--text);
+/* ---- Scrollbar ---- */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
 }
-.grid-two { display: grid; grid-template-columns: 1fr 1fr; gap: .6rem; }
-.dialog-actions { display: flex; align-items: center; gap: .6rem; margin-top: .7rem; }
-.dialog-actions .spacer { flex: 1; }
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--text-muted);
+}
