@@ -1,0 +1,30 @@
+{
+    "GCD": {
+        "prefix": "gcd",
+        "body": [
+            "int gcd(int a, int b) {",
+            "    if (b == 0) return a;",
+            "    return gcd(b, a % b);",
+            "}"
+        ],
+        "description": "Greatest Common Divisor"
+    },
+    "Sieve": {
+        "prefix": "sieve",
+        "body": [
+            "boolean[] sieve(int n) {",
+            "    boolean[] isPrime = new boolean[n + 1];",
+            "    Arrays.fill(isPrime, true);",
+            "    isPrime[0] = isPrime[1] = false;",
+            "    for (int i = 2; i * i <= n; i++) {",
+            "        if (isPrime[i]) {",
+            "            for (int j = i * i; j <= n; j += i)",
+            "                isPrime[j] = false;",
+            "        }",
+            "    }",
+            "    return isPrime;",
+            "}"
+        ],
+        "description": "Sieve of Eratosthenes"
+    }
+}

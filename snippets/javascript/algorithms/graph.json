@@ -1,0 +1,39 @@
+{
+    "BFS": {
+        "prefix": "bfs",
+        "body": [
+            "function bfs(start, graph) {",
+            "    const visited = new Set();",
+            "    const queue = [start];",
+            "    visited.add(start);",
+            "",
+            "    while (queue.length > 0) {",
+            "        const u = queue.shift();",
+            "        // process u",
+            "        for (const v of graph[u]) {",
+            "            if (!visited.has(v)) {",
+            "                visited.add(v);",
+            "                queue.push(v);",
+            "            }",
+            "        }",
+            "    }",
+            "}"
+        ],
+        "description": "Breadth First Search"
+    },
+    "DFS": {
+        "prefix": "dfs",
+        "body": [
+            "function dfs(u, visited, graph) {",
+            "    visited.add(u);",
+            "    // process u",
+            "    for (const v of graph[u]) {",
+            "        if (!visited.has(v)) {",
+            "            dfs(v, visited, graph);",
+            "        }",
+            "    }",
+            "}"
+        ],
+        "description": "Depth First Search"
+    }
+}

@@ -1,0 +1,27 @@
+{
+    "GCD": {
+        "prefix": "gcd",
+        "body": [
+            "const gcd = (a, b) => b === 0 ? a : gcd(b, a % b);"
+        ],
+        "description": "Greatest Common Divisor"
+    },
+    "Sieve": {
+        "prefix": "sieve",
+        "body": [
+            "function sieve(n) {",
+            "    const isPrime = new Array(n + 1).fill(true);",
+            "    isPrime[0] = isPrime[1] = false;",
+            "    for (let i = 2; i * i <= n; i++) {",
+            "        if (isPrime[i]) {",
+            "            for (let j = i * i; j <= n; j += i) {",
+            "                isPrime[j] = false;",
+            "            }",
+            "        }",
+            "    }",
+            "    return isPrime;",
+            "}"
+        ],
+        "description": "Sieve of Eratosthenes"
+    }
+}

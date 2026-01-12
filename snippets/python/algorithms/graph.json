@@ -1,0 +1,50 @@
+{
+    "BFS": {
+        "prefix": "bfs",
+        "body": [
+            "def bfs(start_node, graph):",
+            "    visited = set()",
+            "    queue = collections.deque([start_node])",
+            "    visited.add(start_node)",
+            "    while queue:",
+            "        u = queue.popleft()",
+            "        # process u",
+            "        for v in graph[u]:",
+            "            if v not in visited:",
+            "                visited.add(v)",
+            "                queue.append(v)"
+        ],
+        "description": "Breadth First Search"
+    },
+    "DFS": {
+        "prefix": "dfs",
+        "body": [
+            "def dfs(u, visited, graph):",
+            "    visited.add(u)",
+            "    # process u",
+            "    for v in graph[u]:",
+            "        if v not in visited:",
+            "            dfs(v, visited, graph)"
+        ],
+        "description": "Depth First Search"
+    },
+    "Dijkstra": {
+        "prefix": "dijkstra",
+        "body": [
+            "def dijkstra(start, graph):",
+            "    distances = {node: float('infinity') for node in graph}",
+            "    distances[start] = 0",
+            "    pq = [(0, start)]",
+            "    while pq:",
+            "        d, u = heapq.heappop(pq)",
+            "        if d > distances[u]:",
+            "            continue",
+            "        for v, weight in graph[u]:",
+            "            if distances[u] + weight < distances[v]:",
+            "                distances[v] = distances[u] + weight",
+            "                heapq.heappush(pq, (distances[v], v))",
+            "    return distances"
+        ],
+        "description": "Dijkstra's Algorithm"
+    }
+}

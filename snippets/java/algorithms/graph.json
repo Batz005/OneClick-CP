@@ -1,0 +1,38 @@
+{
+    "BFS": {
+        "prefix": "bfs",
+        "body": [
+            "void bfs(int start, ArrayList<ArrayList<Integer>> adj, boolean[] visited) {",
+            "    Queue<Integer> q = new LinkedList<>();",
+            "    q.add(start);",
+            "    visited[start] = true;",
+            "    while (!q.isEmpty()) {",
+            "        int u = q.poll();",
+            "        // process u",
+            "        for (int v : adj.get(u)) {",
+            "            if (!visited[v]) {",
+            "                visited[v] = true;",
+            "                q.add(v);",
+            "            }",
+            "        }",
+            "    }",
+            "}"
+        ],
+        "description": "Breadth First Search"
+    },
+    "DFS": {
+        "prefix": "dfs",
+        "body": [
+            "void dfs(int u, ArrayList<ArrayList<Integer>> adj, boolean[] visited) {",
+            "    visited[u] = true;",
+            "    // process u",
+            "    for (int v : adj.get(u)) {",
+            "        if (!visited[v]) {",
+            "            dfs(v, adj, visited);",
+            "        }",
+            "    }",
+            "}"
+        ],
+        "description": "Depth First Search"
+    }
+}

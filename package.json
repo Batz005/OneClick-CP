@@ -223,7 +223,19 @@
       },
       {
         "language": "python",
+        "path": "./snippets/python/algorithms/graph.json"
+      },
+      {
+        "language": "python",
+        "path": "./snippets/python/algorithms/math.json"
+      },
+      {
+        "language": "python",
         "path": "./snippets/python/data_structures/list.json"
+      },
+      {
+        "language": "python",
+        "path": "./snippets/python/data_structures/advanced.json"
       },
       {
         "language": "java",
@@ -231,11 +243,31 @@
       },
       {
         "language": "java",
+        "path": "./snippets/java/algorithms/graph.json"
+      },
+      {
+        "language": "java",
+        "path": "./snippets/java/algorithms/math.json"
+      },
+      {
+        "language": "java",
         "path": "./snippets/java/data_structures/list.json"
+      },
+      {
+        "language": "java",
+        "path": "./snippets/java/misc/io.json"
       },
       {
         "language": "javascript",
         "path": "./snippets/javascript/algorithms/sorting.json"
+      },
+      {
+        "language": "javascript",
+        "path": "./snippets/javascript/algorithms/graph.json"
+      },
+      {
+        "language": "javascript",
+        "path": "./snippets/javascript/algorithms/math.json"
       }
     ],
     "configuration": {
