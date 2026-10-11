@@ -5,6 +5,8 @@ import { SidebarProvider } from './sidebar/SidebarProvider';
 import { LanguageManager } from './languages/LanguageManager';
 import { LanguageStrategy } from './languages/strategies';
 
+type Templates = { [key: string]: { [file: string]: string } };
+
 export function registerAllCommands(
     context: vscode.ExtensionContext,
     sidebarProvider: SidebarProvider,
@@ -20,14 +22,68 @@ export function registerAllCommands(
   ];
 }
 
+// ---------------------------------------------------------------- helpers
 
+/** Prefer the language of the active editor, then whichever main file exists, then C++. */
+async function detectStrategy(languageManager: LanguageManager, root: vscode.Uri): Promise<LanguageStrategy> {
+  const editor = vscode.window.activeTextEditor;
+  if (editor) {
+    const fromEditor = languageManager.getAllStrategies().find(s => s.languageId === editor.document.languageId);
+    if (fromEditor) {
+      return fromEditor;
+    }
+  }
+  for (const s of languageManager.getAllStrategies()) {
+    try {
+      await vscode.workspace.fs.stat(vscode.Uri.joinPath(root, s.mainFileName));
+      return s;
+    } catch { /* not present */ }
+  }
+  return languageManager.getStrategy('cpp');
+}
+
+/** Current text of a file: the open document (including unsaved edits, even in background tabs), then disk. */
+async function readCurrent(uri: vscode.Uri): Promise<string | undefined> {
+  const doc = vscode.workspace.textDocuments.find(d => d.uri.toString() === uri.toString());
+  if (doc) {
+    return doc.getText();
+  }
+  try {
+    return Buffer.from(await vscode.workspace.fs.readFile(uri)).toString('utf8');
+  } catch {
+    return undefined;
+  }
+}
+
+/** Write through the editor when the file is open, avoiding "file changed on disk" conflicts. */
+async function writeContent(uri: vscode.Uri, content: string) {
+  const doc = vscode.workspace.textDocuments.find(d => d.uri.toString() === uri.toString());
+  if (doc) {
+    const edit = new vscode.WorkspaceEdit();
+    edit.replace(uri, new vscode.Range(0, 0, doc.lineCount, 0), content);
+    await vscode.workspace.applyEdit(edit);
+    await doc.save();
+  } else {
+    await vscode.workspace.fs.writeFile(uri, Buffer.from(content, 'utf8'));
+  }
+}
 
 function getTemplate(templateName: string): { [key: string]: string } {
   const config = vscode.workspace.getConfiguration('oneclick-cp');
-
-  const allTemplates = config.get<{ [key: string]: { [file: string]: string } }>('templates') || {};
+  const allTemplates = config.get<Templates>('templates') || {};
   return allTemplates[templateName] || {};
 }
+
+/**
+ * Only the user's own templates. Writing back config.get() (defaults merged in) would copy
+ * every built-in template into the user's settings.json.
+ */
+function userTemplates(): Templates {
+  const config = vscode.workspace.getConfiguration('oneclick-cp');
+  return { ...(config.inspect<Templates>('templates')?.globalValue || {}) };
+}
+
+// ---------------------------------------------------------------- commands
 
 function registerResetCommand(languageManager: LanguageManager): vscode.Disposable {
   return vscode.commands.registerCommand('oneclick-cp.resetFiles', async (templateName?: string) => {
@@ -39,32 +95,21 @@ function registerResetCommand(languageManager: LanguageManager): vscode.Disposab
 
     const templateToUse = templateName ?? 'default';
     const templates = getTemplate(templateToUse);
-    const inputContent = templates["input.txt"] ?? "";
-    const outputContent = templates["output.txt"] ?? "";
+    const inputContent = templates['input.txt'] ?? '';
+    const outputContent = templates['output.txt'] ?? '';
 
     for (const folder of workspaceFolders) {
-      if (folder.uri.path.includes('/Solutions/')) continue;
-
-      // Detect language or default to C++
-      let strategy = languageManager.getStrategy('cpp');
-      for (const s of languageManager.getAllStrategies()) {
-        try {
-          await vscode.workspace.fs.stat(vscode.Uri.joinPath(folder.uri, s.mainFileName));
-          strategy = s;
-          break;
-        } catch {}
+      if (folder.uri.path.includes('/Solutions/')) {
+        continue;
       }
 
-      const mainFile = vscode.Uri.joinPath(folder.uri, strategy.mainFileName);
-      const inputTxt = vscode.Uri.joinPath(folder.uri, 'input.txt');
-      const outputTxt = vscode.Uri.joinPath(folder.uri, 'output.txt');
-
+      const strategy = await detectStrategy(languageManager, folder.uri);
       const mainContent = templates[strategy.mainFileName] ?? strategy.defaultContent;
 
       try {
-        await vscode.workspace.fs.writeFile(mainFile, Buffer.from(mainContent, 'utf8'));
-        await vscode.workspace.fs.writeFile(inputTxt, Buffer.from(inputContent, 'utf8'));
-        await vscode.workspace.fs.writeFile(outputTxt, Buffer.from(outputContent, 'utf8'));
+        await writeContent(vscode.Uri.joinPath(folder.uri, strategy.mainFileName), mainContent);
+        await writeContent(vscode.Uri.joinPath(folder.uri, 'input.txt'), inputContent);
+        await writeContent(vscode.Uri.joinPath(folder.uri, 'output.txt'), outputContent);
         vscode.window.showInformationMessage(`✅ Reset files in ${folder.name} (${strategy.languageId})`);
       } catch (err) {
         vscode.window.showErrorMessage(`❌ Failed to reset files: ${err}`);
@@ -75,75 +120,54 @@ function registerResetCommand(languageManager: LanguageManager): vscode.Disposab
 
 function registerSaveTemplateCommand(sidebarProvider: SidebarProvider, languageManager: LanguageManager): vscode.Disposable {
   return vscode.commands.registerCommand('oneclick-cp.saveTemplate', async (message: any) => {
-    if (!message.templateName) {
+    if (!message?.templateName) {
       vscode.window.showWarningMessage('Template save cancelled (no name provided).');
       return;
     }
 
     const config = vscode.workspace.getConfiguration('oneclick-cp');
-    const templates = config.get<{ [key: string]: { [file: string]: string } }>('templates') || {};
-
-    if (templates[message.templateName]) {
+    const existing = config.get<Templates>('templates') || {};
+    if (existing[message.templateName]) {
       const confirm = await vscode.window.showQuickPick(['Yes', 'No'], {
         placeHolder: `Template "${message.templateName}" already exists. Overwrite?`,
       });
       if (confirm !== 'Yes') {
-        vscode.window.showInformationMessage(`❌ Template save cancelled.`);
+        vscode.window.showInformationMessage('❌ Template save cancelled.');
         return;
       }
     }
 
     const workspace = vscode.workspace.workspaceFolders?.[0];
     if (!workspace) {
-      vscode.window.showErrorMessage("❌ No workspace open to read files.");
+      vscode.window.showErrorMessage('❌ No workspace open to read files.');
       return;
     }
 
     const root = workspace.uri;
-    const editors = vscode.window.visibleTextEditors;
     const template: { [key: string]: string } = {};
-
-    const getEditorText = (filename: string) =>
-      editors.find(ed => ed.document.fileName.endsWith(filename))?.document.getText();
 
     if (message.includeMainCpp) {
       for (const strategy of languageManager.getAllStrategies()) {
-        const filename = strategy.mainFileName;
-        let content = getEditorText(filename);
-        if (!content) {
-          try {
-            const buffer = await vscode.workspace.fs.readFile(vscode.Uri.joinPath(root, filename));
-            content = Buffer.from(buffer).toString('utf8');
-          } catch {}
-        }
+        const content = await readCurrent(vscode.Uri.joinPath(root, strategy.mainFileName));
         if (content) {
-          template[filename] = content;
+          template[strategy.mainFileName] = content;
         }
       }
     }
-
     if (message.includeInputTxt) {
-      let inputTxt = getEditorText('input.txt');
-      if (!inputTxt) {
-        try {
-          const buffer = await vscode.workspace.fs.readFile(vscode.Uri.joinPath(root, 'input.txt'));
-          inputTxt = Buffer.from(buffer).toString('utf8');
-        } catch {}
+      const inputTxt = await readCurrent(vscode.Uri.joinPath(root, 'input.txt'));
+      if (inputTxt) {
+        template['input.txt'] = inputTxt;
       }
-      if (inputTxt) template["input.txt"] = inputTxt;
     }
-
     if (message.includeOutputTxt) {
-      let outputTxt = getEditorText('output.txt');
-      if (!outputTxt) {
-        try {
-          const buffer = await vscode.workspace.fs.readFile(vscode.Uri.joinPath(root, 'output.txt'));
-          outputTxt = Buffer.from(buffer).toString('utf8');
-        } catch {}
+      const outputTxt = await readCurrent(vscode.Uri.joinPath(root, 'output.txt'));
+      if (outputTxt) {
+        template['output.txt'] = outputTxt;
       }
-      if (outputTxt) template["output.txt"] = outputTxt;
     }
 
+    const templates = userTemplates();
     templates[message.templateName] = template;
     await config.update('templates', templates, vscode.ConfigurationTarget.Global);
 
@@ -163,19 +187,14 @@ function registerDeleteTemplateCommand(sidebarProvider: SidebarProvider): vscode
       return;
     }
 
-    const config = vscode.workspace.getConfiguration('oneclick-cp');
-    const original = config.get<{ [key: string]: { [file: string]: string } }>('templates') || {};
-
-    if (!original.hasOwnProperty(templateName)) {
+    const templates = userTemplates();
+    if (!Object.prototype.hasOwnProperty.call(templates, templateName)) {
       vscode.window.showWarningMessage(`⚠️ Template "${templateName}" does not exist.`);
-      console.warn(`[DeleteTemplate] Attempted to delete non-existent template: "${templateName}"`);
       return;
     }
 
-    const templates = { ...original };
     delete templates[templateName];
-
-    await config.update('templates', templates, vscode.ConfigurationTarget.Global);
+    await vscode.workspace.getConfiguration('oneclick-cp').update('templates', templates, vscode.ConfigurationTarget.Global);
 
     sidebarProvider.postMessage({
       command: 'removeTemplateFromPicker',
@@ -183,91 +202,51 @@ function registerDeleteTemplateCommand(sidebarProvider: SidebarProvider): vscode
     });
 
     vscode.window.showInformationMessage(`🗑️ Template "${templateName}" deleted!`);
-    console.log(`[DeleteTemplate] Deleted template: "${templateName}"`);
   });
 }
 
-
+/** Resolves to true only when the solution was actually exported. */
 function registerExportSolutionCommand(languageManager: LanguageManager): vscode.Disposable {
-  return vscode.commands.registerCommand('oneclick-cp.exportSolution', async (message) => {
-    const solutionName = await vscode.window.showInputBox({
-      prompt: 'Enter a name for the exported solution folder',
-      placeHolder: 'e.g., TwoSum, graphs_q3, Project1'
-    });
-
+  return vscode.commands.registerCommand('oneclick-cp.exportSolution', async (): Promise<boolean> => {
     const workspace = vscode.workspace.workspaceFolders;
     if (!workspace) {
       vscode.window.showErrorMessage('❌ No workspace folder found.');
-      return;
+      return false;
     }
+
+    const solutionName = (await vscode.window.showInputBox({
+      prompt: 'Enter a name for the exported solution folder',
+      placeHolder: 'e.g., TwoSum, graphs_q3, Project1'
+    }))?.trim();
 
     if (!solutionName) {
       vscode.window.showWarningMessage('⚠️ Solution export cancelled (no name provided).');
-      return;
+      return false;
+    }
+    if (/[\\/]|\.\./.test(solutionName)) {
+      vscode.window.showErrorMessage('❌ Use a plain folder name (no slashes or "..").');
+      return false;
     }
 
     const rootUri = workspace[0].uri;
-    const solutionsFolder = vscode.Uri.joinPath(rootUri, 'Solutions');
-    try {
-      await vscode.workspace.fs.stat(solutionsFolder);
-    } catch {
-      await vscode.workspace.fs.createDirectory(solutionsFolder);
-    }
+    const targetFolder = vscode.Uri.joinPath(rootUri, 'Solutions', solutionName);
+    const strategy = await detectStrategy(languageManager, rootUri);
 
-    const targetFolder = vscode.Uri.joinPath(solutionsFolder, solutionName);
     try {
       await vscode.workspace.fs.createDirectory(targetFolder);
-    } catch { /* already exists */ }
+      const mainContent = (await readCurrent(vscode.Uri.joinPath(rootUri, strategy.mainFileName))) || strategy.defaultContent;
+      const inputContent = (await readCurrent(vscode.Uri.joinPath(rootUri, 'input.txt'))) ?? '';
+      const outputContent = (await readCurrent(vscode.Uri.joinPath(rootUri, 'output.txt'))) ?? '';
 
-    // Detect language
-    let strategy = languageManager.getStrategy('cpp');
-    for (const s of languageManager.getAllStrategies()) {
-      try {
-        await vscode.workspace.fs.stat(vscode.Uri.joinPath(rootUri, s.mainFileName));
-        strategy = s;
-        break;
-      } catch {}
-    }
-
-    const targetMain = vscode.Uri.joinPath(targetFolder, strategy.mainFileName);
-    const targetInputTxt = vscode.Uri.joinPath(targetFolder, "input.txt");
-    const targetOutputTxt = vscode.Uri.joinPath(targetFolder, "output.txt");
-
-    const mainUri = vscode.Uri.joinPath(rootUri, strategy.mainFileName);
-    const inputUri = vscode.Uri.joinPath(rootUri, 'input.txt');
-    const outputUri = vscode.Uri.joinPath(rootUri, 'output.txt');
-
-    const editors = vscode.window.visibleTextEditors;
-    const getEditorText = (filename: string) =>
-      editors.find(ed => ed.document.fileName.endsWith(filename))?.document.getText();
-
-    async function readFileIfNotOpen(uri: vscode.Uri): Promise<string> {
-      try {
-        const buf = await vscode.workspace.fs.readFile(uri);
-        return Buffer.from(buf).toString('utf8');
-      } catch {
-        return '';
-      }
-    }
-
-    let mainContent = getEditorText(strategy.mainFileName) ?? '';
-    if (!mainContent) mainContent = await readFileIfNotOpen(mainUri);
-    if (!mainContent) mainContent = strategy.defaultContent;
-
-    let inputTxtContent = getEditorText('input.txt') ?? '';
-    if (!inputTxtContent) inputTxtContent = await readFileIfNotOpen(inputUri);
-
-    let outputTxtContent = getEditorText('output.txt') ?? '';
-    if (!outputTxtContent) outputTxtContent = await readFileIfNotOpen(outputUri);
-
-    try {
-      await vscode.workspace.fs.writeFile(targetMain, Buffer.from(mainContent, 'utf8'));
-      await vscode.workspace.fs.writeFile(targetInputTxt, Buffer.from(inputTxtContent, 'utf8'));
-      await vscode.workspace.fs.writeFile(targetOutputTxt, Buffer.from(outputTxtContent, 'utf8'));
+      await vscode.workspace.fs.writeFile(vscode.Uri.joinPath(targetFolder, strategy.mainFileName), Buffer.from(mainContent, 'utf8'));
+      await vscode.workspace.fs.writeFile(vscode.Uri.joinPath(targetFolder, 'input.txt'), Buffer.from(inputContent, 'utf8'));
+      await vscode.workspace.fs.writeFile(vscode.Uri.joinPath(targetFolder, 'output.txt'), Buffer.from(outputContent, 'utf8'));
 
       vscode.window.showInformationMessage(`✅ Solution "${solutionName}" exported successfully.`);
+      return true;
     } catch (err) {
       vscode.window.showErrorMessage(`❌ Failed to export solution: ${err}`);
+      return false;
     }
   });
 }
@@ -281,16 +260,7 @@ function registerArrangeLayoutCommand(languageManager: LanguageManager): vscode.
     }
 
     const root = wsFolders[0].uri;
-    
-    // Detect language
-    let strategy = languageManager.getStrategy('cpp');
-    for (const s of languageManager.getAllStrategies()) {
-      try {
-        await vscode.workspace.fs.stat(vscode.Uri.joinPath(root, s.mainFileName));
-        strategy = s;
-        break;
-      } catch {}
-    }
+    const strategy = await detectStrategy(languageManager, root);
 
     const mainUri = vscode.Uri.joinPath(root, strategy.mainFileName);
     const inputUri = vscode.Uri.joinPath(root, 'input.txt');
@@ -312,7 +282,6 @@ function registerArrangeLayoutCommand(languageManager: LanguageManager): vscode.
 }
 
 function registerCreateSnippetCommand(sidebarProvider: SidebarProvider): vscode.Disposable {
-  // small helpers mirrored from SidebarProvider
   const mapLangIdToKey = (langId?: string): string => {
     switch ((langId || '').toLowerCase()) {
       case 'cpp':
@@ -400,7 +369,6 @@ function registerCreateSnippetCommand(sidebarProvider: SidebarProvider): vscode.
 
       vscode.window.showInformationMessage(`Snippet "${finalKey}" saved to Custom → ${subcategory}.`);
 
-      // Notify sidebar to update UI
       sidebarProvider.postMessage({
         command: 'snippetSaved',
         language,

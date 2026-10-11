@@ -135,35 +135,29 @@ export class SidebarProvider implements vscode.WebviewViewProvider {
 
     webviewView.webview.html = this.getHtmlForWebview(webviewView.webview);
 
-    // Send all templates to webview after load
-    setTimeout(() => {
-      const config = vscode.workspace.getConfiguration('oneclick-cp');
-      const templates = config.get<{ [key: string]: { [file: string]: string } }>('templates') || {};
-      webviewView.webview.postMessage({
-        command: 'initTemplates',
-        templates: Object.keys(templates)
-      });
-    }, 100);
-
-    //Send all the snippet categories on load
-    setTimeout(() => {
-      const langKey = this.mapLangIdToKey(vscode.window.activeTextEditor?.document.languageId, 'cpp');
-      this.sendSnippetCategoriesToWebView(langKey);
-    },10);
-
-    //Update theme of html if vscode changes theme
-    vscode.window.onDidChangeActiveColorTheme((theme) => {
+    // Update theme of html if vscode changes theme (disposed with the view so reloads don't leak listeners)
+    const themeListener = vscode.window.onDidChangeActiveColorTheme((theme) => {
       const themeClass = theme.kind === vscode.ColorThemeKind.Dark ? 'vscode-dark' : '';
       this.postMessage({
         command: 'updateThemeClass',
         themeClass,
       });
     });
+    webviewView.onDidDispose(() => themeListener.dispose());
 
     webviewView.webview.onDidReceiveMessage(async message => {
-      console.log("Received message:", message); // Debug
       switch (message.command) {
-                case 'showToast': {
+        case 'ready': {
+          // The webview script is loaded and listening: send initial data now (no timing races).
+          const config = vscode.workspace.getConfiguration('oneclick-cp');
+          const templates = config.get<{ [key: string]: { [file: string]: string } }>('templates') || {};
+          this.postMessage({ command: 'initTemplates', templates: Object.keys(templates) });
+          const langKey = this.mapLangIdToKey(vscode.window.activeTextEditor?.document.languageId, 'cpp');
+          this.postMessage({ command: 'setLanguage', language: langKey });
+          this.sendSnippetCategoriesToWebView(langKey);
+          break;
+        }
+        case 'showToast': {
           const { type = 'info', text = '' } = message;
           if (!text) break;
 
@@ -202,8 +196,11 @@ export class SidebarProvider implements vscode.WebviewViewProvider {
           break;
         }
         case 'resetAndExportSolution': {
-          await vscode.commands.executeCommand('oneclick-cp.exportSolution', message);
-          await vscode.commands.executeCommand('oneclick-cp.resetFiles', message.template);
+          // Only reset after a successful export — cancelling the export must never wipe the files.
+          const exported = await vscode.commands.executeCommand<boolean>('oneclick-cp.exportSolution', message);
+          if (exported) {
+            await vscode.commands.executeCommand('oneclick-cp.resetFiles', message.template);
+          }
           break;
         }
         case 'openSnippetsIndex': {

@@ -234,7 +234,7 @@
                 if (panel && panel.classList.contains("panel")) {
                     panel.style.display = panel.style.display === "flex" ? "none" : "flex";
                 }
-                e.target.setAttribute('aria-expanded', String(panel.style.display === 'none'));
+                e.target.setAttribute('aria-expanded', String(panel.style.display === 'flex'));
                 panel.setAttribute('aria-hidden', String(panel.style.display !== 'flex'));
             }
         });
@@ -480,6 +480,11 @@
                     }
                     break;
                 }
+                case 'setLanguage': {
+                    const picker = document.getElementById('languagePicker');
+                    if (picker && [...picker.options].some(o => o.value === msg.language)) { picker.value = msg.language; }
+                    break;
+                }
                 case 'addTemplateToPicker': {
                     addTemplateToPicker(msg.templateName);
                     break;
@@ -651,6 +656,8 @@
             
 
         });
+        // Tell the extension we're ready to receive initial data.
+        vscode.postMessage({ command: 'ready' });
     </script>
     </body>
 </html>
