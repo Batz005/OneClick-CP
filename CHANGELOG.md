@@ -4,6 +4,24 @@ All notable changes to the "oneclick-cp" extension will be documented in this fi
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
+## v0.1.9
+### Fixed
+- **Export + Reset no longer deletes your work when the export is cancelled.** Previously, cancelling (or failing) the export still reset `main`, `input.txt` and `output.txt`.
+- Built-in snippets: fixed a broken snippet path in `package.json` (`snippets/java/java.json` did not exist) and added the Python/Java/JavaScript misc snippets (fast I/O, buffered output, deep-recursion helpers). Those files were empty and never registered.
+- Sidebar sometimes showed empty template/snippet lists: initial data is now sent once the sidebar is ready, instead of on a timer.
+- The sidebar no longer leaks a theme-change listener every time it's reopened.
+- Reset/Export/Layout now use the language of the active editor before guessing from files on disk.
+- Export and Save Template now include unsaved changes from background tabs, and match files by exact path (previously a `Solutions/x/main.cpp` could be picked up).
+- Reset writes through open editors, so you no longer get "file changed on disk" conflicts.
+- Saving or deleting a custom template no longer copies every built-in template into your `settings.json`.
+- Export rejects folder names containing slashes or `..`.
+- Settings schema: `additionalProperties` for templates was declared in the wrong place.
+- Accessibility: accordion `aria-expanded` state was inverted.
+
+### Internal
+- `contributes.snippets` is generated from the `snippets/` folder (`npm run snippets`) and verified before publishing.
+- Release workflow: fixed the Open VSX step (secrets can't be used in `if:`), publish the exact VSIX that was built, Node 22.
+
 ## v0.1.8
 ### Added
 - **Multi-Language Support**: Full support for **C++**, **Java**, **Python**, and **JavaScript**.
