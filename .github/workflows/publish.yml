@@ -11,6 +11,8 @@ jobs:
 
     env:
       VSCE_TOKEN: ${{ secrets.VSCE_TOKEN }}
+      # Secrets can't be referenced directly in `if:` conditions, so expose them as env vars.
+      OVSX_PAT: ${{ secrets.OVSX_PAT }}
 
     steps:
       - name: Checkout
@@ -19,7 +21,7 @@ jobs:
       - name: Use Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: '22'
 
       - name: Install dependencies
         run: npm ci
@@ -55,12 +57,10 @@ jobs:
         if: env.VSCE_TOKEN != ''
         run: |
           npm i -g @vscode/vsce
-          vsce publish -p "$VSCE_TOKEN"
+          vsce publish --packagePath *.vsix -p "$VSCE_TOKEN"
 
       - name: Publish to Open VSX Registry
-        if: secrets.OVSX_PAT != ''
-        env:
-          OVSX_PAT: ${{ secrets.OVSX_PAT }}
+        if: env.OVSX_PAT != ''
         run: |
           npm i -g ovsx
-          ovsx publish -p "$OVSX_PAT"
+          ovsx publish *.vsix -p "$OVSX_PAT"

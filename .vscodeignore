@@ -12,3 +12,8 @@ vsc-extension-quickstart.md
 **/*.map
 **/*.ts
 **/.vscode-test.*
+scripts/**
+.github/**
+snippets/snippets_manifest.json
+*.vsix
+.DS_Store
