@@ -44,23 +44,21 @@ jobs:
       - name: Pack VSIX (artifact)
         run: |
           npm i -g @vscode/vsce
-          vsce package
-        # produces *.vsix in repo root
+          vsce package --out release.vsix
+        # One explicit file: never glob *.vsix (stale VSIX files must not be picked up)
 
       - name: Upload VSIX artifact
         uses: actions/upload-artifact@v4
         with:
           name: vsix
-          path: "*.vsix"
+          path: release.vsix
 
       - name: Publish to VS Code Marketplace
         if: env.VSCE_TOKEN != ''
-        run: |
-          npm i -g @vscode/vsce
-          vsce publish --packagePath *.vsix -p "$VSCE_TOKEN"
+        run: vsce publish --packagePath release.vsix -p "$VSCE_TOKEN"
 
       - name: Publish to Open VSX Registry
         if: env.OVSX_PAT != ''
         run: |
           npm i -g ovsx
-          ovsx publish *.vsix -p "$OVSX_PAT"
+          ovsx publish release.vsix -p "$OVSX_PAT"

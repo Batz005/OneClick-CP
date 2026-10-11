@@ -140,3 +140,6 @@ vite.config.ts.timestamp-*
 
 # Project-local planning docs (not for commit)
 TODO.md
+
+# Packaged extensions (built in CI)
+*.vsix
