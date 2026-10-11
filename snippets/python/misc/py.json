@@ -1,0 +1,38 @@
+{
+  "fast_input": {
+    "prefix": "pyfastio",
+    "description": "Fast stdin reading for large inputs",
+    "body": [
+      "import sys",
+      "input = sys.stdin.readline",
+      "data = sys.stdin.buffer.read().split()",
+      "it = iter(data)",
+      "def nxt(): return int(next(it))"
+    ]
+  },
+  "recursion_limit": {
+    "prefix": "pyrecursion",
+    "description": "Raise recursion limit and stack size for deep DFS (prefer iterative where possible)",
+    "body": [
+      "import sys, threading",
+      "sys.setrecursionlimit(1 << 25)",
+      "threading.stack_size(1 << 27)",
+      "def main():",
+      "    ${1:pass}",
+      "threading.Thread(target=main).start()"
+    ]
+  },
+  "multi_test": {
+    "prefix": "pytests",
+    "description": "Read t test cases and buffer output",
+    "body": [
+      "import sys",
+      "def solve():",
+      "    ${1:pass}",
+      "out = []",
+      "for _ in range(int(sys.stdin.readline())):",
+      "    out.append(str(solve()))",
+      "print('\\n'.join(out))"
+    ]
+  }
+}

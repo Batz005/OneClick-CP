@@ -1,33 +1,39 @@
-// import * as vscode from 'vscode';
+// Regenerates package.json "contributes.snippets" from the files under snippets/.
+// Usage: node scripts/generateSnippetList.js          (write)
+//        node scripts/generateSnippetList.js --check  (fail if out of date — for CI/prepublish)
+const fs = require('fs');
+const path = require('path');
 
-const fs = require("fs");
-const path = require("path");
+const root = path.resolve(__dirname, '..');
+const snippetsDir = path.join(root, 'snippets');
+const pkgPath = path.join(root, 'package.json');
 
-const manifest = require("../snippets/snippets_manifest.json");
+function walk(dir) {
+  return fs.readdirSync(dir, { withFileTypes: true }).flatMap(e => {
+    const p = path.join(dir, e.name);
+    if (e.isDirectory()) { return walk(p); }
+    return e.name.endsWith('.json') && e.name !== 'snippets_manifest.json' ? [p] : [];
+  });
+}
 
-const rootPath = "snippets";
-const output = [];
-
-for (const [lang, folders] of Object.entries(manifest)) {
-  if (Array.isArray(folders)) {
-    folders.forEach(file => {
-      output.push({
-        language: lang,
-        path: `./${rootPath}/${lang}/${file}.json`
-      });
-    });
-  } else {
-    for (const [subfolder, files] of Object.entries(folders)) {
-      files.forEach(file => {
-        output.push({
-          language: lang,
-          path: `./${rootPath}/${lang}/${subfolder}/${file}.json`
-        });
-      });
-    }
+const entries = [];
+for (const lang of fs.readdirSync(snippetsDir).filter(f => fs.statSync(path.join(snippetsDir, f)).isDirectory()).sort()) {
+  for (const file of walk(path.join(snippetsDir, lang)).sort()) {
+    JSON.parse(fs.readFileSync(file, 'utf8')); // throws on invalid JSON
+    entries.push({ language: lang, path: './' + path.relative(root, file).split(path.sep).join('/') });
   }
 }
 
-fs.writeFileSync("./generated_snippets.json", JSON.stringify(output, null, 2));
-// vscode.window.showInformationMessage("✅ generated_snippets.json created.");
-console.log("✅ generated_snippets.json created.");
+const pkg = JSON.parse(fs.readFileSync(pkgPath, 'utf8'));
+const current = JSON.stringify(pkg.contributes.snippets);
+if (process.argv.includes('--check')) {
+  if (current !== JSON.stringify(entries)) {
+    console.error('package.json contributes.snippets is out of date. Run: node scripts/generateSnippetList.js');
+    process.exit(1);
+  }
+  console.log(`snippets OK (${entries.length} files)`);
+} else {
+  pkg.contributes.snippets = entries;
+  fs.writeFileSync(pkgPath, JSON.stringify(pkg, null, 2) + '\n');
+  console.log(`Wrote ${entries.length} snippet entries to package.json`);
+}

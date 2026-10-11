@@ -1,0 +1,29 @@
+{
+  "fast_input": {
+    "prefix": "jsfastio",
+    "description": "Read all of stdin as tokens",
+    "body": [
+      "const data = require('fs').readFileSync(0, 'utf8').split(/\\s+/).filter(Boolean);",
+      "let pos = 0;",
+      "const next = () => data[pos++];",
+      "const nextInt = () => Number(data[pos++]);"
+    ]
+  },
+  "buffered_output": {
+    "prefix": "jsout",
+    "description": "Collect output lines and print once",
+    "body": [
+      "const out = [];",
+      "${1}",
+      "console.log(out.join('\\n'));"
+    ]
+  },
+  "bigint_mod": {
+    "prefix": "jsmulmod",
+    "description": "Overflow-safe modular multiplication with BigInt",
+    "body": [
+      "const MOD = 1000000007n;",
+      "const mulmod = (a, b) => Number((BigInt(a) * BigInt(b)) % MOD);"
+    ]
+  }
+}

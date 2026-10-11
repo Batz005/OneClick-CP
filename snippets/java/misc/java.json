@@ -1,0 +1,30 @@
+{
+  "print_writer": {
+    "prefix": "jout",
+    "description": "Buffered output (always flush at the end)",
+    "body": [
+      "PrintWriter out = new PrintWriter(new BufferedWriter(new OutputStreamWriter(System.out)));",
+      "${1}",
+      "out.flush();"
+    ]
+  },
+  "multi_test": {
+    "prefix": "jtests",
+    "description": "Loop over t test cases",
+    "body": [
+      "int t = Integer.parseInt(br.readLine().trim());",
+      "while (t-- > 0) {",
+      "    ${1}",
+      "}"
+    ]
+  },
+  "deep_recursion_thread": {
+    "prefix": "jstack",
+    "description": "Run main logic in a thread with a large stack (deep DFS)",
+    "body": [
+      "new Thread(null, () -> {",
+      "    ${1:solve();}",
+      "}, \"main\", 1 << 28).start();"
+    ]
+  }
+}
